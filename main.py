@@ -21,3 +21,5 @@ if response.status_code == 200:
         print("Table with class 'items' not found.")
 else:
     print(f"Failed to retrieve the web page. Status code: {response.status_code}")
+
+#test
