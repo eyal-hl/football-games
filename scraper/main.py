@@ -157,7 +157,7 @@ def get_players_from_squad(team_url: str, year: int):
                     birth_date, age_at_club = map(str.strip,
                                                   birth_date_text.rsplit('(', 1) if birth_date_text else (None, None))
                     age_at_club = int(age_at_club[:-1]) if age_at_club != '-)' else None
-                    birth_date = datetime.strptime(birth_date, '%b %d, %Y') if birth_date != "-" else None
+                    birth_date = datetime.strptime(birth_date, '%b %d, %Y') if (birth_date != "-" and birth_date != 'N/A') else None
 
                     # Extracting nationality
                     nationality_elem = row.select_one('.flaggenrahmen')
