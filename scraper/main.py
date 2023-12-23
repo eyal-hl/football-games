@@ -15,14 +15,14 @@ def adapt_datetime(dt):
 sqlite3.register_adapter(datetime, adapt_datetime)
 
 
-def handle_teams(teams_list):
+def handle_teams(teams_list, league):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     create_players_table(cursor)
     create_teams_table(cursor)
     create_player_team_table(cursor)
     conn.commit()
-
+    insert_league_to_leagues_table(cursor, league)
     insert_teams_to_teams_table(cursor, teams_list)
     conn.commit()
     for team in teams_list:
@@ -271,8 +271,9 @@ def print_tuple_list(tuple_list):
 # test
 # league = input()
 start_time = datetime.now()
-teams = get_teams_from_league("/ligat-haal/startseite/wettbewerb/ISR1")
-handle_teams(teams)
+league=('La Liga', 'primera_division', '/primera-division/startseite/wettbewerb/ES1', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Flogowik.com%2Flaliga-santander-logo-vector-45557.html&psig=AOvVaw2M7DffWyWzwTkRLAB8feaK&ust=1703437265594000&source=images&cd=vfe&ved=0CBIQjRxqFwoTCMjt0bqEpoMDFQAAAAAdAAAAABAi')
+teams = get_teams_from_league(league[2])
+handle_teams(teams, league)
 end_time = datetime.now()
 print("Finished in " + str(end_time - start_time))
 # teams = [('Maccabi Tel Aviv', '/maccabi-tel-aviv/startseite/verein/119/saison_id/2023', 'https://tmssl.akamaized.net/images/wappen/tiny/119.png?lm=1626682937')]
