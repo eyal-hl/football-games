@@ -4,6 +4,17 @@ from const import HEADERS, BASE_URL, DB_PATH
 import time
 import sqlite3
 from datetime import datetime
+
+
+# Custom adapter for datetime objects
+def adapt_datetime(dt):
+    return dt.strftime("%Y-%m-%d %H:%M:%S")
+
+
+# Register the adapter
+sqlite3.register_adapter(datetime, adapt_datetime)
+
+
 def handle_teams(teams):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
@@ -30,6 +41,8 @@ def insert_teams_to_teams_table(cursor, teams_data):
         INSERT OR IGNORE INTO teams (name, league, ref, table_code, img_ref)
         VALUES (?, ?, ?, ?, ?)
     ''', teams_data)
+
+
 def create_teams_table(cursor):
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS teams (
@@ -41,6 +54,7 @@ def create_teams_table(cursor):
             img_ref TEXT
         )
     ''')
+
 
 def create_players_table(cursor):
     cursor.execute('''
@@ -54,6 +68,7 @@ def create_players_table(cursor):
             )
         ''')
 
+
 def convert_player_tuple(tuple_input):
     player_id, year, player_name, player_number, image_link, birth_date, age_at_club, nationality, profile_ref, position = tuple_input
     return (player_id, player_name, image_link, birth_date, nationality, profile_ref)
@@ -65,6 +80,7 @@ def insert_players_to_players_table(cursor, players_data):
             INSERT OR IGNORE INTO players (player_id, player_name, image_link, birth_date, nationality, profile_ref)
             VALUES (?, ?, ?, ?, ?, ?)
         ''', converted_player_data)
+
 
 def create_team_table(cursor, team_table_name):
     cursor.execute(f'''
@@ -157,7 +173,8 @@ def get_players_from_squad(team_url: str, year: int):
                     birth_date, age_at_club = map(str.strip,
                                                   birth_date_text.rsplit('(', 1) if birth_date_text else (None, None))
                     age_at_club = int(age_at_club[:-1]) if age_at_club != '-)' else None
-                    birth_date = datetime.strptime(birth_date, '%b %d, %Y') if (birth_date != "-" and birth_date != 'N/A') else None
+                    birth_date = datetime.strptime(birth_date, '%b %d, %Y') if (
+                                birth_date != "-" and birth_date != 'N/A') else None
 
                     # Extracting nationality
                     nationality_elem = row.select_one('.flaggenrahmen')
@@ -191,7 +208,7 @@ def get_players_from_squad(team_url: str, year: int):
                 # Print or return the rows as needed
                 return player_list
             else:
-                print("Table with class 'items' not found.")
+                return "Error"
         else:
             print("Div with class 'responsive-table' not found.")
 
@@ -238,7 +255,7 @@ def get_teams_from_league(league_url):
                     img_src = row.find('img')['src'] if row.find('img') else None
 
                     # Append the data as a tuple to the list
-                    data_list.append((title, league_code, href, href.split('/')[1].replace("-","_"),img_src))
+                    data_list.append((title, league_code, href, href.split('/')[1].replace("-", "_"), img_src))
 
                 # Print or return the rows as needed
                 return data_list
@@ -261,7 +278,7 @@ def print_tuple_list(tuple_list):
 # test
 # league = input()
 start_time = datetime.now()
-teams = get_teams_from_league("/ligat-haal/startseite/wettbewerb/ISR1")
+teams = get_teams_from_league("/premier-league/startseite/wettbewerb/GB1")
 handle_teams(teams)
 end_time = datetime.now()
 print("Finished in " + str(end_time - start_time))
