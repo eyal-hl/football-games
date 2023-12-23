@@ -6,7 +6,7 @@ from const import DB_PATH
 conn = sqlite3.connect(DB_PATH)
 c = conn.cursor()
 
-table_names = ["brighton_amp_hove_albion", "manchester_united", "manchester_united"]
+table_names = ["hapoel_hadera", "hapoel_haifa", "maccabi_haifa"]
 columns = ", ".join([f"max(t{index + 1}.year) as {table}_year" for index, table in enumerate(table_names)])
 
 query = f'''

@@ -15,120 +15,127 @@ def adapt_datetime(dt):
 sqlite3.register_adapter(datetime, adapt_datetime)
 
 
-def handle_teams(teams):
+def handle_teams(teams_list):
     conn = sqlite3.connect(DB_PATH)
     cursor = conn.cursor()
     create_players_table(cursor)
-    conn.commit()
     create_teams_table(cursor)
+    create_player_team_table(cursor)
     conn.commit()
 
-    insert_teams_to_teams_table(cursor, teams)
+    insert_teams_to_teams_table(cursor, teams_list)
     conn.commit()
-    for team in teams:
-        players = get_players_from_team(team[2])
-        create_team_table(cursor, team[3])
-        conn.commit()
-        insert_players_to_team_table(cursor, team[3], players)
+    for team in teams_list:
+        players, players_team = get_players_from_team(team[2], team[3])
+        insert_player_team_to_player_team_table(cursor, players_team)
         conn.commit()
         insert_players_to_players_table(cursor, players)
         conn.commit()
     conn.close()
 
 
-def insert_teams_to_teams_table(cursor, teams_data):
-    cursor.executemany('''
-        INSERT OR IGNORE INTO teams (name, league, ref, table_code, img_ref)
-        VALUES (?, ?, ?, ?, ?)
-    ''', teams_data)
-
-
 def create_teams_table(cursor):
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS teams (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT UNIQUE,
-            league TEXT,
+            league_id TEXT,
             ref TEXT,
-            table_code TEXT UNIQUE,
+            team_id TEXT UNIQUE PRIMARY KEY,
             img_ref TEXT
-        )
+        );
     ''')
 
 
 def create_players_table(cursor):
     cursor.execute('''
-            CREATE TABLE IF NOT EXISTS players (
-                player_id INTEGER PRIMARY KEY,
-                player_name TEXT,
-                image_link TEXT,
-                birth_date DATE,
-                nationality TEXT,
-                profile_ref TEXT
-            )
-        ''')
-
-
-def convert_player_tuple(tuple_input):
-    player_id, year, player_name, player_number, image_link, birth_date, age_at_club, nationality, profile_ref, position = tuple_input
-    return (player_id, player_name, image_link, birth_date, nationality, profile_ref)
-
-
-def insert_players_to_players_table(cursor, players_data):
-    converted_player_data = [convert_player_tuple(player_tuple) for player_tuple in players_data]
-    cursor.executemany('''
-            INSERT OR IGNORE INTO players (player_id, player_name, image_link, birth_date, nationality, profile_ref)
-            VALUES (?, ?, ?, ?, ?, ?)
-        ''', converted_player_data)
-
-
-def create_team_table(cursor, team_table_name):
-    cursor.execute(f'''
-    CREATE TABLE IF NOT EXISTS {team_table_name} (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        player_id INTEGER NOT NULL,
-        year INTEGER NOT NULL,
-        player_name TEXT,
-        player_number INTEGER,
-        image_link TEXT,
-        birth_date DATE,
-        age_at_club INTEGER,
-        nationality TEXT,
-        profile_ref TEXT,
-        position TEXT,
-        UNIQUE (player_id, year)
-    );
+        CREATE TABLE IF NOT EXISTS players (
+            player_id INTEGER UNIQUE PRIMARY KEY,
+            name TEXT,
+            img_ref TEXT,
+            birth_date DATE,
+            nationality TEXT,
+            ref TEXT
+        );
     ''')
 
 
-def insert_players_to_team_table(cursor, team_table_name, players_list):
-    cursor.executemany(f'''
-    INSERT OR IGNORE INTO {team_table_name} (
-        player_id, year, player_name, player_number, image_link, birth_date, age_at_club, nationality, profile_ref, position
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+def create_player_team_table(cursor):
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS playerTeam (
+            player_id INTEGER,
+            year INTEGER,
+            player_number INTEGER,
+            team_id TEXT,
+            age_at_club INTEGER,
+            position TEXT,
+            PRIMARY KEY (player_id, year, team_id),
+            FOREIGN KEY (player_id) REFERENCES players(player_id),
+            FOREIGN KEY (team_id) REFERENCES teams(team_id)
+        );
+    ''')
+
+
+def create_leagues_table(cursor):
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS leagues (
+            name TEXT UNIQUE,
+            league_id TEXT UNIQUE PRIMARY KEY,
+            ref TEXT,
+            img_ref TEXT
+        );
+    ''')
+
+
+def insert_teams_to_teams_table(cursor, teams_list):
+    cursor.executemany('''
+        INSERT OR IGNORE INTO teams (name, league_id, ref, team_id, img_ref)
+        VALUES (?, ?, ?, ?, ?);
+    ''', teams_list)
+
+
+def insert_players_to_players_table(cursor, players_list):
+    cursor.executemany('''
+        INSERT OR IGNORE INTO players (player_id, name, img_ref, birth_date, nationality, ref)
+        VALUES (?, ?, ?, ?, ?, ?);
     ''', players_list)
 
 
-def get_players_from_team(team_url):
+def insert_player_team_to_player_team_table(cursor, player_team_list):
+    cursor.executemany('''
+        INSERT OR IGNORE INTO playerTeam (player_id, year, player_number, team_id, age_at_club, position)
+        VALUES (?, ?, ?, ?, ?, ?);
+    ''', player_team_list)
+
+
+def insert_league_to_leagues_table(cursor, league):
+    cursor.execute('''
+        INSERT OR IGNORE INTO leagues (name, league_id, ref, img_ref)
+        VALUES (?, ?, ?, ?);
+    ''', league)
+
+
+def get_players_from_team(team_url, team_id):
     year = int(team_url.split("/")[-1])
     squad_url = "/".join(team_url.split("/")[:-1]) + "/"
     all_players = []
+    all_playersTeam = []
     print("Starting with", team_url)
     start_team_time = time.time()
     while True:
-        output = get_players_from_squad(squad_url, year)
+        output = get_players_from_squad(squad_url, year, team_id)
         if output == "Error":
             break
-        all_players += output
+        all_players += output[0]
+        all_playersTeam += output[1]
 
         year -= 1
 
     end_team_time = time.time()
     print(team_url, "took", str(end_team_time - start_team_time), "seconds")
-    return all_players
+    return all_players, all_playersTeam
 
 
-def get_players_from_squad(team_url: str, year: int):
+def get_players_from_squad(team_url: str, year: int, team_id: str):
     url = BASE_URL + team_url + str(year)
 
     # Send a GET request to the URL
@@ -152,6 +159,7 @@ def get_players_from_squad(team_url: str, year: int):
                 # Extract all rows from the table
 
                 player_list = []
+                player_team_list = []
                 rows = items_table.find_all('tr', class_=["odd", "even"])
                 for row in rows:
                     player_number_elem = row.select_one('.rn_nummer')
@@ -160,7 +168,7 @@ def get_players_from_squad(team_url: str, year: int):
 
                     # Extracting image link
                     image_link_elem = row.select_one('.bilderrahmen-fixed.lazy')
-                    image_link = image_link_elem['data-src'] if image_link_elem else None
+                    img_ref = image_link_elem['data-src'] if image_link_elem else None
 
                     # Extracting player name
                     player_name_elem = row.select_one('.hauptlink')
@@ -174,7 +182,7 @@ def get_players_from_squad(team_url: str, year: int):
                                                   birth_date_text.rsplit('(', 1) if birth_date_text else (None, None))
                     age_at_club = int(age_at_club[:-1]) if age_at_club != '-)' else None
                     birth_date = datetime.strptime(birth_date, '%b %d, %Y') if (
-                                birth_date != "-" and birth_date != 'N/A') else None
+                            birth_date != "-" and birth_date != 'N/A') else None
 
                     # Extracting nationality
                     nationality_elem = row.select_one('.flaggenrahmen')
@@ -182,31 +190,17 @@ def get_players_from_squad(team_url: str, year: int):
 
                     # Extracting profile reference
                     profile_ref_elem = row.select_one('.hauptlink a')
-                    profile_ref = profile_ref_elem['href'] if profile_ref_elem else None
-                    player_id = int(profile_ref.split('/')[-1])
+                    ref = profile_ref_elem['href'] if profile_ref_elem else None
+                    player_id = int(ref.split('/')[-1])
 
                     position_elem = row.select('.posrela table td:nth-of-type(1)')[-1]
                     position = position_elem.text.strip() if position_elem else None
-                    # position = None if position == player_name else position
 
-                    # # Printing the results
-                    # print("\nplayer_id", player_id)
-                    # print("Year:", year)
-                    # print("Player Name:", player_name)
-                    # print("Player Number:", player_number)
-                    # print("Image Link:", image_link)
-                    # print("Birth Date:", birth_date)
-                    # print("Age at Club:", age_at_club)
-                    # print("Nationality:", nationality)
-                    # print("Profile Reference:", profile_ref)
-                    # print("Position:", position)
-
-                    player_list.append((
-                        player_id, year, player_name, player_number, image_link, birth_date, age_at_club,
-                        nationality, profile_ref, position))
+                    player_list.append((player_id, player_name, img_ref, birth_date, nationality, ref))
+                    player_team_list.append((player_id, year, player_number, team_id, age_at_club, position))
                 # print(rows[-1])
                 # Print or return the rows as needed
-                return player_list
+                return player_list, player_team_list
             else:
                 return "Error"
         else:
@@ -268,7 +262,6 @@ def get_teams_from_league(league_url):
 
     # Return an empty list if something went wrong
     raise "Error retrieving the web page. Status code: " + str(response.status_code)
-    return []
 
 
 def print_tuple_list(tuple_list):
@@ -278,7 +271,7 @@ def print_tuple_list(tuple_list):
 # test
 # league = input()
 start_time = datetime.now()
-teams = get_teams_from_league("/premier-league/startseite/wettbewerb/GB1")
+teams = get_teams_from_league("/ligat-haal/startseite/wettbewerb/ISR1")
 handle_teams(teams)
 end_time = datetime.now()
 print("Finished in " + str(end_time - start_time))
