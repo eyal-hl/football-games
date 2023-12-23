@@ -180,7 +180,7 @@ def get_players_from_squad(team_url: str, year: int, team_id: str):
 
                     birth_date, age_at_club = map(str.strip,
                                                   birth_date_text.rsplit('(', 1) if birth_date_text else (None, None))
-                    age_at_club = int(age_at_club[:-1]) if age_at_club != '-)' else None
+                    age_at_club = int(age_at_club[:-1]) if (age_at_club != '-)' and age_at_club != 'N/A)') else None
                     birth_date = datetime.strptime(birth_date, '%b %d, %Y') if (
                             birth_date != "-" and birth_date != 'N/A') else None
 
@@ -271,7 +271,7 @@ def print_tuple_list(tuple_list):
 # test
 # league = input()
 start_time = datetime.now()
-league=('La Liga', 'primera_division', '/primera-division/startseite/wettbewerb/ES1', 'https://www.google.com/url?sa=i&url=https%3A%2F%2Flogowik.com%2Flaliga-santander-logo-vector-45557.html&psig=AOvVaw2M7DffWyWzwTkRLAB8feaK&ust=1703437265594000&source=images&cd=vfe&ved=0CBIQjRxqFwoTCMjt0bqEpoMDFQAAAAAdAAAAABAi')
+league=('Liga Portugal', 'liga_portugal', '/liga-portugal/startseite/wettbewerb/PO1', 'https://tmssl.akamaized.net/images/logo/header/po1.png?lm=1688630708')
 teams = get_teams_from_league(league[2])
 handle_teams(teams, league)
 end_time = datetime.now()
