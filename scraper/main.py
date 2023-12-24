@@ -271,7 +271,7 @@ def print_tuple_list(tuple_list):
 # test
 # league = input()
 start_time = datetime.now()
-league=('Liga Portugal', 'liga_portugal', '/liga-portugal/startseite/wettbewerb/PO1', 'https://tmssl.akamaized.net/images/logo/header/po1.png?lm=1688630708')
+league=('Liga leumit(ISR2)', 'liga_leumit', '/liga-leumit/startseite/wettbewerb/ISR2', 'https://upload.wikimedia.org/wikipedia/he/0/0a/Liga_Leumit.png')
 teams = get_teams_from_league(league[2])
 handle_teams(teams, league)
 end_time = datetime.now()
