@@ -6,4 +6,3 @@ class LeagueSchema(BaseModel):
     name: str
     ref: str
     img_ref: str
-

@@ -2,6 +2,7 @@ from pydantic import BaseModel
 from datetime import date
 from typing import Optional
 
+
 class PlayerSchema(BaseModel):
     player_id: int
     name: str

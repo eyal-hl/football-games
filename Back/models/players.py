@@ -2,6 +2,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from models.base import SQLModel
 from datetime import date
 
+
 class PlayerModel(SQLModel):
     __tablename__ = "players"
 

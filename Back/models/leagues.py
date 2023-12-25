@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Mapped, mapped_column
 from models.base import SQLModel
 
+
 class LeagueModel(SQLModel):
     __tablename__ = "leagues"
 
