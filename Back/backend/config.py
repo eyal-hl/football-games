@@ -32,7 +32,6 @@ class Config(BaseSettings):
     """
 
     database: DatabaseConfig = DatabaseConfig()
-    token_key: str = ""
 
     model_config = SettingsConfigDict(
         env_file=".env",

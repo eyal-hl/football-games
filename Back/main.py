@@ -5,7 +5,8 @@ from const import (
     OPEN_API_TITLE,
 )
 from routers import (
-    leagues
+    leagues,
+    players
 )
 
 
@@ -17,3 +18,4 @@ app = FastAPI(
 )
 
 app.include_router(leagues.router)
+app.include_router(players.router)

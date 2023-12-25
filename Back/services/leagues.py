@@ -11,10 +11,10 @@ from services.base import (
 
 
 class LeagueService(BaseService):
-    def get_league(self, movie_id: str) -> LeagueSchema:
+    def get_league(self, league_id: str) -> LeagueSchema:
         """Get movie by ID."""
 
-        return LeagueDataManager(self.session).get_league(movie_id)
+        return LeagueDataManager(self.session).get_league(league_id)
 
     def get_leagues(self) -> List[LeagueSchema]:
         """Select movies with filter by ``year`` and ``rating``."""
