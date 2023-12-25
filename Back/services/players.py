@@ -1,10 +1,10 @@
-from typing import List
+from typing import List,Optional
 
 from sqlalchemy import select
 from unidecode import unidecode
 
 from models.players import PlayerModel
-from schemas.players import PlayerSchema
+from schemas.players import PlayerSchema, PlayersSlimSchema
 from services.base import (
     BaseDataManager,
     BaseService,
@@ -22,9 +22,9 @@ class PlayerService(BaseService):
 
         return PlayerDataManager(self.session).get_players()
 
-    def search_players(self, query: str) -> List[PlayerSchema]:
+    def search_players(self, name: str, nationality: str) -> List[PlayersSlimSchema]:
         """Search players by name"""
-        return PlayerDataManager(self.session).search_players(query)
+        return PlayerDataManager(self.session).search_players(name=name, nationality=nationality)
 
 
 class PlayerDataManager(BaseDataManager):
@@ -44,9 +44,9 @@ class PlayerDataManager(BaseDataManager):
 
         return schemas
 
-    def search_players(self, query: str) -> List[PlayerSchema]:
-        schemas: List[PlayerSchema] = list()
-        stmt = select(PlayerModel).where(PlayerModel.name_unaccented.like('%' + unidecode(query) + '%')).limit(100)
+    def search_players(self, name: str, nationality: str) -> List[PlayersSlimSchema]:
+        schemas: List[PlayersSlimSchema] = list()
+        stmt = select(PlayerModel).where(PlayerModel.name_unaccented.like('%' + unidecode(name) + '%')).where(PlayerModel.nationality.like('%'+nationality+'%')).limit(100)
         for model in self.get_all(stmt):
-            schemas += [PlayerSchema(**model.to_dict())]
+            schemas += [PlayersSlimSchema(**model.to_dict())]
         return schemas

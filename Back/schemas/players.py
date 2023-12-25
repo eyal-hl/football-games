@@ -11,3 +11,11 @@ class PlayerSchema(BaseModel):
     nationality: Optional[str]
     birth_date: Optional[date]
     name_unaccented: str
+
+
+class PlayersSlimSchema(BaseModel):
+    player_id: int
+    name: str
+    nationality: Optional[str]
+    birth_date: Optional[date]
+    img_ref: str

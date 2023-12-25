@@ -1,10 +1,10 @@
-from typing import List
+from typing import List, Optional
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from backend.session import create_session
-from schemas.players import PlayerSchema
+from schemas.players import PlayerSchema, PlayersSlimSchema
 from services.players import PlayerService
 
 router = APIRouter(prefix="/players")
@@ -24,8 +24,8 @@ async def get_players(
     return PlayerService(session).get_players()
 
 
-@router.get("/search", response_model=List[PlayerSchema])
+@router.get("/search", response_model=List[PlayersSlimSchema])
 async def search_players(
-        name: str, session: Session = Depends(create_session)
+        name: str = '', nationality: str = '', session: Session = Depends(create_session)
 ) -> List[PlayerSchema]:
-    return PlayerService(session).search_players(name)
+    return PlayerService(session).search_players(name=name, nationality=nationality)
