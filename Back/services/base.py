@@ -41,6 +41,7 @@ class BaseDataManager(SessionMixin):
     def get_all(self, select_stmt: Executable) -> List[Any]:
         return list(self.session.scalars(select_stmt).all())
 
+
     def get_from_tvf(self, model: Type[SQLModel], *args: Any) -> List[Any]:
         """Query from table valued function.
 
