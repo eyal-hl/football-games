@@ -4,11 +4,12 @@ from const import HEADERS, BASE_URL, DB_PATH
 import time
 import sqlite3
 from datetime import datetime
+from unidecode import unidecode
 
 
 # Custom adapter for datetime objects
 def adapt_datetime(dt):
-    return dt.strftime("%Y-%m-%d %H:%M:%S")
+    return dt.strftime("%Y-%m-%d")
 
 
 # Register the adapter
@@ -51,6 +52,7 @@ def create_players_table(cursor):
         CREATE TABLE IF NOT EXISTS players (
             player_id INTEGER UNIQUE PRIMARY KEY,
             name TEXT,
+            name_unaccented TEXT,  
             img_ref TEXT,
             birth_date DATE,
             nationality TEXT,
@@ -94,10 +96,11 @@ def insert_teams_to_teams_table(cursor, teams_list):
 
 
 def insert_players_to_players_table(cursor, players_list):
+    # Modify the query to include the new column
     cursor.executemany('''
-        INSERT OR IGNORE INTO players (player_id, name, img_ref, birth_date, nationality, ref)
-        VALUES (?, ?, ?, ?, ?, ?);
-    ''', players_list)
+        INSERT OR IGNORE INTO players (player_id, name, name_unaccented, img_ref, birth_date, nationality, ref)
+        VALUES (?, ?, ?, ?, ?, ?, ?);
+    ''', [(player[0], player[1], unidecode(player[1]), player[2], player[3], player[4], player[5]) for player in players_list])
 
 
 def insert_player_team_to_player_team_table(cursor, player_team_list):
@@ -271,7 +274,7 @@ def print_tuple_list(tuple_list):
 # test
 # league = input()
 start_time = datetime.now()
-league=('Liga leumit(ISR2)', 'liga_leumit', '/liga-leumit/startseite/wettbewerb/ISR2', 'https://upload.wikimedia.org/wikipedia/he/0/0a/Liga_Leumit.png')
+league=('Süper Lig', 'super_lig', '/super-lig/startseite/wettbewerb/TR1', 'https://tmssl.akamaized.net/images/logo/header/tr1.png?lm=1694093655')
 teams = get_teams_from_league(league[2])
 handle_teams(teams, league)
 end_time = datetime.now()
