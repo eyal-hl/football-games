@@ -1,6 +1,6 @@
 from typing import List
 
-from sqlalchemy import select, join
+from sqlalchemy import select, join, and_
 from unidecode import unidecode
 from sqlalchemy.orm import aliased
 
@@ -41,25 +41,42 @@ class PlayerTeamDataManager(BaseDataManager):
                            team: str) -> List[PlayerTeamSchema]:
         schemas: List[PlayerTeamSchema] = list()
 
-        stmt = select(PlayerTeamModel, PlayerModel.name.label('name'), PlayerModel.birth_date.label('birth_date'),
+        conditions = []
+
+        # Add conditions based on input values
+        if name:
+            conditions.append(PlayerModel.name_unaccented.like('%' + unidecode(name) + '%'))
+
+        if nationality:
+            conditions.append(PlayerModel.nationality.like('%' + nationality + '%'))
+
+        if year:
+            conditions.append(PlayerTeamModel.year.like(year))
+
+        if player_number:
+            conditions.append(PlayerTeamModel.player_number.like(player_number))
+
+        if age_at_club:
+            conditions.append(PlayerTeamModel.age_at_club.like(age_at_club))
+
+        if position:
+            conditions.append(PlayerTeamModel.position.like(position))
+
+        if team:
+            conditions.append(PlayerTeamModel.team_id.like('%' + team + '%'))
+
+        # Build the final where clause
+        where_clause = and_(*conditions)
+
+        stmt = (select(PlayerTeamModel, PlayerModel.name.label('name'), PlayerModel.birth_date.label('birth_date'),
                       PlayerModel.nationality.label('nationality')).select_from(
             join(PlayerTeamModel, PlayerModel, PlayerModel.player_id == PlayerTeamModel.player_id)
         ).where(
-            PlayerModel.name_unaccented.like('%' + unidecode(name) + '%')
-        ).where(
-            PlayerModel.nationality.like('%' + nationality + '%')
-        ).where(
-            PlayerTeamModel.year.like(year)
-        ).where(
-            PlayerTeamModel.player_number.like(player_number)
-        ).where(
-            PlayerTeamModel.age_at_club.like(age_at_club)
-        ).where(
-            PlayerTeamModel.position.like(position)
-        ).where(
-            PlayerTeamModel.team_id.like('%' + team + '%')
-        ).add_columns(PlayerModel.name, PlayerModel.nationality, PlayerModel.birth_date).limit(100)
+            where_clause
+        ).order_by(PlayerTeamModel.year, ).add_columns(PlayerModel.name, PlayerModel.nationality, PlayerModel.birth_date).limit(100))
 
+        print(stmt)
         for model in self.get_all(stmt):
+
             schemas += [PlayerTeamSchema(**model.to_dict())]
         return schemas

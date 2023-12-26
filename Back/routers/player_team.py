@@ -17,10 +17,10 @@ async def get_player(
     return PlayerTeamService(session).get_playerTeam(player_id)
 
 
-@router.get("/search", response_model=List[PlayerTeamSchema])
+@router.get("/advanced_search", response_model=List[PlayerTeamSchema])
 async def search_players(
-        name: str = '', nationality: str = '', year: str = '%', player_number: str = '%', age_at_club: str = '%',
-        position: str = '%', team: str = '',
+        name: str = '', nationality: str = '', year: str = '', player_number: str = '', age_at_club: str = '',
+        position: str = '', team: str = '',
         session: Session = Depends(create_session)
 
 ) -> List[PlayerTeamSchema]:
