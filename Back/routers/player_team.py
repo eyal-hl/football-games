@@ -10,7 +10,7 @@ from services.player_team import PlayerTeamService
 router = APIRouter(prefix="/player_teams")
 
 
-@router.get("/", response_model=PlayerTeamSchema)
+@router.get("/{player_id}", response_model=List[PlayerTeamSchema])
 async def get_player(
         player_id: int, session: Session = Depends(create_session)
 ) -> PlayerTeamSchema:

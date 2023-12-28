@@ -8,7 +8,8 @@ from const import (
 from routers import (
     leagues,
     players,
-    player_team
+    player_team,
+    teams
 )
 
 
@@ -23,3 +24,4 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 app.include_router(leagues.router)
 app.include_router(players.router)
 app.include_router(player_team.router)
+app.include_router(teams.router)

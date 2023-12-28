@@ -37,7 +37,7 @@ class PlayerDataManager(BaseDataManager):
     def get_players(self) -> List[PlayerSchema]:
         schemas: List[PlayerSchema] = list()
 
-        stmt = select(PlayerModel)
+        stmt = select(PlayerModel).limit(100)
 
         for model in self.get_all(stmt):
             schemas += [PlayerSchema(**model.to_dict())]

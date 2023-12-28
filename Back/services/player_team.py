@@ -14,10 +14,10 @@ from services.base import (
 
 
 class PlayerTeamService(BaseService):
-    def get_playerTeam(self, playerTeam_id: int) -> PlayerTeamSchema:
+    def get_playerTeam(self, player_id: int) -> List[PlayerTeamSchema]:
         """Get playerTeam by ID."""
 
-        return PlayerTeamDataManager(self.session).get_playerTeam(playerTeam_id)
+        return PlayerTeamDataManager(self.session).get_playerTeam(player_id)
 
     def search_playerTeams(self, name: str, nationality: str, year: str, player_number: str, age_at_club: str,
                            position: str,
@@ -30,11 +30,13 @@ class PlayerTeamService(BaseService):
 
 
 class PlayerTeamDataManager(BaseDataManager):
-    def get_playerTeam(self, playerTeam_id: int) -> PlayerTeamSchema:
-        stmt = select(PlayerTeamModel).where(PlayerTeamModel.playerTeam_id == playerTeam_id)
+    def get_playerTeam(self, player_id: int) -> List[PlayerTeamSchema]:
+        stmt = select(PlayerTeamModel).where(PlayerTeamModel.player_id == player_id)
         model = self.get_one(stmt)
-
-        return PlayerTeamSchema(**model.to_dict())
+        schemas = []
+        for model in self.get_all(stmt):
+            schemas += [PlayerTeamSchema(**model.to_dict())]
+        return schemas
 
     def search_playerTeams(self, name: str, nationality: str, year: str, player_number: str, age_at_club: str,
                            position: str,
@@ -69,14 +71,13 @@ class PlayerTeamDataManager(BaseDataManager):
         where_clause = and_(*conditions)
 
         stmt = (select(PlayerTeamModel, PlayerModel.name.label('name'), PlayerModel.birth_date.label('birth_date'),
-                      PlayerModel.nationality.label('nationality')).select_from(
+                       PlayerModel.nationality.label('nationality')).select_from(
             join(PlayerTeamModel, PlayerModel, PlayerModel.player_id == PlayerTeamModel.player_id)
         ).where(
             where_clause
-        ).order_by(PlayerTeamModel.year, ).add_columns(PlayerModel.name, PlayerModel.nationality, PlayerModel.birth_date).limit(100))
+        ).order_by(PlayerTeamModel.year, ).add_columns(PlayerModel.name, PlayerModel.nationality,
+                                                       PlayerModel.birth_date).limit(100))
 
-        print(stmt)
         for model in self.get_all(stmt):
-
             schemas += [PlayerTeamSchema(**model.to_dict())]
         return schemas

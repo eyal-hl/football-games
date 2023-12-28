@@ -10,14 +10,14 @@ from services.leagues import LeagueService
 router = APIRouter(prefix="/leagues")
 
 
-@router.get("/", response_model=LeagueSchema)
+@router.get("/{league_id}", response_model=LeagueSchema)
 async def get_league(
         league_id: str, session: Session = Depends(create_session)
 ) -> LeagueSchema:
     return LeagueService(session).get_league(league_id)
 
 
-@router.get("/all", response_model=List[LeagueSchema])
+@router.get("/", response_model=List[LeagueSchema])
 async def get_leagues(
         session: Session = Depends(create_session)
 ) -> List[LeagueSchema]:
