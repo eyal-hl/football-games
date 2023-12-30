@@ -24,13 +24,15 @@ class PlayerTeamHumanSchema(BaseModel):
 
 
 class CombinedPlayerTeamSchema(BaseModel):
-    player_id: int
-    team_id: str
-    year: int
+    name: str
+    nationality: Optional[str]
+    team: str
+    years: str
     player_number: Optional[int]
     age_at_club: Optional[int]
     position: Optional[str]
-    name: str
-    nationality: Optional[str]
     birth_date: Optional[date]
-    team: str
+    league: str
+    player_id: int
+    team_id: str
+    league_id: str
