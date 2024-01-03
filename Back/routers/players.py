@@ -16,6 +16,11 @@ async def search_players(
 ) -> List[PlayerSchema]:
     return PlayerService(session).search_players(name=name, nationality=nationality)
 
+@router.get("/nationalities", response_model=List[str])
+async def get_nationalities(
+        session: Session = Depends(create_session)
+) -> List[PlayerSchema]:
+    return PlayerService(session).get_nationalities()
 
 @router.get("/{player_id}", response_model=PlayerSchema)
 async def get_player(
@@ -29,3 +34,6 @@ async def get_players(
         session: Session = Depends(create_session)
 ) -> List[PlayerSchema]:
     return PlayerService(session).get_players()
+
+
+

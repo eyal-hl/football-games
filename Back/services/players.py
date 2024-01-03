@@ -3,6 +3,7 @@ from typing import List,Optional
 from sqlalchemy import select
 from unidecode import unidecode
 
+
 from models.players import PlayerModel
 from schemas.players import PlayerSchema, PlayersSlimSchema
 from services.base import (
@@ -25,6 +26,9 @@ class PlayerService(BaseService):
     def search_players(self, name: str, nationality: str) -> List[PlayersSlimSchema]:
         """Search players by name"""
         return PlayerDataManager(self.session).search_players(name=name, nationality=nationality)
+
+    def get_nationalities(self) -> List[str]:
+        return PlayerDataManager(self.session).get_nationalities()
 
 
 class PlayerDataManager(BaseDataManager):
@@ -50,3 +54,9 @@ class PlayerDataManager(BaseDataManager):
         for model in self.get_all(stmt):
             schemas += [PlayersSlimSchema(**model.to_dict())]
         return schemas
+
+    def get_nationalities(self) -> list[str]:
+        stmt = select(PlayerModel.nationality).group_by(PlayerModel.nationality)
+        result = self.get_all(stmt)
+        result.remove(None)
+        return result
