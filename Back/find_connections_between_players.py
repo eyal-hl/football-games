@@ -5,7 +5,7 @@ connection = sqlite3.connect('../db.db')  # Replace with your database connectio
 cursor = connection.cursor()
 
 
-def shortest_path(node1, node2):
+def shortest_path(node1, node2, nodes_to_ignore):
     path_list = [[node1]]
     path_index = 0
     # To keep track of previously visited nodes
@@ -23,7 +23,9 @@ def shortest_path(node1, node2):
             return current_path
         # Add new paths
         for next_node in next_nodes:
-            if not next_node in previous_nodes:
+            if next_node in nodes_to_ignore:
+                previous_nodes.add(next_node)
+            elif not next_node in previous_nodes:
                 new_path = current_path[:]
                 new_path.append(next_node)
                 path_list.append(new_path)
@@ -69,8 +71,8 @@ def path_to_text(path: list[int]):
 
 
 start_time = datetime.now()
-
-path = shortest_path(28003, 24383)
+players_to_ignore = [468539]
+path = shortest_path(58342, 58358, players_to_ignore)
 
 print(path_to_text(path))
 end_time = datetime.now()
