@@ -3,6 +3,7 @@ from datetime import datetime
 
 connection = sqlite3.connect('../db.db')  # Replace with your database connection
 cursor = connection.cursor()
+# TODO: connect to connections.db, maybe load it to a dict
 
 
 def shortest_path(node1, node2, nodes_to_ignore):
@@ -38,6 +39,7 @@ def shortest_path(node1, node2, nodes_to_ignore):
 
 
 def get_connected_players(node1):
+    # TODO: try to read from connections.db(cache), if miss then read from the normal db and write to the connections.db
     cursor.execute(
         """SELECT DISTINCT pt1.player_id
     FROM playerTeam pt1
