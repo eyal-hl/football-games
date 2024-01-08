@@ -6,6 +6,8 @@ import sqlite3
 from datetime import datetime
 from unidecode import unidecode
 
+RUN_LAST_YEAR_AGAIN = False
+
 
 # Custom adapter for datetime objects
 def adapt_datetime(dt):
@@ -14,16 +16,12 @@ def adapt_datetime(dt):
 
 # Register the adapter
 sqlite3.register_adapter(datetime, adapt_datetime)
+conn = sqlite3.connect(DB_PATH)
+cursor = conn.cursor()
 
 
-def handle_teams(teams_list, league):
-    conn = sqlite3.connect(DB_PATH)
-    cursor = conn.cursor()
-    create_players_table(cursor)
-    create_teams_table(cursor)
-    create_player_team_table(cursor)
+def handle_teams(teams_list):
     conn.commit()
-    insert_league_to_leagues_table(cursor, league)
     insert_teams_to_teams_table(cursor, teams_list)
     conn.commit()
     for team in teams_list:
@@ -32,7 +30,6 @@ def handle_teams(teams_list, league):
         conn.commit()
         insert_players_to_players_table(cursor, players)
         conn.commit()
-    conn.close()
 
 
 def create_teams_table(cursor):
@@ -110,11 +107,11 @@ def insert_player_team_to_player_team_table(cursor, player_team_list):
     ''', player_team_list)
 
 
-def insert_league_to_leagues_table(cursor, league):
+def insert_league_to_leagues_table(cursor, name, ref, img_ref):
     cursor.execute('''
         INSERT OR IGNORE INTO leagues (name, league_id, ref, img_ref)
         VALUES (?, ?, ?, ?);
-    ''', league)
+    ''', (name, ref.split('/')[1].replace('-', '_'), ref, img_ref))
 
 
 def get_players_from_team(team_url, team_id):
@@ -125,12 +122,14 @@ def get_players_from_team(team_url, team_id):
     print("Starting with", team_url)
     start_team_time = time.time()
     while True:
+        # TODO: Check if players exist from that year
+        # if players exist and not DO_LAST_YEAR then break here
         output = get_players_from_squad(squad_url, year, team_id)
         if output == "Error":
             break
         all_players += output[0]
         all_playersTeam += output[1]
-
+        # if players exist and DO_LAST_YEAR then break here
         year -= 1
 
     end_team_time = time.time()
@@ -271,13 +270,26 @@ def print_tuple_list(tuple_list):
     print("\n".join(list(map(lambda x: str(x), tuple_list))))
 
 
-# test
-# league = input()
+def get_leagues():
+    cursor.execute("""select * from leagues""")
+    leagues = cursor.fetchall()
+    return leagues
+
+
 start_time = datetime.now()
-league=('Süper Lig', 'super_lig', '/super-lig/startseite/wettbewerb/TR1', 'https://tmssl.akamaized.net/images/logo/header/tr1.png?lm=1694093655')
-teams = get_teams_from_league(league[2])
-handle_teams(teams, league)
+
+# insert_league_to_leagues_table(cursor, 'Süper Lig', '/super-lig/startseite/wettbewerb/TR1', 'https://tmssl.akamaized.net/images/logo/header/tr1.png?lm=1694093655')
+leagues = get_leagues()
+create_players_table(cursor)
+create_teams_table(cursor)
+create_player_team_table(cursor)
+for league in leagues:
+    print(f"Starting with the {league[0]}")
+    teams = get_teams_from_league(league[2])
+    handle_teams(teams)
+
+
 end_time = datetime.now()
 print("Finished in " + str(end_time - start_time))
-# teams = [('Maccabi Tel Aviv', '/maccabi-tel-aviv/startseite/verein/119/saison_id/2023', 'https://tmssl.akamaized.net/images/wappen/tiny/119.png?lm=1626682937')]
-# result = get_players_from_team("/maccabi-tel-aviv/startseite/verein/119/saison_id/2023")
+
+conn.close()
