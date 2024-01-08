@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import datetime
 
-דdb_connection = sqlite3.connect('../db.db')
+db_connection = sqlite3.connect('../db.db')
 cursor = db_connection.cursor()
 
 
