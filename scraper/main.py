@@ -109,9 +109,13 @@ def insert_player_team_to_player_team_table(cursor, player_team_list):
 
 def insert_league_to_leagues_table(cursor, name, ref, img_ref):
     cursor.execute('''
-        INSERT OR IGNORE INTO leagues (name, league_id, ref, img_ref)
+        INSERT INTO leagues (name, league_id, ref, img_ref)
         VALUES (?, ?, ?, ?);
     ''', (name, ref.split('/')[1].replace('-', '_'), ref, img_ref))
+
+def get_max_year_from_team(cursor, team):
+    cursor.execute('''select max(year) from playerTeam where team_id = ?''', (team,))
+    return cursor.fetchone()[0]
 
 
 def get_players_from_team(team_url, team_id):
@@ -122,14 +126,20 @@ def get_players_from_team(team_url, team_id):
     print("Starting with", team_url)
     start_team_time = time.time()
     while True:
-        # TODO: Check if players exist from that year
+        players_exists = get_max_year_from_team(cursor, team_id) == year
+        if players_exists:
+            print(f"{team_id} already have {year} in the database")
+        if players_exists and not RUN_LAST_YEAR_AGAIN:
+            break
+
         # if players exist and not DO_LAST_YEAR then break here
         output = get_players_from_squad(squad_url, year, team_id)
         if output == "Error":
             break
         all_players += output[0]
         all_playersTeam += output[1]
-        # if players exist and DO_LAST_YEAR then break here
+        if players_exists and RUN_LAST_YEAR_AGAIN:
+            break
         year -= 1
 
     end_team_time = time.time()
@@ -277,14 +287,13 @@ def get_leagues():
 
 
 start_time = datetime.now()
-
-# insert_league_to_leagues_table(cursor, 'Süper Lig', '/super-lig/startseite/wettbewerb/TR1', 'https://tmssl.akamaized.net/images/logo/header/tr1.png?lm=1694093655')
+# insert_league_to_leagues_table(cursor, 'Jupiler Pro League(Belgium)', '/jupiler-pro-league/startseite/wettbewerb/BE1', 'https://tmssl.akamaized.net/images/logo/header/be1.png?lm=1601478124')
 leagues = get_leagues()
 create_players_table(cursor)
 create_teams_table(cursor)
 create_player_team_table(cursor)
 for league in leagues:
-    print(f"Starting with the {league[0]}")
+    print(f"--------------------------------------Starting with the {league[0]}--------------------------------------")
     teams = get_teams_from_league(league[2])
     handle_teams(teams)
 
