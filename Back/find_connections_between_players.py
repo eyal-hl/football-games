@@ -125,8 +125,8 @@ def path_to_text(path: list[int]):
 
 
 start_time = datetime.now()
-src_player_id = 493126
-dst_player_id = 646740
+src_player_id = 27992
+dst_player_id = 144410
 players_to_ignore = []
 amount_of_paths = 5
 for i in range(amount_of_paths):
@@ -135,7 +135,7 @@ for i in range(amount_of_paths):
     print(path_to_text(path))
     path_end_time = datetime.now()
     print(f"Path took  {str(path_end_time - path_start_time)}\n")
-    players_to_ignore += path
+    players_to_ignore += path[1:-1]
 end_time = datetime.now()
 print("Finished in " + str(end_time - start_time))
 db_connection.close()
