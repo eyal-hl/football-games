@@ -11,11 +11,13 @@ router = APIRouter(prefix="/player_teams")
 
 @router.get("/advanced_search", response_model=List[CombinedPlayerTeamSchema])
 async def search_players(
-        name: str = '', nationality: str = '', year: str = '', player_number: str = '', age_at_club: str = '',
+        player_id: str = '', name: str = '', nationality: str = '', year: str = '', player_number: str = '',
+        age_at_club: str = '',
         position: str = '', team: str = '', team_id: str = '', league: str = '', league_id: str = '',
         session: Session = Depends(create_session)
 ) -> List[CombinedPlayerTeamSchema]:
-    return PlayerTeamService(session).search_playerTeams(name=name, nationality=nationality, year=year,
+    return PlayerTeamService(session).search_playerTeams(player_id=player_id, name=name, nationality=nationality,
+                                                         year=year,
                                                          player_number=player_number,
                                                          age_at_club=age_at_club, position=position,
                                                          team=team, team_id=team_id, league=league, league_id=league_id)
