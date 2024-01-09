@@ -111,7 +111,7 @@ def insert_league_to_leagues_table(cursor, name, ref, img_ref):
     cursor.execute('''
         INSERT INTO leagues (name, league_id, ref, img_ref)
         VALUES (?, ?, ?, ?);
-    ''', (name, ref.split('/')[1].replace('-', '_'), ref, img_ref))
+    ''', (name, f"{ref.split('/')[1].replace('-', '_')}_{ref.split('/')[-1].replace('-', '_')}", ref, img_ref))
 
 def get_max_year_from_team(cursor, team):
     cursor.execute('''select max(year) from playerTeam where team_id = ?''', (team,))
@@ -224,7 +224,7 @@ def get_players_from_squad(team_url: str, year: int, team_id: str):
 
 def get_teams_from_league(league_url):
     url = BASE_URL + league_url
-    league_code = league_url.split('/')[1].replace('-', '_')
+    league_code = f"{league_url.split('/')[1].replace('-', '_')}_{league_url.split('/')[-1].replace('-', '_')}"
     # Send a GET request to the URL
     response = requests.get(url, headers=HEADERS)
 
@@ -288,9 +288,6 @@ def get_leagues():
 
 start_time = datetime.now()
 # insert_league_to_leagues_table(cursor, 'Major League Soccer', '/major-league-soccer/startseite/wettbewerb/MLS1', 'https://tmssl.akamaized.net/images/logo/header/mls1.png?lm=1612117632')
-# insert_league_to_leagues_table(cursor, 'League One(ENG3)', '/league-one/startseite/wettbewerb/GB3', 'https://tmssl.akamaized.net/images/logo/header/gb3.png?lm=1692214205')
-# insert_league_to_leagues_table(cursor, 'Bundesliga(Austria)', '/bundesliga/startseite/wettbewerb/A1', 'https://tmssl.akamaized.net/images/logo/header/a1.png?lm=1625144794')
-# insert_league_to_leagues_table(cursor, 'Bundesliga 2(GER2)', '/2-bundesliga/startseite/wettbewerb/L2', 'https://tmssl.akamaized.net/images/logo/header/l2.png?lm=1525905553')
 leagues = get_leagues()
 create_players_table(cursor)
 create_teams_table(cursor)
