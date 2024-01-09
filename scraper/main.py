@@ -287,7 +287,10 @@ def get_leagues():
 
 
 start_time = datetime.now()
-# insert_league_to_leagues_table(cursor, 'Jupiler Pro League(Belgium)', '/jupiler-pro-league/startseite/wettbewerb/BE1', 'https://tmssl.akamaized.net/images/logo/header/be1.png?lm=1601478124')
+# insert_league_to_leagues_table(cursor, 'Major League Soccer', '/major-league-soccer/startseite/wettbewerb/MLS1', 'https://tmssl.akamaized.net/images/logo/header/mls1.png?lm=1612117632')
+# insert_league_to_leagues_table(cursor, 'League One(ENG3)', '/league-one/startseite/wettbewerb/GB3', 'https://tmssl.akamaized.net/images/logo/header/gb3.png?lm=1692214205')
+# insert_league_to_leagues_table(cursor, 'Bundesliga(Austria)', '/bundesliga/startseite/wettbewerb/A1', 'https://tmssl.akamaized.net/images/logo/header/a1.png?lm=1625144794')
+# insert_league_to_leagues_table(cursor, 'Bundesliga 2(GER2)', '/2-bundesliga/startseite/wettbewerb/L2', 'https://tmssl.akamaized.net/images/logo/header/l2.png?lm=1525905553')
 leagues = get_leagues()
 create_players_table(cursor)
 create_teams_table(cursor)
