@@ -37,7 +37,7 @@ def shortest_path(node1, node2, nodes_to_ignore):
     return []
 
 
-def bi_directional_search(start, goal, players_to_ignore):
+def bi_directional_search(start, goal, players_to_ignore, teams_to_ignore):
     # Check if start and goal are equal.
     if start == goal:
         return [start]
@@ -55,7 +55,7 @@ def bi_directional_search(start, goal, players_to_ignore):
             origin = current_path[0]
             # Check for new neighbours.
 
-            current_neighbours = set(get_connected_players(vertex)) - inactive_vertices
+            current_neighbours = set(get_connected_players(vertex, teams_to_ignore)) - inactive_vertices
             # Check if our neighbours hit an active vertex
             if len(current_neighbours.intersection(active_vertices)) > 0:
                 for meeting_vertex in current_neighbours.intersection(active_vertices):
@@ -80,14 +80,14 @@ def bi_directional_search(start, goal, players_to_ignore):
     return None
 
 
-def get_connected_players(node1):
+def get_connected_players(node1, teams_to_ignore):
     cursor.execute(
-        """SELECT DISTINCT pt1.player_id
+        f"""SELECT DISTINCT pt1.player_id
     FROM playerTeam pt1
     JOIN playerTeam pt2 ON pt1.team_id = pt2.team_id AND pt1.year = pt2.year
-    WHERE pt2.player_id = ?
-      AND pt1.player_id <> ?;""",
-        (node1, node1))
+    WHERE pt2.player_id = {node1}
+      AND pt1.player_id <> {node1}
+      AND pt1.team_id not in ({teams_to_ignore});""")
     connections = [a[0] for a in cursor.fetchall()]
     return connections
 
@@ -125,13 +125,16 @@ def path_to_text(path: list[int]):
 
 
 start_time = datetime.now()
-src_player_id = 27992
-dst_player_id = 144410
+src_player_id = 14273
+dst_player_id = 4248
 players_to_ignore = []
-amount_of_paths = 5
+teams_to_ignore = []
+teams_to_ignore = ','.join([f"'{team}'" for team in teams_to_ignore])
+
+amount_of_paths = 1
 for i in range(amount_of_paths):
     path_start_time = datetime.now()
-    path = bi_directional_search(src_player_id , dst_player_id, players_to_ignore)
+    path = bi_directional_search(src_player_id , dst_player_id, players_to_ignore, teams_to_ignore)
     print(path_to_text(path))
     path_end_time = datetime.now()
     print(f"Path took  {str(path_end_time - path_start_time)}\n")
