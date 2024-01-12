@@ -14,7 +14,7 @@ class DatabaseConfig(BaseModel):
             DSN for target database.
     """
 
-    dsn: str = 'sqlite:///'+DB_PATH
+    dsn: str = 'sqlite+aiosqlite:///'+DB_PATH
 
 
 class Config(BaseSettings):

@@ -4,6 +4,7 @@ from typing import (
     Sequence,
     Type,
 )
+import asyncio
 
 from sqlalchemy import (
     func,
@@ -35,12 +36,11 @@ class BaseDataManager(SessionMixin):
     def add_all(self, models: Sequence[Any]) -> None:
         self.session.add_all(models)
 
-    def get_one(self, select_stmt: Executable) -> Any:
-        return self.session.scalar(select_stmt)
+    async def get_one(self, select_stmt: Executable) -> Any:
+        return await asyncio.create_task(self.session.scalar(select_stmt))
 
-    def get_all(self, select_stmt: Executable) -> List[Any]:
-        return list(self.session.scalars(select_stmt).all())
-
+    async def get_all(self, select_stmt: Executable) -> List[Any]:
+        return list((await asyncio.create_task(self.session.scalars(select_stmt))).all())
 
     def get_from_tvf(self, model: Type[SQLModel], *args: Any) -> List[Any]:
         """Query from table valued function.

@@ -14,11 +14,11 @@ router = APIRouter(prefix="/leagues")
 async def get_league(
         league_id: str, session: Session = Depends(create_session)
 ) -> LeagueSchema:
-    return LeagueService(session).get_league(league_id)
+    return await LeagueService(session).get_league(league_id)
 
 
 @router.get("/", response_model=List[LeagueSchema])
 async def get_leagues(
         session: Session = Depends(create_session)
 ) -> List[LeagueSchema]:
-    return LeagueService(session).get_leagues()
+    return await LeagueService(session).get_leagues()

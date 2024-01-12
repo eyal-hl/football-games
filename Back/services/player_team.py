@@ -14,20 +14,21 @@ from services.base import (
 )
 from datetime import date
 from utils import format_team_years
+import asyncio
 
 
 class PlayerTeamService(BaseService):
-    def get_playerTeam(self, player_id: int) -> List[PlayerTeamSchema]:
+    async def get_playerTeam(self, player_id: int) -> List[PlayerTeamSchema]:
         """Get playerTeam by ID."""
 
-        return PlayerTeamDataManager(self.session).get_playerTeam(player_id)
+        return await PlayerTeamDataManager(self.session).get_playerTeam(player_id)
 
-    def search_playerTeams(self, player_id: str, name: str, nationality: str, year: str, player_number: str,
+    async def search_playerTeams(self, player_id: str, name: str, nationality: str, year: str, player_number: str,
                            age_at_club: str,
                            position: str,
                            team: str, team_id: str, league: str, league_id: str) -> List[CombinedPlayerTeamSchema]:
         """Search playerTeams by name"""
-        return PlayerTeamDataManager(self.session).search_playerTeams(player_id=player_id, name=name,
+        return await PlayerTeamDataManager(self.session).search_playerTeams(player_id=player_id, name=name,
                                                                       nationality=nationality, year=year,
                                                                       player_number=player_number,
                                                                       age_at_club=age_at_club, position=position,
@@ -36,14 +37,14 @@ class PlayerTeamService(BaseService):
 
 
 class PlayerTeamDataManager(BaseDataManager):
-    def get_playerTeam(self, player_id: int) -> List[PlayerTeamSchema]:
+    async def get_playerTeam(self, player_id: int) -> List[PlayerTeamSchema]:
         stmt = select(PlayerTeamModel).where(PlayerTeamModel.player_id == player_id)
         schemas = []
-        for model in self.get_all(stmt):
+        for model in await self.get_all(stmt):
             schemas += [PlayerTeamSchema(**model.to_dict())]
         return schemas
 
-    def search_playerTeams(self, player_id: str, name: str, nationality: str, year: str, player_number: str,
+    async def search_playerTeams(self, player_id: str, name: str, nationality: str, year: str, player_number: str,
                            age_at_club: str,
                            position: str, team: str, team_id: str, league: str, league_id: str) -> List[
         CombinedPlayerTeamSchema]:
@@ -106,7 +107,7 @@ class PlayerTeamDataManager(BaseDataManager):
             .order_by(desc(PlayerTeamModel.year), asc(PlayerTeamModel.player_number))
             .limit(100)
         )
-        result = self.session.execute(stmt)
+        result = await asyncio.create_task(self.session.execute(stmt))
         for row in result.fetchall():
             playerTeam: dict = row[0].to_dict()
             player: dict = row[1].to_dict()

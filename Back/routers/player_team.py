@@ -16,7 +16,7 @@ async def search_players(
         position: str = '', team: str = '', team_id: str = '', league: str = '', league_id: str = '',
         session: Session = Depends(create_session)
 ) -> List[CombinedPlayerTeamSchema]:
-    return PlayerTeamService(session).search_playerTeams(player_id=player_id, name=name, nationality=nationality,
+    return await PlayerTeamService(session).search_playerTeams(player_id=player_id, name=name, nationality=nationality,
                                                          year=year,
                                                          player_number=player_number,
                                                          age_at_club=age_at_club, position=position,
@@ -27,4 +27,4 @@ async def search_players(
 async def get_player(
         player_id: int, session: Session = Depends(create_session)
 ) -> List[PlayerTeamSchema]:
-    return PlayerTeamService(session).get_playerTeam(player_id)
+    return await PlayerTeamService(session).get_playerTeam(player_id)

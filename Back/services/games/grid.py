@@ -14,14 +14,15 @@ from services.base import (
 
 
 class GridService(BaseService):
-    def all_answers(self, team1: str, team2: str, nationality: str, league1: str, league2: str) -> List[
-        PlayersSlimSchema]:
-        return GridDataManager(self.session).all_answers(team1=team1, team2=team2, nationality=nationality,
-                                                         league1=league1, league2=league2)
+    async def all_answers(self, team1: str, team2: str, nationality: str, league1: str, league2: str) -> (
+            List)[PlayersSlimSchema]:
+        return await GridDataManager(self.session).all_answers(team1=team1, team2=team2, nationality=nationality,
+                                                               league1=league1, league2=league2)
 
 
 class GridDataManager(BaseDataManager):
-    def all_answers(self, team1: str, team2: str, nationality: str, league1: str, league2) -> List[PlayersSlimSchema]:
+    async def all_answers(self, team1: str, team2: str, nationality: str, league1: str, league2) -> (
+            List)[PlayersSlimSchema]:
         schemas: List[PlayersSlimSchema] = []
 
         if team1 and team2:
@@ -83,7 +84,7 @@ class GridDataManager(BaseDataManager):
         else:
             raise 'error'
 
-        for model in self.get_all(stmt):
+        for model in await self.get_all(stmt):
             schemas.append(PlayersSlimSchema(**model.to_dict()))
 
         return schemas
