@@ -1,6 +1,6 @@
 from typing import List
 
-from sqlalchemy import select, and_, desc, asc, func
+from sqlalchemy import select, and_, desc, asc
 
 from unidecode import unidecode
 from models.player_team import PlayerTeamModel
@@ -13,6 +13,7 @@ from services.base import (
     BaseService,
 )
 from datetime import date
+from utils import format_team_years
 
 
 class PlayerTeamService(BaseService):
@@ -21,11 +22,13 @@ class PlayerTeamService(BaseService):
 
         return PlayerTeamDataManager(self.session).get_playerTeam(player_id)
 
-    def search_playerTeams(self,player_id:str, name: str, nationality: str, year: str, player_number: str, age_at_club: str,
+    def search_playerTeams(self, player_id: str, name: str, nationality: str, year: str, player_number: str,
+                           age_at_club: str,
                            position: str,
                            team: str, team_id: str, league: str, league_id: str) -> List[CombinedPlayerTeamSchema]:
         """Search playerTeams by name"""
-        return PlayerTeamDataManager(self.session).search_playerTeams(player_id=player_id, name=name, nationality=nationality, year=year,
+        return PlayerTeamDataManager(self.session).search_playerTeams(player_id=player_id, name=name,
+                                                                      nationality=nationality, year=year,
                                                                       player_number=player_number,
                                                                       age_at_club=age_at_club, position=position,
                                                                       team=team, team_id=team_id, league=league,
@@ -45,7 +48,7 @@ class PlayerTeamDataManager(BaseDataManager):
                            position: str, team: str, team_id: str, league: str, league_id: str) -> List[
         CombinedPlayerTeamSchema]:
         schemas: List[CombinedPlayerTeamSchema] = []
-
+        combined_list = []
         conditions = []
 
         # Add conditions based on input values
@@ -95,14 +98,12 @@ class PlayerTeamDataManager(BaseDataManager):
         where_clause = and_(*conditions)
 
         stmt = (
-            select(PlayerTeamModel, PlayerModel, TeamModel, LeagueModel, func.min(PlayerTeamModel.year),
-                   func.max(PlayerTeamModel.year))
+            select(PlayerTeamModel, PlayerModel, TeamModel, LeagueModel)
             .join(PlayerModel, onclause=PlayerTeamModel.player_id == PlayerModel.player_id)
             .join(TeamModel, onclause=PlayerTeamModel.team_id == TeamModel.team_id)
             .join(LeagueModel, onclause=TeamModel.league_id == LeagueModel.league_id)
             .where(where_clause)
             .order_by(desc(PlayerTeamModel.year), asc(PlayerTeamModel.player_number))
-            .group_by(PlayerTeamModel.player_id, PlayerTeamModel.team_id)
             .limit(100)
         )
         result = self.session.execute(stmt)
@@ -111,14 +112,18 @@ class PlayerTeamDataManager(BaseDataManager):
             player: dict = row[1].to_dict()
             team: dict = row[2].to_dict()
             league: dict = row[3].to_dict()
+            combined = {'player_id': playerTeam['player_id'], 'team_id': playerTeam['team_id'],
+                        'year': playerTeam['year'],
+                        'player_number': playerTeam['player_number'],
+                        'age_at_club': playerTeam['age_at_club'], 'position': playerTeam['position'],
+                        'name': player['name'], 'nationality': player['nationality'],
+                        'team': team['name'],
+                        'birth_date': player['birth_date'],
+                        'league_id': team['league_id'],
+                        'league': league['name']}
+            combined_list.append(combined)
+        formatted = format_team_years(combined_list)
+        for combined in formatted:
             schemas += [
-                CombinedPlayerTeamSchema(player_id=playerTeam['player_id'], team_id=playerTeam['team_id'],
-                                         years=f"{row[4]} - {row[5]}",
-                                         player_number=playerTeam['player_number'],
-                                         age_at_club=playerTeam['age_at_club'], position=playerTeam['position'],
-                                         name=player['name'], nationality=player['nationality'],
-                                         team=team['name'],
-                                         birth_date=player['birth_date'],
-                                         league_id=team['league_id'],
-                                         league=league['name'])]
+                CombinedPlayerTeamSchema(**combined)]
         return schemas
