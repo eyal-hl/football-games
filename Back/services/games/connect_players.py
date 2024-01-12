@@ -29,12 +29,6 @@ class connectedPlayersService(BaseService):
 
 class connectedPlayersManager(BaseDataManager):
     def getConnection(self, player1: int, player2: int) -> List[ConnectionSchema]:
-        # cursor.execute(
-        #     "select pt1.team_id, pt1.year, pt1.age_at_club, pt2.age_at_club from playerTeam as pt1 join playerTeam as pt2 on pt1.team_id == pt2.team_id and pt1.year == pt2.year where pt1.player_id == ? and pt2.player_id == ? order by pt1.year desc limit 1",
-        #     (node1, node2))
-        # team_id, year, player1_age, player2_age = cursor.fetchone()
-        # cursor.execute("select name from teams where team_id = ?", (team_id,))
-        # return (f"{cursor.fetchone()[0]} {str(year)}", player1_age, player2_age)
         pt1 = aliased(PlayerTeamModel)
         pt2 = aliased(PlayerTeamModel)
 
