@@ -1,6 +1,6 @@
 from typing import List
 
-from sqlalchemy import select, and_, func, desc
+from sqlalchemy import select, func, desc
 from sqlalchemy.orm import aliased
 
 from models.player_team import PlayerTeamModel
