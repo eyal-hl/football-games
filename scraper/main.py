@@ -6,7 +6,7 @@ import sqlite3
 from datetime import datetime
 from unidecode import unidecode
 
-RUN_LAST_YEAR_AGAIN = False
+RUN_LAST_YEAR_AGAIN = True
 
 
 # Custom adapter for datetime objects
@@ -287,7 +287,8 @@ def get_leagues():
 
 
 start_time = datetime.now()
-# insert_league_to_leagues_table(cursor, 'Major League Soccer', '/major-league-soccer/startseite/wettbewerb/MLS1', 'https://tmssl.akamaized.net/images/logo/header/mls1.png?lm=1612117632')
+insert_league_to_leagues_table(cursor, 'Seria A (Brazil)', '/campeonato-brasileiro-serie-a/startseite/wettbewerb/BRA1', 'https://tmssl.akamaized.net/images/logo/header/bra1.png?lm=1682608836')
+insert_league_to_leagues_table(cursor, 'Primera Division (Argentina)', '/professional-football-league/startseite/wettbewerb/AR1N', 'https://tmssl.akamaized.net/images/logo/header/ar1n.png?lm=1612869286')
 leagues = get_leagues()
 create_players_table(cursor)
 create_teams_table(cursor)
