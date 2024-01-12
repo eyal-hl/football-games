@@ -7,3 +7,8 @@ class TeamSchema(BaseModel):
     ref: str
     team_id: str
     img_ref: str
+
+
+class ConnectionSchema(BaseModel):
+    team_name: str
+    years: str
