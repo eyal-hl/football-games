@@ -3,3 +3,4 @@ uvicorn
 sqlalchemy
 pydantic_settings
 unidecode
+aiosqlite
