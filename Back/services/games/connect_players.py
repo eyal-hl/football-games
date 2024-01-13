@@ -22,11 +22,11 @@ class connectedPlayersService(BaseService):
         return await connectedPlayersManager(self.session).getConnection(player1, player2)
 
 
-async def get_path(self, player1: int, player2: int, players_to_ignore: list[int], teams_to_ignore: list[str]) -> List[
-    PlayersSlimSchema]:
-    return await connectedPlayersManager(self.session).getPath(player1=player1, player2=player2,
-                                                               players_to_ignore=players_to_ignore,
-                                                               teams_to_ignore=teams_to_ignore)
+    async def get_path(self, player1: int, player2: int, players_to_ignore: list[int], teams_to_ignore: list[str]) -> List[
+        PlayersSlimSchema]:
+        return await connectedPlayersManager(self.session).getPath(player1=player1, player2=player2,
+                                                                   players_to_ignore=players_to_ignore,
+                                                                   teams_to_ignore=teams_to_ignore)
 
 
 class connectedPlayersManager(BaseDataManager):
