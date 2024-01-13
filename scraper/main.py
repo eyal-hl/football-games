@@ -1,13 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
-from const import HEADERS, BASE_URL, DB_PATH
+from const import HEADERS, BASE_URL, DB_PATH, TEAMS_LINKS_INFIX
 import time
 import sqlite3
 from datetime import datetime
 from unidecode import unidecode
 
-RUN_LAST_YEAR_AGAIN = True
-
+RUN_LAST_YEAR_AGAIN = False
 
 # Custom adapter for datetime objects
 def adapt_datetime(dt):
@@ -79,7 +78,6 @@ def create_leagues_table(cursor):
         CREATE TABLE IF NOT EXISTS leagues (
             name TEXT UNIQUE,
             league_id TEXT UNIQUE PRIMARY KEY,
-            ref TEXT,
             img_ref TEXT
         );
     ''')
@@ -109,9 +107,9 @@ def insert_player_team_to_player_team_table(cursor, player_team_list):
 
 def insert_league_to_leagues_table(cursor, name, ref, img_ref):
     cursor.execute('''
-        INSERT INTO leagues (name, league_id, ref, img_ref)
-        VALUES (?, ?, ?, ?);
-    ''', (name, f"{ref.split('/')[1].replace('-', '_')}_{ref.split('/')[-1].replace('-', '_')}", ref, img_ref))
+        INSERT INTO leagues (name, league_id, img_ref)
+        VALUES (?, ?, ?);
+    ''', (name, f"{ref.split('/')[1].replace('-', '_')}_{ref.split('/')[-1].replace('-', '_')}", img_ref))
 
 def get_max_year_from_team(cursor, team):
     cursor.execute('''select max(year) from playerTeam where team_id = ?''', (team,))
@@ -222,9 +220,8 @@ def get_players_from_squad(team_url: str, year: int, team_id: str):
     return "Error"
 
 
-def get_teams_from_league(league_url):
-    url = BASE_URL + league_url
-    league_code = f"{league_url.split('/')[1].replace('-', '_')}_{league_url.split('/')[-1].replace('-', '_')}"
+def get_teams_from_league(league_code):
+    url = BASE_URL + '_'.join(league_code.split('_')[:-1]) + TEAMS_LINKS_INFIX + league_code.split('_')[-1]
     # Send a GET request to the URL
     response = requests.get(url, headers=HEADERS)
 
@@ -287,15 +284,14 @@ def get_leagues():
 
 
 start_time = datetime.now()
-insert_league_to_leagues_table(cursor, 'Seria A (Brazil)', '/campeonato-brasileiro-serie-a/startseite/wettbewerb/BRA1', 'https://tmssl.akamaized.net/images/logo/header/bra1.png?lm=1682608836')
-insert_league_to_leagues_table(cursor, 'Primera Division (Argentina)', '/professional-football-league/startseite/wettbewerb/AR1N', 'https://tmssl.akamaized.net/images/logo/header/ar1n.png?lm=1612869286')
+# insert_league_to_leagues_table(cursor, 'Seria A (Brazil)', '/campeonato-brasileiro-serie-a/startseite/wettbewerb/BRA1', 'https://tmssl.akamaized.net/images/logo/header/bra1.png?lm=1682608836')
 leagues = get_leagues()
 create_players_table(cursor)
 create_teams_table(cursor)
 create_player_team_table(cursor)
 for league in leagues:
     print(f"--------------------------------------Starting with the {league[0]}--------------------------------------")
-    teams = get_teams_from_league(league[2])
+    teams = get_teams_from_league(league[1])
     handle_teams(teams)
 
 
