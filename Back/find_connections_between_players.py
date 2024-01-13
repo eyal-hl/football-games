@@ -3,6 +3,8 @@ from datetime import datetime
 
 db_connection = sqlite3.connect('../db.db')
 cursor = db_connection.cursor()
+global counter
+counter = 0
 
 
 def shortest_path(node1, node2, nodes_to_ignore):
@@ -80,7 +82,9 @@ def bi_directional_search(start, goal, players_to_ignore, teams_to_ignore):
     return None
 
 
-def get_connected_players(node1, teams_to_ignore):
+def get_connected_players(node1, teams_to_ignore = ''):
+    global counter
+    counter += 1
     cursor.execute(
         f"""SELECT DISTINCT pt1.player_id
     FROM playerTeam pt1
@@ -125,20 +129,21 @@ def path_to_text(path: list[int]):
 
 
 start_time = datetime.now()
-src_player_id = 14273
-dst_player_id = 4248
+src_player_id = 129945
+dst_player_id = 5354
 players_to_ignore = []
 teams_to_ignore = []
 teams_to_ignore = ','.join([f"'{team}'" for team in teams_to_ignore])
 
-amount_of_paths = 1
+amount_of_paths = 5
 for i in range(amount_of_paths):
     path_start_time = datetime.now()
-    path = bi_directional_search(src_player_id , dst_player_id, players_to_ignore, teams_to_ignore)
+    path = bi_directional_search(src_player_id , dst_player_id, players_to_ignore)
     print(path_to_text(path))
     path_end_time = datetime.now()
     print(f"Path took  {str(path_end_time - path_start_time)}\n")
     players_to_ignore += path[1:-1]
+    print(f"{counter} calls to the find connected players")
 end_time = datetime.now()
 print("Finished in " + str(end_time - start_time))
 db_connection.close()
