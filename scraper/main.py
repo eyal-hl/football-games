@@ -1,12 +1,12 @@
 import requests
 from bs4 import BeautifulSoup
-from const import HEADERS, BASE_URL, DB_PATH
+from const import HEADERS, BASE_URL, DB_PATH, TEAMS_LINKS_INFIX, CHAMPION_LINK_INFIX
 import time
 import sqlite3
 from datetime import datetime
 from unidecode import unidecode
 
-RUN_LAST_YEAR_AGAIN = True
+RUN_LAST_YEAR_AGAIN = False
 
 
 # Custom adapter for datetime objects
@@ -74,12 +74,36 @@ def create_player_team_table(cursor):
     ''')
 
 
+def create_specials_table(cursor):
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS specials (
+            name TEXT UNIQUE,
+            special_id TEXT UNIQUE PRIMARY KEY,
+            ref TEXT,
+            img_ref TEXT,
+            type TEXT
+        );
+    ''')
+
+
+def create_special_team_table(cursor):
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS specialTeam (
+            special_id TEXT,
+            year INTEGER,
+            team_id TEXT,
+            PRIMARY KEY (special_id, year, team_id),
+            FOREIGN KEY (special_id) REFERENCES specials(special_id),
+            FOREIGN KEY (team_id) REFERENCES teams(team_id)
+        );
+    ''')
+
+
 def create_leagues_table(cursor):
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS leagues (
             name TEXT UNIQUE,
             league_id TEXT UNIQUE PRIMARY KEY,
-            ref TEXT,
             img_ref TEXT
         );
     ''')
@@ -97,7 +121,8 @@ def insert_players_to_players_table(cursor, players_list):
     cursor.executemany('''
         INSERT OR IGNORE INTO players (player_id, name, name_unaccented, img_ref, birth_date, nationality, ref)
         VALUES (?, ?, ?, ?, ?, ?, ?);
-    ''', [(player[0], player[1], unidecode(player[1]), player[2], player[3], player[4], player[5]) for player in players_list])
+    ''', [(player[0], player[1], unidecode(player[1]), player[2], player[3], player[4], player[5]) for player in
+          players_list])
 
 
 def insert_player_team_to_player_team_table(cursor, player_team_list):
@@ -107,11 +132,32 @@ def insert_player_team_to_player_team_table(cursor, player_team_list):
     ''', player_team_list)
 
 
+def insert_special_to_specials_table(cursor, special):
+    cursor.execute('''
+        INSERT OR IGNORE INTO specials (name, special_id, ref, img_ref, type)
+        VALUES (?, ?, ?, ?, ?);
+    ''', special)
+
+
+def insert_special_team_to_special_team_table(cursor, player_team_list):
+    cursor.executemany('''
+        INSERT OR IGNORE INTO specialTeam (name, team_id, year)
+        VALUES (?, ?, ?);
+    ''', player_team_list)
+
+
 def insert_league_to_leagues_table(cursor, name, ref, img_ref):
     cursor.execute('''
-        INSERT INTO leagues (name, league_id, ref, img_ref)
-        VALUES (?, ?, ?, ?);
-    ''', (name, f"{ref.split('/')[1].replace('-', '_')}_{ref.split('/')[-1].replace('-', '_')}", ref, img_ref))
+        INSERT INTO leagues (name, league_id, img_ref)
+        VALUES (?, ?, ?);
+    ''', (name, f"{ref.split('/')[1].replace('-', '_')}_{ref.split('/')[-1].replace('-', '_')}", img_ref))
+
+
+def add_league_winner(cursor, league):
+    name, code, _ = league
+    url = BASE_URL+'_'.join(code.split('_')[:-1]) + CHAMPION_LINK_INFIX + code.split('_')[-1]
+    insert_special_to_specials_table(cursor, ())
+
 
 def get_max_year_from_team(cursor, team):
     cursor.execute('''select max(year) from playerTeam where team_id = ?''', (team,))
@@ -222,9 +268,8 @@ def get_players_from_squad(team_url: str, year: int, team_id: str):
     return "Error"
 
 
-def get_teams_from_league(league_url):
-    url = BASE_URL + league_url
-    league_code = f"{league_url.split('/')[1].replace('-', '_')}_{league_url.split('/')[-1].replace('-', '_')}"
+def get_teams_from_league(league_code):
+    url = BASE_URL + '_'.join(league_code.split('_')[:-1]) + TEAMS_LINKS_INFIX + league_code.split('_')[-1]
     # Send a GET request to the URL
     response = requests.get(url, headers=HEADERS)
 
@@ -287,17 +332,18 @@ def get_leagues():
 
 
 start_time = datetime.now()
-insert_league_to_leagues_table(cursor, 'Seria A (Brazil)', '/campeonato-brasileiro-serie-a/startseite/wettbewerb/BRA1', 'https://tmssl.akamaized.net/images/logo/header/bra1.png?lm=1682608836')
-insert_league_to_leagues_table(cursor, 'Primera Division (Argentina)', '/professional-football-league/startseite/wettbewerb/AR1N', 'https://tmssl.akamaized.net/images/logo/header/ar1n.png?lm=1612869286')
+# insert_league_to_leagues_table(cursor, 'Seria A (Brazil)', '/campeonato-brasileiro-serie-a/startseite/wettbewerb/BRA1', 'https://tmssl.akamaized.net/images/logo/header/bra1.png?lm=1682608836')
 leagues = get_leagues()
 create_players_table(cursor)
 create_teams_table(cursor)
 create_player_team_table(cursor)
+create_specials_table(cursor)
+create_special_team_table(cursor)
 for league in leagues:
     print(f"--------------------------------------Starting with the {league[0]}--------------------------------------")
-    teams = get_teams_from_league(league[2])
-    handle_teams(teams)
-
+    add_league_winner(league)
+    # teams = get_teams_from_league(league[1])
+    # handle_teams(teams)
 
 end_time = datetime.now()
 print("Finished in " + str(end_time - start_time))
