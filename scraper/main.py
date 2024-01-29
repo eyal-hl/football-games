@@ -6,7 +6,69 @@ import sqlite3
 from datetime import datetime
 from unidecode import unidecode
 
-RUN_LAST_YEAR_AGAIN = False
+RUN_LAST_YEAR_AGAIN = True
+
+sql_commands = {
+    "create_player_team_table": """
+        CREATE TABLE IF NOT EXISTS playerTeam (
+            player_id INTEGER,
+            year INTEGER,
+            player_number INTEGER,
+            team_id TEXT,
+            age_at_club INTEGER,
+            position TEXT,
+            PRIMARY KEY (player_id, year, team_id),
+            FOREIGN KEY (player_id) REFERENCES players(player_id),
+            FOREIGN KEY (team_id) REFERENCES teams(team_id)
+        );
+    """,
+    "create_specials_table": """
+        CREATE TABLE IF NOT EXISTS specials (
+            name TEXT UNIQUE,
+            special_id TEXT UNIQUE PRIMARY KEY,
+            ref TEXT,
+            img_ref TEXT,
+            type TEXT
+        );
+    """,
+    "create_special_team_table": """
+        CREATE TABLE IF NOT EXISTS specialTeam (
+            special_id TEXT,
+            year INTEGER,
+            team_id TEXT,
+            PRIMARY KEY (special_id, year, team_id),
+            FOREIGN KEY (special_id) REFERENCES specials(special_id),
+            FOREIGN KEY (team_id) REFERENCES teams(team_id)
+        );
+    """,
+    "create_leagues_table": """
+        CREATE TABLE IF NOT EXISTS leagues (
+            name TEXT UNIQUE,
+            league_id TEXT UNIQUE PRIMARY KEY,
+            img_ref TEXT
+        );
+    """,
+    "create_teams_table": """
+        CREATE TABLE IF NOT EXISTS teams (
+            name TEXT UNIQUE,
+            league_id TEXT,
+            ref TEXT,
+            team_id TEXT UNIQUE PRIMARY KEY,
+            img_ref TEXT
+            );
+            """,
+    "create_players_table": """
+        CREATE TABLE IF NOT EXISTS players (
+            player_id INTEGER UNIQUE PRIMARY KEY,
+            name TEXT,
+            name_unaccented TEXT,  
+            img_ref TEXT,
+            birth_date DATE,
+            nationality TEXT,
+            ref TEXT
+            );
+            """,
+}
 
 
 # Custom adapter for datetime objects
@@ -32,135 +94,95 @@ def handle_teams(teams_list):
         conn.commit()
 
 
-def create_teams_table(cursor):
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS teams (
-            name TEXT UNIQUE,
-            league_id TEXT,
-            ref TEXT,
-            team_id TEXT UNIQUE PRIMARY KEY,
-            img_ref TEXT
-        );
-    ''')
-
-
-def create_players_table(cursor):
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS players (
-            player_id INTEGER UNIQUE PRIMARY KEY,
-            name TEXT,
-            name_unaccented TEXT,  
-            img_ref TEXT,
-            birth_date DATE,
-            nationality TEXT,
-            ref TEXT
-        );
-    ''')
-
-
-def create_player_team_table(cursor):
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS playerTeam (
-            player_id INTEGER,
-            year INTEGER,
-            player_number INTEGER,
-            team_id TEXT,
-            age_at_club INTEGER,
-            position TEXT,
-            PRIMARY KEY (player_id, year, team_id),
-            FOREIGN KEY (player_id) REFERENCES players(player_id),
-            FOREIGN KEY (team_id) REFERENCES teams(team_id)
-        );
-    ''')
-
-
-def create_specials_table(cursor):
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS specials (
-            name TEXT UNIQUE,
-            special_id TEXT UNIQUE PRIMARY KEY,
-            ref TEXT,
-            img_ref TEXT,
-            type TEXT
-        );
-    ''')
-
-
-def create_special_team_table(cursor):
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS specialTeam (
-            special_id TEXT,
-            year INTEGER,
-            team_id TEXT,
-            PRIMARY KEY (special_id, year, team_id),
-            FOREIGN KEY (special_id) REFERENCES specials(special_id),
-            FOREIGN KEY (team_id) REFERENCES teams(team_id)
-        );
-    ''')
-
-
-def create_leagues_table(cursor):
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS leagues (
-            name TEXT UNIQUE,
-            league_id TEXT UNIQUE PRIMARY KEY,
-            img_ref TEXT
-        );
-    ''')
-
-
 def insert_teams_to_teams_table(cursor, teams_list):
-    cursor.executemany('''
+    cursor.executemany(
+        """
         INSERT OR IGNORE INTO teams (name, league_id, ref, team_id, img_ref)
         VALUES (?, ?, ?, ?, ?);
-    ''', teams_list)
+    """,
+        teams_list,
+    )
 
 
 def insert_players_to_players_table(cursor, players_list):
     # Modify the query to include the new column
-    cursor.executemany('''
+    cursor.executemany(
+        """
         INSERT OR IGNORE INTO players (player_id, name, name_unaccented, img_ref, birth_date, nationality, ref)
         VALUES (?, ?, ?, ?, ?, ?, ?);
-    ''', [(player[0], player[1], unidecode(player[1]), player[2], player[3], player[4], player[5]) for player in
-          players_list])
+    """,
+        [
+            (
+                player[0],
+                player[1],
+                unidecode(player[1]),
+                player[2],
+                player[3],
+                player[4],
+                player[5],
+            )
+            for player in players_list
+        ],
+    )
 
 
 def insert_player_team_to_player_team_table(cursor, player_team_list):
-    cursor.executemany('''
+    cursor.executemany(
+        """
         INSERT OR IGNORE INTO playerTeam (player_id, year, player_number, team_id, age_at_club, position)
         VALUES (?, ?, ?, ?, ?, ?);
-    ''', player_team_list)
+    """,
+        player_team_list,
+    )
 
 
 def insert_special_to_specials_table(cursor, special):
-    cursor.execute('''
+    cursor.execute(
+        """
         INSERT OR IGNORE INTO specials (name, special_id, ref, img_ref, type)
         VALUES (?, ?, ?, ?, ?);
-    ''', special)
+    """,
+        special,
+    )
 
 
 def insert_special_team_to_special_team_table(cursor, player_team_list):
-    cursor.executemany('''
+    cursor.executemany(
+        """
         INSERT OR IGNORE INTO specialTeam (name, team_id, year)
         VALUES (?, ?, ?);
-    ''', player_team_list)
+    """,
+        player_team_list,
+    )
 
 
 def insert_league_to_leagues_table(cursor, name, ref, img_ref):
-    cursor.execute('''
+    cursor.execute(
+        """
         INSERT INTO leagues (name, league_id, img_ref)
         VALUES (?, ?, ?);
-    ''', (name, f"{ref.split('/')[1].replace('-', '_')}_{ref.split('/')[-1].replace('-', '_')}", img_ref))
+    """,
+        (
+            name,
+            f"{ref.split('/')[1].replace('-', '_')}_{ref.split('/')[-1].replace('-', '_')}",
+            img_ref,
+        ),
+    )
 
 
 def add_league_winner(cursor, league):
     name, code, _ = league
-    url = BASE_URL+'_'.join(code.split('_')[:-1]) + CHAMPION_LINK_INFIX + code.split('_')[-1]
+    url = (
+        BASE_URL
+        + "_".join(code.split("_")[:-1])
+        + CHAMPION_LINK_INFIX
+        + code.split("_")[-1]
+    )
     insert_special_to_specials_table(cursor, ())
 
 
 def get_max_year_from_team(cursor, team):
-    cursor.execute('''select max(year) from playerTeam where team_id = ?''', (team,))
+    cursor.execute("""select max(year) from playerTeam where team_id = ?""", (team,))
     return cursor.fetchone()[0]
 
 
@@ -202,15 +224,15 @@ def get_players_from_squad(team_url: str, year: int, team_id: str):
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
         # Parse the HTML content of the page
-        soup = BeautifulSoup(response.text, 'html.parser')
+        soup = BeautifulSoup(response.text, "html.parser")
 
         # Find the div with class 'responsive-table'
-        responsive_div = soup.find('div', class_='responsive-table')
+        responsive_div = soup.find("div", class_="responsive-table")
 
         # Check if the div was found
         if responsive_div:
             # Find the table with class 'items' inside the responsive div
-            items_table = responsive_div.find('table', class_='items')
+            items_table = responsive_div.find("table", class_="items")
 
             # Check if the table was found
             if items_table:
@@ -218,44 +240,67 @@ def get_players_from_squad(team_url: str, year: int, team_id: str):
 
                 player_list = []
                 player_team_list = []
-                rows = items_table.find_all('tr', class_=["odd", "even"])
+                rows = items_table.find_all("tr", class_=["odd", "even"])
                 for row in rows:
-                    player_number_elem = row.select_one('.rn_nummer')
-                    player_number = player_number_elem.text.strip() if player_number_elem else None
-                    player_number = int(player_number) if player_number != '-' else None
+                    player_number_elem = row.select_one(".rn_nummer")
+                    player_number = (
+                        player_number_elem.text.strip() if player_number_elem else None
+                    )
+                    player_number = int(player_number) if player_number != "-" else None
 
                     # Extracting image link
-                    image_link_elem = row.select_one('.bilderrahmen-fixed.lazy')
-                    img_ref = image_link_elem['data-src'] if image_link_elem else None
+                    image_link_elem = row.select_one(".bilderrahmen-fixed.lazy")
+                    img_ref = image_link_elem["data-src"] if image_link_elem else None
 
                     # Extracting player name
-                    player_name_elem = row.select_one('.hauptlink')
-                    player_name = player_name_elem.text.strip() if player_name_elem else None
+                    player_name_elem = row.select_one(".hauptlink")
+                    player_name = (
+                        player_name_elem.text.strip() if player_name_elem else None
+                    )
 
                     # Extracting birth date
-                    birth_date_elem = row.select_one('td.zentriert:nth-of-type(3)')
-                    birth_date_text = birth_date_elem.text.strip() if birth_date_elem else None
+                    birth_date_elem = row.select_one("td.zentriert:nth-of-type(3)")
+                    birth_date_text = (
+                        birth_date_elem.text.strip() if birth_date_elem else None
+                    )
 
-                    birth_date, age_at_club = map(str.strip,
-                                                  birth_date_text.rsplit('(', 1) if birth_date_text else (None, None))
-                    age_at_club = int(age_at_club[:-1]) if (age_at_club != '-)' and age_at_club != 'N/A)') else None
-                    birth_date = datetime.strptime(birth_date, '%b %d, %Y') if (
-                            birth_date != "-" and birth_date != 'N/A') else None
+                    birth_date, age_at_club = map(
+                        str.strip,
+                        birth_date_text.rsplit("(", 1)
+                        if birth_date_text
+                        else (None, None),
+                    )
+                    age_at_club = (
+                        int(age_at_club[:-1])
+                        if (age_at_club != "-)" and age_at_club != "N/A)")
+                        else None
+                    )
+                    birth_date = (
+                        datetime.strptime(birth_date, "%b %d, %Y")
+                        if (birth_date != "-" and birth_date != "N/A")
+                        else None
+                    )
 
                     # Extracting nationality
-                    nationality_elem = row.select_one('.flaggenrahmen')
-                    nationality = nationality_elem['title'] if nationality_elem else None
+                    nationality_elem = row.select_one(".flaggenrahmen")
+                    nationality = (
+                        nationality_elem["title"] if nationality_elem else None
+                    )
 
                     # Extracting profile reference
-                    profile_ref_elem = row.select_one('.hauptlink a')
-                    ref = profile_ref_elem['href'] if profile_ref_elem else None
-                    player_id = int(ref.split('/')[-1])
+                    profile_ref_elem = row.select_one(".hauptlink a")
+                    ref = profile_ref_elem["href"] if profile_ref_elem else None
+                    player_id = int(ref.split("/")[-1])
 
-                    position_elem = row.select('.posrela table td:nth-of-type(1)')[-1]
+                    position_elem = row.select(".posrela table td:nth-of-type(1)")[-1]
                     position = position_elem.text.strip() if position_elem else None
 
-                    player_list.append((player_id, player_name, img_ref, birth_date, nationality, ref))
-                    player_team_list.append((player_id, year, player_number, team_id, age_at_club, position))
+                    player_list.append(
+                        (player_id, player_name, img_ref, birth_date, nationality, ref)
+                    )
+                    player_team_list.append(
+                        (player_id, year, player_number, team_id, age_at_club, position)
+                    )
                 # print(rows[-1])
                 # Print or return the rows as needed
                 return player_list, player_team_list
@@ -269,27 +314,32 @@ def get_players_from_squad(team_url: str, year: int, team_id: str):
 
 
 def get_teams_from_league(league_code):
-    url = BASE_URL + '_'.join(league_code.split('_')[:-1]) + TEAMS_LINKS_INFIX + league_code.split('_')[-1]
+    url = (
+        BASE_URL
+        + "_".join(league_code.split("_")[:-1])
+        + TEAMS_LINKS_INFIX
+        + league_code.split("_")[-1]
+    )
     # Send a GET request to the URL
     response = requests.get(url, headers=HEADERS)
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200:
         # Parse the HTML content of the page
-        soup = BeautifulSoup(response.text, 'html.parser')
+        soup = BeautifulSoup(response.text, "html.parser")
 
         # Find the div with class 'responsive-table'
-        responsive_div = soup.find('div', class_='responsive-table')
+        responsive_div = soup.find("div", class_="responsive-table")
 
         # Check if the div was found
         if responsive_div:
             # Find the table with class 'items' inside the responsive div
-            items_table = responsive_div.find('table', class_='items')
+            items_table = responsive_div.find("table", class_="items")
 
             # Check if the table was found
             if items_table:
                 # Extract all rows from the table
-                rows = items_table.find_all('td', class_='zentriert no-border-rechts')
+                rows = items_table.find_all("td", class_="zentriert no-border-rechts")
 
                 data_list = []
 
@@ -297,16 +347,24 @@ def get_teams_from_league(league_code):
 
                 for row in rows:
                     # Find the 'a' tag inside each 'td'
-                    a_tag = row.find('a')
+                    a_tag = row.find("a")
                     # Extract title and href attributes from the 'a' tag
-                    title = a_tag.get('title') if a_tag else None
-                    href = a_tag.get('href') if a_tag else None
+                    title = a_tag.get("title") if a_tag else None
+                    href = a_tag.get("href") if a_tag else None
 
                     # Find the 'img' tag inside 'td' to get the image source
-                    img_src = row.find('img')['src'] if row.find('img') else None
+                    img_src = row.find("img")["src"] if row.find("img") else None
 
                     # Append the data as a tuple to the list
-                    data_list.append((title, league_code, href, href.split('/')[1].replace("-", "_"), img_src))
+                    data_list.append(
+                        (
+                            title,
+                            league_code,
+                            href,
+                            href.split("/")[1].replace("-", "_"),
+                            img_src,
+                        )
+                    )
 
                 # Print or return the rows as needed
                 return data_list
@@ -331,19 +389,24 @@ def get_leagues():
     return leagues
 
 
+def execute_sql_commands(cursor, commands):
+    for command in commands.values():
+        cursor.execute(command)
+
+
+execute_sql_commands(cursor, sql_commands)
 start_time = datetime.now()
 # insert_league_to_leagues_table(cursor, 'Seria A (Brazil)', '/campeonato-brasileiro-serie-a/startseite/wettbewerb/BRA1', 'https://tmssl.akamaized.net/images/logo/header/bra1.png?lm=1682608836')
 leagues = get_leagues()
-create_players_table(cursor)
-create_teams_table(cursor)
-create_player_team_table(cursor)
-create_specials_table(cursor)
-create_special_team_table(cursor)
+
+
 for league in leagues:
-    print(f"--------------------------------------Starting with the {league[0]}--------------------------------------")
-    add_league_winner(league)
-    # teams = get_teams_from_league(league[1])
-    # handle_teams(teams)
+    print(
+        f"--------------------------------------Starting with the {league[0]}--------------------------------------"
+    )
+    # add_league_winner(league)
+    teams = get_teams_from_league(league[1])
+    handle_teams(teams)
 
 end_time = datetime.now()
 print("Finished in " + str(end_time - start_time))
