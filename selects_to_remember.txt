@@ -1,0 +1,25 @@
+select pl.name, t1.name || ' ' || pT.year as 'won on', t2.name || ' ' || pT2.year as 'Played in'
+from players pl
+         join main.playerTeam pT on pl.player_id = pT.player_id
+         join main.playerTeam pT2 on pT.player_id = pT2.player_id
+         join main.specialTeam sT on pT.year = sT.year and pT.team_id = sT.team_id
+         join main.specials s on s.special_id = sT.special_id
+         join main.teams t1 on pT.team_id = t1.team_id
+         join main.teams t2 on pT2.team_id = t2.team_id
+where t2.league_id = 'ligat_haal_ISR1'
+  and s.name = 'UEFA Europa Conference league winner'
+group by pl.player_id
+
+
+
+SELECT  
+    p.player_id,  
+    p.name,  
+    MAX(CASE WHEN pt.team_id = 'team1_id' THEN pt.year END) AS last_year_team1,  
+    MAX(CASE WHEN pt.team_id = 'team2_id' THEN pt.year END) AS last_year_team2,  
+    MAX(CASE WHEN pt.team_id = 'team3_id' THEN pt.year END) AS last_year_team3  
+FROM playerTeam pt  
+JOIN players p ON pt.player_id = p.player_id  
+WHERE pt.team_id IN ('team1', 'team2', 'team3')  
+GROUP BY pt.player_id  
+HAVING COUNT(DISTINCT pt.team_id) = 3;
