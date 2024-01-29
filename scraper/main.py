@@ -7,6 +7,7 @@ from datetime import datetime
 from unidecode import unidecode
 
 RUN_LAST_YEAR_AGAIN = True
+FORCE_UPDATE = False
 
 sql_commands = {
     "create_player_team_table": """
@@ -136,7 +137,7 @@ def insert_player_team_to_player_team_table(cursor, player_team_list):
     )
 
 
-def insert_special_to_specials_table(cursor, special):
+def insert_special_to_specials_table(special):
     cursor.execute(
         """
         INSERT OR IGNORE INTO specials (name, special_id, ref, img_ref, type)
@@ -146,13 +147,13 @@ def insert_special_to_specials_table(cursor, special):
     )
 
 
-def insert_special_team_to_special_team_table(cursor, player_team_list):
+def insert_special_team_to_special_team_table(special_team_list):
     cursor.executemany(
         """
-        INSERT OR IGNORE INTO specialTeam (name, team_id, year)
+        INSERT OR IGNORE INTO specialTeam (special_id, year, team_id)
         VALUES (?, ?, ?);
     """,
-        player_team_list,
+        special_team_list,
     )
 
 
@@ -170,17 +171,6 @@ def insert_league_to_leagues_table(cursor, name, ref, img_ref):
     )
 
 
-def add_league_winner(cursor, league):
-    name, code, _ = league
-    url = (
-        BASE_URL
-        + "_".join(code.split("_")[:-1])
-        + CHAMPION_LINK_INFIX
-        + code.split("_")[-1]
-    )
-    insert_special_to_specials_table(cursor, ())
-
-
 def get_max_year_from_team(cursor, team):
     cursor.execute("""select max(year) from playerTeam where team_id = ?""", (team,))
     return cursor.fetchone()[0]
@@ -194,7 +184,7 @@ def get_players_from_team(team_url, team_id):
     print("Starting with", team_url)
     start_team_time = time.time()
     while True:
-        players_exists = get_max_year_from_team(cursor, team_id) == year
+        players_exists = get_max_year_from_team(cursor, team_id) == year and not FORCE_UPDATE
         if players_exists:
             print(f"{team_id} already have {year} in the database")
         if players_exists and not RUN_LAST_YEAR_AGAIN:
@@ -203,7 +193,10 @@ def get_players_from_team(team_url, team_id):
         # if players exist and not DO_LAST_YEAR then break here
         output = get_players_from_squad(squad_url, year, team_id)
         if output == "Error":
-            break
+            if year <= 1960:
+                break
+            year -= 1
+            continue
         all_players += output[0]
         all_playersTeam += output[1]
         if players_exists and RUN_LAST_YEAR_AGAIN:
@@ -315,10 +308,10 @@ def get_players_from_squad(team_url: str, year: int, team_id: str):
 
 def get_teams_from_league(league_code):
     url = (
-        BASE_URL
-        + "_".join(league_code.split("_")[:-1])
-        + TEAMS_LINKS_INFIX
-        + league_code.split("_")[-1]
+            BASE_URL + '/'
+            + "_".join(league_code.split("_")[:-1])
+            + TEAMS_LINKS_INFIX
+            + league_code.split("_")[-1]
     )
     # Send a GET request to the URL
     response = requests.get(url, headers=HEADERS)
@@ -394,20 +387,121 @@ def execute_sql_commands(cursor, commands):
         cursor.execute(command)
 
 
+def update_squads():
+    leagues = get_leagues()
+    for league in leagues:
+        print(
+            f"--------------------------------------Starting with the {league[0]}--------------------------------------"
+        )
+        teams = get_teams_from_league(league[1])
+        handle_teams(teams)
+
+
+def get_league_title_image(url):
+    response = requests.get(url, headers=HEADERS)
+
+    # Check if the request was successful (status code 200)
+    if response.status_code == 200:
+        # Parse the HTML content of the page
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        # Find the div with class 'responsive-table'
+        outer_box_of_trophy = soup.find("div", class_="large-4 columns")
+
+        # Check if the div was found
+        if outer_box_of_trophy:
+            # Find the table with class 'items' inside the responsive div
+            image_box = outer_box_of_trophy.find("div", class_="box")
+            if image_box:
+                img_ref = image_box.find("img")["src"] if image_box.find("img") else None
+                return img_ref
+
+
+def get_specials():
+    cursor.execute("""select * from specials""")
+    specials = cursor.fetchall()
+    return specials
+
+
+def get_special_teams_for_trophy_winner(url, special_id, link_place=0):
+    response = requests.get(url, headers=HEADERS)
+
+    # Check if the request was successful (status code 200)
+    if response.status_code == 200:
+        # Parse the HTML content of the page
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        # Find the div with class 'responsive-table'
+        responsive_table = soup.find("div", class_="responsive-table")
+        special_teams = []
+        # Check if the div was found
+        if responsive_table:
+            # Find the table with class 'items' inside the responsive div
+            table = responsive_table.find("table", class_="items")
+            if table:
+                rows = table.find_all("tr", class_=["odd", "even"])
+                for row in rows:
+                    squad_code = row.find_all("a")[link_place]["href"] if row.find("a") else None
+                    if squad_code is None:
+                        continue
+                    team_id = squad_code.split("/")[1].replace("-", "_")
+                    year = int(squad_code.split("/")[-1])
+                    special_teams.append((special_id, year, team_id))
+
+        return special_teams
+
+
+def update_special_team():
+    specials = get_specials()
+    specials_teams = []
+    for special in specials:
+        print(f"--------------------------------------Starting with the {special[0]}--------------------------------------")
+        type = special[4]
+        match type:
+            case "league_winner":
+                specials_teams = get_special_teams_for_trophy_winner(BASE_URL + special[2], special[1], 0)
+            case "cup_winner":
+                specials_teams = get_special_teams_for_trophy_winner(BASE_URL + special[2], special[1], 1)
+            case "manager":
+                pass
+            case _:
+                print(f"Unknown type {type} in {special}")
+                continue
+        insert_special_team_to_special_team_table(specials_teams)
+        conn.commit()
+
+
+def add_league_winners_to_special():
+    leagues = get_leagues()
+    for league in leagues:
+        name, code, _ = league
+        print(f"--------------------------------------Starting with the {name}--------------------------------------")
+        url_suffix = '/' + "_".join(code.split("_")[:-1]) + CHAMPION_LINK_INFIX + code.split("_")[-1]
+        url = BASE_URL + url_suffix
+        # Send a GET request to the URL
+        image_ref = get_league_title_image(url)
+        if image_ref is None:
+            continue
+        # name, special_id, ref, img_ref, type
+        insert_special_to_specials_table((f"{name} winner", f"{code}_winner", url_suffix, image_ref, "league_winner"))
+
+    conn.commit()
+
+
 execute_sql_commands(cursor, sql_commands)
 start_time = datetime.now()
-# insert_league_to_leagues_table(cursor, 'Seria A (Brazil)', '/campeonato-brasileiro-serie-a/startseite/wettbewerb/BRA1', 'https://tmssl.akamaized.net/images/logo/header/bra1.png?lm=1682608836')
-leagues = get_leagues()
+
+# example: add_new_league('Seria A (Brazil)', '/campeonato-brasileiro-serie-a/startseite/wettbewerb/BRA1', 'https://tmssl.akamaized.net/images/logo/header/bra1.png?lm=1682608836')
+insert_special_to_specials_table(("Europa league winner", "europa_league_winner", "/europa-league/erfolge/pokalwettbewerb/EL", "https://tmssl.akamaized.net/images/logo/header/el.png?lm=1626811059", "cup_winner"))
+insert_special_to_specials_table(("UEFA Europa Conference league winner", "uefa_europa_conference_league_winner", "/uefa-europa-conference-league/erfolge/pokalwettbewerb/UCOL", "https://tmssl.akamaized.net/images/logo/header/ucol.png?lm=1610377631", "cup_winner"))
+conn.commit()
 
 
-for league in leagues:
-    print(
-        f"--------------------------------------Starting with the {league[0]}--------------------------------------"
-    )
-    # add_league_winner(league)
-    teams = get_teams_from_league(league[1])
-    handle_teams(teams)
-
+# update_squads()
+# add_league_winners_to_special()
+update_special_team()
+# print(get_special_teams_for_trophy_winner(BASE_URL + "/uefa-champions-league/erfolge/pokalwettbewerb/CL",
+#                                           "uefa_champions_league_winner", 1))
 end_time = datetime.now()
 print("Finished in " + str(end_time - start_time))
 
