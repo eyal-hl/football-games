@@ -76,6 +76,8 @@ sql_commands = {
 def adapt_datetime(dt):
     return dt.strftime("%Y-%m-%d")
 
+def full_year(year):
+    return f"20{year}" if int(year) < 50 else f"19{year}"
 
 # Register the adapter
 sqlite3.register_adapter(datetime, adapt_datetime)
@@ -175,6 +177,13 @@ def get_max_year_from_team(cursor, team):
     cursor.execute("""select max(year) from playerTeam where team_id = ?""", (team,))
     return cursor.fetchone()[0]
 
+def get_max_year():
+    cursor.execute("""select max(year) from playerTeam""")
+    return cursor.fetchone()[0]
+
+def check_if_team_exists(team_id:str):
+    cursor.execute("""select * from teams where team_id = ?""", (team_id,))
+    return cursor.fetchone() is not None
 
 def get_players_from_team(team_url, team_id):
     year = int(team_url.split("/")[-1])
@@ -450,6 +459,38 @@ def get_special_teams_for_trophy_winner(url, special_id, link_place=0):
 
         return special_teams
 
+def get_special_teams_for_manager(url, special_id):
+    response = requests.get(url, headers=HEADERS)
+
+    # Check if the request was successful (status code 200)
+    if response.status_code == 200:
+        # Parse the HTML content of the page
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        # Find the div with class 'responsive-table'
+        responsive_table = soup.find("div", class_="responsive-table")
+        special_teams = []
+        # Check if the div was found
+        if responsive_table:
+            # Find the table with class 'items' inside the responsive div
+            table = responsive_table.find("table", class_="items")
+            if table:
+                rows = table.find_all("tr")
+                for row in rows:
+                    if ("Manager" in row.text and "Assistant" not in row.text):
+                        team_id = row.find('a')["href"].split("/")[1].replace("-", "_")
+                        if check_if_team_exists(team_id):
+                            tds = row.findAll('td')
+                            start = full_year(tds[2].text.split("/")[0])
+                            if 'expected' in tds[3].text:
+                                end = get_max_year()
+                            else:
+                                end = full_year(tds[3].text.split("/")[0])
+                            for year in range(int(start), int(end) + 1):
+                                special_teams.append((special_id, year, team_id))
+
+        return special_teams
+
 
 def update_special_team():
     specials = get_specials()
@@ -463,7 +504,7 @@ def update_special_team():
             case "cup_winner":
                 specials_teams = get_special_teams_for_trophy_winner(BASE_URL + special[2], special[1], 1)
             case "manager":
-                pass
+                specials_teams = get_special_teams_for_manager(BASE_URL + special[2], special[1])
             case _:
                 print(f"Unknown type {type} in {special}")
                 continue
@@ -491,10 +532,10 @@ def add_league_winners_to_special():
 execute_sql_commands(cursor, sql_commands)
 start_time = datetime.now()
 
-# example: add_new_league('Seria A (Brazil)', '/campeonato-brasileiro-serie-a/startseite/wettbewerb/BRA1', 'https://tmssl.akamaized.net/images/logo/header/bra1.png?lm=1682608836')
-insert_special_to_specials_table(("Europa league winner", "europa_league_winner", "/europa-league/erfolge/pokalwettbewerb/EL", "https://tmssl.akamaized.net/images/logo/header/el.png?lm=1626811059", "cup_winner"))
-insert_special_to_specials_table(("UEFA Europa Conference league winner", "uefa_europa_conference_league_winner", "/uefa-europa-conference-league/erfolge/pokalwettbewerb/UCOL", "https://tmssl.akamaized.net/images/logo/header/ucol.png?lm=1610377631", "cup_winner"))
-conn.commit()
+# insert_league_to_leagues_table('Seria A (Brazil)', '/campeonato-brasileiro-serie-a/startseite/wettbewerb/BRA1', 'https://tmssl.akamaized.net/images/logo/header/bra1.png?lm=1682608836')
+# insert_special_to_specials_table(("Copa Libertadores winner", "copa_libertadores_winner", "/copa-libertadores/erfolge/pokalwettbewerb/CLI", "https://tmssl.akamaized.net/images/logo/header/cli.png?lm=1483122483", "cup_winner"))
+# insert_special_to_specials_table(("Sir Alex Ferguson", "sir_alex_ferguson", "/sir-alex-ferguson/profil/trainer/4", "https://img.a.transfermarkt.technology/portrait/header/_1344344740.jpg?lm=1", "manager"))
+# conn.commit()
 
 
 # update_squads()
