@@ -129,8 +129,8 @@ def path_to_text(path: list[int]):
 
 
 start_time = datetime.now()
-src_player_id = 129945
-dst_player_id = 5354
+src_player_id = 945021
+dst_player_id = 937958
 players_to_ignore = []
 teams_to_ignore = []
 teams_to_ignore = ','.join([f"'{team}'" for team in teams_to_ignore])
@@ -138,7 +138,7 @@ teams_to_ignore = ','.join([f"'{team}'" for team in teams_to_ignore])
 amount_of_paths = 5
 for i in range(amount_of_paths):
     path_start_time = datetime.now()
-    path = bi_directional_search(src_player_id , dst_player_id, players_to_ignore)
+    path = bi_directional_search(src_player_id , dst_player_id, players_to_ignore, teams_to_ignore)
     print(path_to_text(path))
     path_end_time = datetime.now()
     print(f"Path took  {str(path_end_time - path_start_time)}\n")
