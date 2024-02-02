@@ -30,8 +30,8 @@ def format_team_years(player_data, ascend=False):
         key = playing_year['team_id'] + (str(playing_year['player_id']) if 'player_id' in playing_year.keys() else '')
         if key not in formatted_teams.keys():
             formatted_teams[key] = {'base': playing_year,
-                                                                                    'years': [playing_year['year']],
-                                                                                    'players': []}
+                                    'years': [playing_year['year']],
+                                    'players': []}
         else:
             formatted_teams[key]['years'].append(playing_year['year'])
 
