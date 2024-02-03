@@ -12,9 +12,9 @@ router = APIRouter(prefix="/players")
 
 @router.get("/search", response_model=List[PlayersSlimSchema])
 async def search_players(
-        name: str = '', nationality: str = '', session: Session = Depends(create_session)
+        name: str = '', search_from_middle: bool = False, session: Session = Depends(create_session)
 ) -> List[PlayersSlimSchema]:
-    return await PlayerService(session).search_players(name=name, nationality=nationality)
+    return await PlayerService(session).search_players(name=name, search_from_middle=search_from_middle)
 
 
 @router.get("/nationalities", response_model=List[str])

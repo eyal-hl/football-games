@@ -23,9 +23,9 @@ class PlayerService(BaseService):
 
         return await PlayerDataManager(self.session).get_players()
 
-    async def search_players(self, name: str, nationality: str) -> List[PlayersSlimSchema]:
+    async def search_players(self, name: str, search_from_middle: bool) -> List[PlayersSlimSchema]:
         """Search players by name"""
-        return await PlayerDataManager(self.session).search_players(name=name, nationality=nationality)
+        return await PlayerDataManager(self.session).search_players(name=name, search_from_middle=search_from_middle)
 
     async def get_nationalities(self) -> List[str]:
         return await PlayerDataManager(self.session).get_nationalities()
@@ -48,9 +48,9 @@ class PlayerDataManager(BaseDataManager):
 
         return schemas
 
-    async def search_players(self, name: str, nationality: str) -> List[PlayersSlimSchema]:
+    async def search_players(self, name: str, search_from_middle: bool) -> List[PlayersSlimSchema]:
         schemas: List[PlayersSlimSchema] = list()
-        stmt = select(PlayerModel).where(PlayerModel.name_unaccented.like('%' + unidecode(name) + '%')).where(PlayerModel.nationality.like('%'+nationality+'%')).limit(100)
+        stmt = select(PlayerModel).where(PlayerModel.name_unaccented.like(('%' if search_from_middle else '') + unidecode(name) + '%')).limit(100)
         for model in await self.get_all(stmt):
             schemas += [PlayersSlimSchema(**model.to_dict())]
         return schemas
