@@ -41,7 +41,7 @@ class PlayerDataManager(BaseDataManager):
     async def get_players(self) -> List[PlayersSlimSchema]:
         schemas: List[PlayersSlimSchema] = list()
 
-        stmt = select(PlayerModel).limit(100)
+        stmt = select(PlayerModel)
 
         for model in await self.get_all(stmt):
             schemas += [PlayersSlimSchema(**model.to_dict())]
@@ -50,7 +50,7 @@ class PlayerDataManager(BaseDataManager):
 
     async def search_players(self, name: str, search_from_middle: bool) -> List[PlayersSlimSchema]:
         schemas: List[PlayersSlimSchema] = list()
-        stmt = select(PlayerModel).where(PlayerModel.name_unaccented.like(('%' if search_from_middle else '') + unidecode(name) + '%')).limit(100)
+        stmt = select(PlayerModel).where(PlayerModel.name_unaccented.like(('%' if search_from_middle else '') + unidecode(name) + '%'))
         for model in await self.get_all(stmt):
             schemas += [PlayersSlimSchema(**model.to_dict())]
         return schemas
