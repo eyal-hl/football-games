@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 
 from const import (
     OPEN_API_DESCRIPTION,
@@ -18,10 +18,13 @@ from routers import (
 app = FastAPI(
     title=OPEN_API_TITLE,
     description=OPEN_API_DESCRIPTION,
-    version='0.3',
+    version='0.4',
     swagger_ui_parameters={"defaultModelsExpandDepth": -1}
 )
-app.mount("/static", StaticFiles(directory="static"), name="static")
+
+@app.get("/favicon.ico")
+async def get_favicon():
+    return FileResponse("static/favicon.ico")
 
 app.include_router(leagues.router)
 app.include_router(players.router)
