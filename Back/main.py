@@ -1,5 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
+
 
 from const import (
     OPEN_API_DESCRIPTION,
@@ -20,6 +22,18 @@ app = FastAPI(
     description=OPEN_API_DESCRIPTION,
     version='0.4',
     swagger_ui_parameters={"defaultModelsExpandDepth": -1}
+)
+
+origins = [
+    "http://127.0.0.1:5173"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.get("/favicon.ico")

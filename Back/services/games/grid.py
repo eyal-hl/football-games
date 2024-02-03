@@ -97,7 +97,7 @@ class GridDataManager(BaseDataManager):
                 print('error', type1, type2, value1, value2)
                 raise 'error'
 
-        for model in await self.get_all(stmt.distinct().limit(100)):
+        for model in await self.get_all(stmt.distinct()):
             schemas.append(PlayersSlimSchema(**model.to_dict()))
 
         return schemas
