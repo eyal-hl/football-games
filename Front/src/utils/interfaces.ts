@@ -5,3 +5,10 @@ export interface Player {
 	birth_date: string;
 	img_ref: string;
 }
+
+export interface Filter {
+	code: string;
+	type: string;
+	image: string;
+	name: string;
+}

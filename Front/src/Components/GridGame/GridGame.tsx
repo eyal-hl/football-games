@@ -1,10 +1,13 @@
+import GridFilter from './GridFilter/GridFilter';
 import css from './GridGame.module.css';
+import GridItem from './GridItem/GridItem';
+import { temp_filters } from '../../utils/consts';
 
 const GridGame = () => {
 	return (
 		<div className={css.gridGame}>
-			<h1>GridGame</h1>
-			<p>This is the grid game page.</p>
+			<GridFilter {...temp_filters[0]} />
+			<GridItem filter1={temp_filters[0]} filter2={temp_filters[1]} />
 		</div>
 	);
 };

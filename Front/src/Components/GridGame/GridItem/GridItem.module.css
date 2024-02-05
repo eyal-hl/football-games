@@ -1,0 +1,14 @@
+.gridItem{
+    border: 1px solid black;
+    height: 5rem;
+    width: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
