@@ -10,7 +10,6 @@ export const fetch_players_with_filters = async (filter1: Filter, filter2: Filte
 	const response = await fetch(
 		`${API_BASE}/games/grid/all_answers?type1=${filter1.type}&value1=${filter1.code}&type2=${filter2.type}&value2=${filter2.code}`,
 	);
-	console.log();
 
 	return response.json();
 };

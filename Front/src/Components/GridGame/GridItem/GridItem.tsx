@@ -8,22 +8,22 @@ interface GridItemProps {
 	filter1: Filter;
 	filter2: Filter;
 }
-const GridItem = ({ filter1, filter2}: GridItemProps) => {
+const GridItem = ({ filter1, filter2 }: GridItemProps) => {
 	const [resultsState, setResultsState] = useState<Player[]>([]);
 
 	useEffect(() => {
 		(async () => {
 			const players = await fetch_players_with_filters(filter1, filter2);
-			
+			console.log(players.length);
 			
 			setResultsState(players);
 		})();
-	}, []);
+	}, [filter1, filter2]);
 	return (
 		<div className={css.gridItem}>
 			{resultsState.length === 0 ? null : (
-				<Tooltip title={resultsState[2].name}>
-					<img src={resultsState[2].img_ref} className={css.image} />
+				<Tooltip title={`${resultsState[0].name} ${filter1.name} ${filter2.name}`}>
+					<img src={resultsState[0].img_ref} className={css.image} />
 				</Tooltip>
 			)}
 		</div>

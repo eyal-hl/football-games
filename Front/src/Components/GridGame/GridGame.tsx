@@ -8,7 +8,7 @@ import { getRandomFilters } from '../../utils/utils';
 import GridItem from './GridItem/GridItem';
 
 const GridGame = () => {
-	const [gridSizeState, setGridSizeState] = useState<[number, number]>([3, 3]);
+	const [gridSizeState, setGridSizeState] = useState<[number, number]>([6, 3]);
 	const [filterState, setFilterState] = useState<Filter[]>([]);
 
 	useEffect(() => {
@@ -19,30 +19,36 @@ const GridGame = () => {
 
 	const getGrid = () => {
 		const rows = [];
+		const { sideFilters, topFilters } = getRandomFilters(filterState, gridSizeState[0], gridSizeState[1]);
 		for (let i = 0; i < gridSizeState[0] + 1; i++) {
 			const row = [];
-			const topFilters = getRandomFilters(filterState, gridSizeState[1]);
-			const sideFilters = getRandomFilters(filterState, gridSizeState[0]);
+			
 			for (let j = 0; j < gridSizeState[1] + 1; j++) {
 				if (i === 0 && j === 0) {
 					row.push(
-						<div className={css.topLeft}>
+						<div className={css.topLeft} key={`${i}-${j}`}>
 							<img src={top_left_image} />
 						</div>,
 					);
 					continue;
 				}
 				if (i === 0) {
-					row.push(<GridFilter {...topFilters[j - 1]} />);
+					row.push(<GridFilter {...topFilters[j - 1]} key={`${i}-${j}`} />);
 					continue;
 				}
 				if (j === 0) {
-					row.push(<GridFilter {...sideFilters[i - 1]} />);
+					row.push(<GridFilter {...sideFilters[i - 1]} key={`${i}-${j}`} />);
 					continue;
 				}
-				row.push(<GridItem filter1={topFilters[i - 1]} filter2={sideFilters[j - 1]} />);
+				
+				
+				row.push(<GridItem filter1={topFilters[j - 1]} filter2={sideFilters[i - 1]} key={`${i}-${j}`} />);
 			}
-			rows.push(<div className={css.row}>{row}</div>);
+			rows.push(
+				<div className={css.row} key={i}>
+					{row}
+				</div>,
+			);
 		}
 
 		return <div>{rows}</div>;
