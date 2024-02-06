@@ -11,6 +11,17 @@ export const fetch_players_with_filters = async (filter1: Filter, filter2: Filte
 		`${API_BASE}/games/grid/all_answers?type1=${filter1.type}&value1=${filter1.code}&type2=${filter2.type}&value2=${filter2.code}`,
 	);
 	console.log();
-	
+
 	return response.json();
+};
+
+export const fetch_teams = async (): Promise<Filter[]> => {
+	const response = await fetch(`${API_BASE}/teams/league/premier_league_GB1`);
+	
+	
+	return (await response.json()).map((team: any) => {
+		
+		
+		return { type: 'team', code: team.team_id, name: team.name, image: (team.img_ref.replace('tiny', 'big')) };
+	});
 };

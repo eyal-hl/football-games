@@ -1,7 +1,7 @@
 .gridFilter{
     border: 1px solid black;
-    height: 5rem;
-    width: 5rem;
+    height: var(--grid-item-size);
+    width: var(--grid-item-size);
     display: flex;
     align-items: center;
     justify-content: center;

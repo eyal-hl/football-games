@@ -8,13 +8,14 @@ interface GridItemProps {
 	filter1: Filter;
 	filter2: Filter;
 }
-const GridItem = ({ filter1, filter2 }: GridItemProps) => {
+const GridItem = ({ filter1, filter2}: GridItemProps) => {
 	const [resultsState, setResultsState] = useState<Player[]>([]);
 
 	useEffect(() => {
 		(async () => {
 			const players = await fetch_players_with_filters(filter1, filter2);
-
+			
+			
 			setResultsState(players);
 		})();
 	}, []);

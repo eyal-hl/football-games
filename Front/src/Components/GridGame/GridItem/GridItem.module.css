@@ -1,8 +1,8 @@
 .gridItem{
     border: 1px solid black;
-    height: 5rem;
-    width: 5rem;
     display: flex;
+    height: var(--grid-item-size);
+    width: var(--grid-item-size);
     align-items: center;
     justify-content: center;
 }

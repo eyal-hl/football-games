@@ -1,4 +1,4 @@
-import { Filter } from "./interfaces";
+import { Filter } from './interfaces';
 
 export const API_BASE = 'http://127.0.0.1:80';
 
@@ -16,3 +16,5 @@ export const temp_filters: Filter[] = [
 		name: 'Manchester United',
 	},
 ];
+
+export const top_left_image = 'https://www.the-sun.com/wp-content/uploads/sites/6/2022/01/NINTCHDBPICT000283898937.jpg';
