@@ -25,8 +25,7 @@ type SearchBoxProps = {
 	onSelect: (player_id: number) => void;
 };
 
-export default function SearchBox({ onSelect } : SearchBoxProps){
-	
+export default function SearchBox({ onSelect }: SearchBoxProps) {
 	function renderRow(props) {
 		const { data, index, style } = props;
 		// console.log(data)
@@ -35,22 +34,21 @@ export default function SearchBox({ onSelect } : SearchBoxProps){
 			...style,
 			top: style.top + LISTBOX_PADDING,
 		};
-	
+
 		return (
-			<MenuItem onClick={() => console.log(dataSet.player_id)
-			} style={inlineStyle}>
+			<MenuItem onClick={() => onSelect(dataSet.player_id)} style={inlineStyle}>
 				{dataSet.name}
 			</MenuItem>
 		);
 	}
-	
+
 	const OuterElementContext = React.createContext({});
-	
+
 	const OuterElementType = React.forwardRef((props, ref) => {
 		const outerProps = React.useContext(OuterElementContext);
 		return <div ref={ref} {...props} {...outerProps} />;
 	});
-	
+
 	function useResetCache(data) {
 		const ref = React.useRef(null);
 		React.useEffect(() => {
@@ -60,38 +58,38 @@ export default function SearchBox({ onSelect } : SearchBoxProps){
 		}, [data]);
 		return ref;
 	}
-	
+
 	const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) {
 		const { children, ...other } = props;
 		const itemData: any[] = [];
 		children.forEach(item => {
 			itemData.push(item);
 		});
-	
+
 		const theme = useTheme();
 		const smUp = useMediaQuery(theme.breakpoints.up('sm'), {
 			noSsr: true,
 		});
 		const itemCount = itemData.length;
 		const itemSize = smUp ? 36 : 48;
-	
+
 		const getChildSize = child => {
 			if (child.hasOwnProperty('group')) {
 				return 48;
 			}
-	
+
 			return itemSize;
 		};
-	
+
 		const getHeight = () => {
 			if (itemCount > 8) {
 				return 8 * itemSize;
 			}
 			return itemData.map(getChildSize).reduce((a, b) => a + b, 0);
 		};
-	
+
 		const gridRef = useResetCache(itemCount);
-	
+
 		return (
 			<div ref={ref}>
 				<OuterElementContext.Provider value={other}>
@@ -112,11 +110,11 @@ export default function SearchBox({ onSelect } : SearchBoxProps){
 			</div>
 		);
 	});
-	
+
 	ListboxComponent.propTypes = {
 		children: PropTypes.node,
 	};
-	
+
 	const StyledPopper = styled(Popper)({
 		[`& .${autocompleteClasses.listbox}`]: {
 			boxSizing: 'border-box',
@@ -126,10 +124,10 @@ export default function SearchBox({ onSelect } : SearchBoxProps){
 			},
 		},
 	});
-const searchRef = useRef();
-const [players, setPlayers] = useState<Player[]>([]);
-useEffect(() => {
-	fetch_players();
+	const searchRef = useRef();
+	const [players, setPlayers] = useState<Player[]>([]);
+	useEffect(() => {
+		fetch_players();
 	}, []);
 	const fetch_players = async () => {
 		setPlayers(await fetch_all_players());

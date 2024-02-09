@@ -73,7 +73,7 @@ const GridGame = () => {
 
 	return (
 		<div className={css.gridGame} style={{ '--grid-item-size': '10rem' } as React.CSSProperties}>
-			<SearchBox setChosenPlayerId={playerid => setSearchedPlayer(playerid)} />
+			<SearchBox onSelect={playerid => setSearchedPlayer(playerid)} />
 			{filterState.length === 0 ? null : getGrid()}
 		</div>
 	);
