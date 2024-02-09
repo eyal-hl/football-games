@@ -12,3 +12,6 @@
     width: 100%;
     object-fit: contain;
 }
+.selected{
+    background-color: red;
+}
