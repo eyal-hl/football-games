@@ -5,7 +5,7 @@ import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import Popper from '@mui/material/Popper';
 import { useTheme, styled } from '@mui/material/styles';
-import { VariableSizeList } from 'react-window';
+import { VariableSizeList, ListChildComponentProps } from 'react-window';
 // import { fetchAllPlayers } from '../api';
 import { MenuItem } from '@mui/material';
 import { fetch_all_players } from '../../utils/api';
@@ -26,14 +26,14 @@ type SearchBoxProps = {
 };
 
 export default function SearchBox({ onSelect }: SearchBoxProps) {
-	function renderRow(props) {
+	function renderRow(props: ListChildComponentProps) {
 		const { data, index, style } = props;
 		// console.log(data)
 		const dataSet = data[index];
-		const inlineStyle = {
-			...style,
-			top: style.top + LISTBOX_PADDING,
-		};
+		// const inlineStyle = {
+		// 	...style,
+		// 	top: style.top + LISTBOX_PADDING,
+		// };
 
 		return (
 			<MenuItem onClick={() => onSelect(dataSet.player_id)} 
@@ -47,13 +47,13 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
 
 	const OuterElementContext = React.createContext({});
 
-	const OuterElementType = React.forwardRef((props, ref) => {
+	const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
 		const outerProps = React.useContext(OuterElementContext);
 		return <div ref={ref} {...props} {...outerProps} />;
 	});
 
-	function useResetCache(data) {
-		const ref = React.useRef(null);
+	function useResetCache(data: any) {
+		const ref = React.useRef<VariableSizeList>(null);
 		React.useEffect(() => {
 			if (ref.current != null) {
 				ref.current.resetAfterIndex(0, true);
@@ -62,10 +62,10 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
 		return ref;
 	}
 
-	const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) {
+	const ListboxComponent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLElement>>(function ListboxComponent(props, ref) {
 		const { children, ...other } = props;
-		const itemData: any[] = [];
-		children.forEach(item => {
+		const itemData: React.ReactElement[] = [];
+		(children as React.ReactElement[]).forEach(item => {
 			itemData.push(item);
 		});
 
@@ -76,8 +76,8 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
 		const itemCount = itemData.length;
 		const itemSize = smUp ? 36 : 48;
 
-		const getChildSize = child => {
-			if (child.hasOwnProperty('group')) {
+		const getChildSize = (child: React.ReactElement) => {
+			if (Object.prototype.hasOwnProperty.call(child, 'group')) {
 				return 48;
 			}
 
@@ -98,12 +98,12 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
 				<OuterElementContext.Provider value={other}>
 					<VariableSizeList
 						itemData={itemData}
-						height={getHeight() + 2 * LISTBOX_PADDING}
+						height={getHeight() + 10 * LISTBOX_PADDING}
 						width='100%'
 						ref={gridRef}
 						outerElementType={OuterElementType}
 						innerElementType='ul'
-						itemSize={index => getChildSize(itemData[index])}
+						itemSize={(index) => getChildSize(itemData[index])}
 						overscanCount={5}
 						itemCount={itemCount}
 					>
@@ -127,7 +127,7 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
 			},
 		},
 	});
-	const searchRef = useRef();
+	const searchRef = useRef<VariableSizeList>();
 	const [players, setPlayers] = useState<Player[]>([]);
 	useEffect(() => {
 		fetch_players();
@@ -158,7 +158,7 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
 				ListboxComponent={ListboxComponent}
 				options={players}
 				renderInput={params => <TextField inputRef={searchRef} {...params} label='Player search' />}
-				renderOption={(props, option, state) => option}
+				renderOption={(props, option, state) => option as React.ReactNode}
 				getOptionLabel={option => option.name}
 			/>
 		</div>
