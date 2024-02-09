@@ -1,18 +1,18 @@
 .gridGame {
+	user-select: none;
 }
 
-.row{
+.row {
 	display: flex;
 }
 
-.topLeft{
+.topLeft {
 	width: var(--grid-item-size);
 	height: var(--grid-item-size);
 	border: 1px solid black;
 
-	img{
+	img {
 		height: 100%;
 		width: 100%;
-		
 	}
 }

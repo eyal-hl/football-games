@@ -9,7 +9,7 @@ import GridItem from './GridItem/GridItem';
 import SearchBox from '../SearchBox/SearchBox';
 
 const GridGame = () => {
-	const [gridSizeState, setGridSizeState] = useState<[number, number]>([6, 3]);
+	const [gridSizeState, setGridSizeState] = useState<[number, number]>([5, 5]);
 	const [filterState, setFilterState] = useState<Filter[]>([]);
 	const [currentFocused, setCurrentFocused] = useState<string>('all');
 	const [searchedPlayer, setSearchedPlayer] = useState<number>(0);
@@ -18,7 +18,6 @@ const GridGame = () => {
 	useEffect(() => {
 		(async () => {
 			setFilterState(await fetch_teams());
-			
 		})();
 	}, []);
 
@@ -35,7 +34,7 @@ const GridGame = () => {
 			for (let j = 0; j < gridSizeState[1] + 1; j++) {
 				if (i === 0 && j === 0) {
 					row.push(
-						<div className={css.topLeft} key={`${i}-${j}`}>
+						<div className={css.topLeft} key={`${i}-${j}`} onClick={() => setCurrentFocused('all')}>
 							<img src={top_left_image} />
 						</div>,
 					);
@@ -74,7 +73,7 @@ const GridGame = () => {
 
 	return (
 		<div className={css.gridGame} style={{ '--grid-item-size': '10rem' } as React.CSSProperties}>
-			<SearchBox />
+			<SearchBox setChosenPlayerId={playerid => setSearchedPlayer(playerid)} />
 			{filterState.length === 0 ? null : getGrid()}
 		</div>
 	);
