@@ -37,7 +37,7 @@ export default function SearchBox({ onSelect } : SearchBoxProps){
 		};
 	
 		return (
-			<MenuItem onClick={() => onSelect(dataSet.played_id)
+			<MenuItem onClick={() => console.log(dataSet.player_id)
 			} style={inlineStyle}>
 				{dataSet.name}
 			</MenuItem>
