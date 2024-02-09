@@ -16,6 +16,6 @@ class PlayerSchema(BaseModel):
 class PlayersSlimSchema(BaseModel):
     player_id: int
     name: str
-    nationality: Optional[str]
+    name_unaccented: str
     birth_date: Optional[date]
     img_ref: str
