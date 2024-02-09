@@ -41,7 +41,7 @@ class PlayerDataManager(BaseDataManager):
     async def get_players(self) -> List[PlayersSlimSchema]:
         schemas: List[PlayersSlimSchema] = list()
 
-        stmt = select(PlayerModel)
+        stmt = select(PlayerModel).order_by(PlayerModel.birth_date.desc())
 
         for model in await self.get_all(stmt):
             schemas += [PlayersSlimSchema(**model.to_dict())]
