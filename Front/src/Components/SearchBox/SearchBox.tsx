@@ -36,10 +36,13 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
 		};
 
 		return (
-			<MenuItem onClick={() => onSelect(dataSet.player_id)} style={inlineStyle}>
-				{dataSet.name}
+			<MenuItem onClick={() => onSelect(dataSet.player_id)} 
+			sx={{height: '10vh', position: 'relative', top: style.top + LISTBOX_PADDING}}
+			>
+				{dataSet.name} &nbsp; &nbsp; &nbsp; <span style={{position: 'absolute', right: '50%'}}><img src={dataSet.img_ref} style={{width: '3vw'}}/></span>  <span style={{position: 'absolute', right: '1vw'}}>{dataSet.birth_date}</span>
 			</MenuItem>
 		);
+		
 	}
 
 	const OuterElementContext = React.createContext({});
