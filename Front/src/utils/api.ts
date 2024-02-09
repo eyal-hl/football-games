@@ -16,7 +16,7 @@ export const fetch_players_with_filters = async (filter1: Filter, filter2: Filte
 };
 
 export const fetch_teams = async (): Promise<Filter[]> => {
-	const response = await fetch(`${API_BASE}/teams/league/premier_league_GB1`);
+	const response = await fetch(`${API_BASE}/teams/league/league_one_GB3`);
 	
 	
 	return (await response.json()).map((team: any) => {

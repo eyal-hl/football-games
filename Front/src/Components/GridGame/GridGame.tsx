@@ -7,6 +7,7 @@ import { top_left_image } from '../../utils/consts';
 import { getRandomFilters } from '../../utils/utils';
 import GridItem from './GridItem/GridItem';
 import SearchBox from '../SearchBox/SearchBox';
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 const GridGame = () => {
 	const [gridSizeState, setGridSizeState] = useState<[number, number]>([5, 5]);
@@ -72,9 +73,33 @@ const GridGame = () => {
 	};
 
 	return (
-		<div className={css.gridGame} style={{ '--grid-item-size': '10rem' } as React.CSSProperties}>
-			<SearchBox onSelect={playerid => setSearchedPlayer({ player_id: playerid })} />
-			{filterState.length === 0 ? null : getGrid()}
+		<div className={css.page} style={{ '--grid-item-size': '10rem' } as React.CSSProperties}>
+			<div className={css.gridGame}>
+				<div className={css.topBar}>
+					<SearchBox onSelect={playerid => setSearchedPlayer({ player_id: playerid })} />
+
+					<FormControl className={css.gridSizeSelector}>
+						<InputLabel id='demo-simple-select-label'>Grid size</InputLabel>
+						<Select
+							className={css.select}
+							labelId='demo-simple-select-label'
+							id='demo-simple-select'
+							value={`${gridSizeState[0]}x${gridSizeState[1]}` as string}
+							label='Grid size'
+							renderValue={value => `${gridSizeState[0]}x${gridSizeState[1]}`}
+							defaultValue={'[5, 5]'}
+							onChange={e => setGridSizeState(e.target.value)}
+						>
+							<MenuItem value={[3, 3]}>3x3</MenuItem>
+							<MenuItem value={[4, 4]}>4x4</MenuItem>
+							<MenuItem value={[5, 5]}>5x5</MenuItem>
+							<MenuItem value={[5, 6]}>5x6</MenuItem>
+							<MenuItem value={[5, 7]}>5x7</MenuItem>
+						</Select>
+					</FormControl>
+				</div>
+				{filterState.length === 0 ? null : getGrid()}
+			</div>
 		</div>
 	);
 };

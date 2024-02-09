@@ -1,5 +1,15 @@
+.page {
+	height: 100vh;
+	margin-top: 5vh;
+	display: flex;
+	flex-direction: column;
+}
 .gridGame {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
 	user-select: none;
+	background-color: white;
 }
 
 .row {
@@ -15,4 +25,19 @@
 		height: 100%;
 		width: 100%;
 	}
+}
+
+.topBar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.gridSizeSelector {
+	display: flex;
+	align-items: center;
+}
+
+.select {
+	width: 10rem;
 }
