@@ -31,7 +31,7 @@ function renderRow(props) {
 	};
 
 	return (
-		<MenuItem style={inlineStyle} onClick={() => console.log(dataSet)}>
+		<MenuItem key={index} sx={{...inlineStyle}}>
 			{dataSet.name}
 		</MenuItem>
 	);
@@ -103,11 +103,12 @@ const ListboxComponent = React.forwardRef(function ListboxComponent(props, ref) 
 				</VariableSizeList>
 			</OuterElementContext.Provider>
 		</div>
-	);
+	);3
 });
 
+
 ListboxComponent.propTypes = {
-	children: PropTypes.node,
+	children: PropTypes.node.isRequired,
 };
 
 const StyledPopper = styled(Popper)({
@@ -120,7 +121,10 @@ const StyledPopper = styled(Popper)({
 	},
 });
 
-export default function SearchBox() {
+type SearchBoxProps = {
+	setChosenPlayerId: (playerId: number) => void;
+};
+export default function SearchBox({ setChosenPlayerId }: SearchBoxProps) {
 	const searchRef = useRef();
 	const [players, setPlayers] = useState<Player[]>([]);
 	useEffect(() => {
@@ -149,9 +153,9 @@ export default function SearchBox() {
 				sx={{ margin: '1vh auto' }}
 				disableListWrap
 				PopperComponent={StyledPopper}
-				ListboxComponent={ListboxComponent}
+				ListboxComponent={ListboxComponent as React.ElementType}
 				options={players}
-				onSelect={value => console.log(value)}
+				onSelect={(event: any, value: any) => setChosenPlayerId(value?.player_id)}
 				renderInput={params => <TextField inputRef={searchRef} {...params} label='Player search' />}
 				renderOption={(props, option, state) => option}
 				getOptionLabel={option => option.name}
