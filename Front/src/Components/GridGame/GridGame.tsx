@@ -12,7 +12,7 @@ const GridGame = () => {
 	const [gridSizeState, setGridSizeState] = useState<[number, number]>([5, 5]);
 	const [filterState, setFilterState] = useState<Filter[]>([]);
 	const [currentFocused, setCurrentFocused] = useState<string>('all');
-	const [searchedPlayer, setSearchedPlayer] = useState<number>(0);
+	const [searchedPlayer, setSearchedPlayer] = useState<{ player_id: number }>({ player_id: 0 });
 	const [choseFilters, setChoseFilters] = useState<{ sideFilters: Filter[]; topFilters: Filter[] }>({ sideFilters: [], topFilters: [] });
 
 	useEffect(() => {
@@ -73,7 +73,7 @@ const GridGame = () => {
 
 	return (
 		<div className={css.gridGame} style={{ '--grid-item-size': '10rem' } as React.CSSProperties}>
-			<SearchBox onSelect={playerid => setSearchedPlayer(playerid)} />
+			<SearchBox onSelect={playerid => setSearchedPlayer({ player_id: playerid })} />
 			{filterState.length === 0 ? null : getGrid()}
 		</div>
 	);
