@@ -2,9 +2,9 @@ import GridFilter from './GridFilter/GridFilter';
 import css from './GridGame.module.css';
 import { useEffect, useState } from 'react';
 import { Filter } from '../../utils/interfaces';
-import { fetch_teams } from '../../utils/api';
-import { top_left_image } from '../../utils/consts';
-import { getRandomFilters } from '../../utils/utils';
+
+import { defaultPresets, top_left_image } from '../../utils/consts';
+import { getRandomFilters, translateFilters } from '../../utils/utils';
 import GridItem from './GridItem/GridItem';
 import SearchBox from '../SearchBox/SearchBox';
 import GridSizeDropDown from './GridSizeDropDown/GridSizeDropDown';
@@ -19,7 +19,7 @@ const GridGame = () => {
 
 	useEffect(() => {
 		(async () => {
-			setFilterState(await fetch_teams());
+			setFilterState(translateFilters(defaultPresets['default']));
 		})();
 	}, []);
 

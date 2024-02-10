@@ -23,16 +23,20 @@ const GridItem = ({ filter1, filter2, id, currentFocused, searchedPlayer, onClic
 	useEffect(() => {
 		(async () => {
 			if (!filter1 || !filter2) return;
+			setLoading(true);
+			setConfirmedPlayers([]);
 			const players = await fetch_players_with_filters(filter1, filter2);
-			console.log(players);
-			
+
 			await setResultsState(players);
 			setLoading(false);
 		})();
 	}, [filter1, filter2]);
 
 	useEffect(() => {
-		if (currentFocused === id || currentFocused === 'all') {
+		if (
+			(currentFocused === id || currentFocused === 'all') &&
+			confirmedPlayers.find(player => player.player_id === searchedPlayer.player_id) === undefined
+		) {
 			const player = resultsState.find(player => player.player_id === searchedPlayer.player_id);
 			if (player) {
 				setConfirmedPlayers(a => [...a, player]);
