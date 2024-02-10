@@ -33,6 +33,7 @@ const GridItem = ({ filter1, filter2, id, currentFocused, searchedPlayer, onClic
 				setConfirmedPlayers(a => [...a, player]);
 			}
 		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [searchedPlayer]);
 	return (
 		<div className={classNames(css.gridItem, { [css.selected]: currentFocused === id })} onClick={onClick}>
