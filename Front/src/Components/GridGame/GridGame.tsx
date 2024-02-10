@@ -7,7 +7,8 @@ import { top_left_image } from '../../utils/consts';
 import { getRandomFilters } from '../../utils/utils';
 import GridItem from './GridItem/GridItem';
 import SearchBox from '../SearchBox/SearchBox';
-import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import GridSizeDropDown from './GridSizeDropDown/GridSizeDropDown';
+import FiltersSelectorDropDown from './FiltersSelectorDropDown/FiltersSelectorDropDown';
 
 const GridGame = () => {
 	const [gridSizeState, setGridSizeState] = useState<[number, number]>([5, 5]);
@@ -78,25 +79,8 @@ const GridGame = () => {
 				<div className={css.topBar}>
 					<SearchBox onSelect={playerid => setSearchedPlayer({ player_id: playerid })} />
 
-					<FormControl className={css.gridSizeSelector}>
-						<InputLabel id='demo-simple-select-label'>Grid size</InputLabel>
-						<Select
-							className={css.select}
-							labelId='demo-simple-select-label'
-							id='demo-simple-select'
-							value={`${gridSizeState[0]}x${gridSizeState[1]}` as string}
-							label='Grid size'
-							renderValue={() => `${gridSizeState[0]}x${gridSizeState[1]}`}
-							defaultValue={'[5, 5]'}
-							onChange={e => setGridSizeState(JSON.parse(e.target.value))}
-						>
-							<MenuItem value={'[3, 3]'}>3x3</MenuItem>
-							<MenuItem value={'[4, 4]'}>4x4</MenuItem>
-							<MenuItem value={'[5, 5]'}>5x5</MenuItem>
-							<MenuItem value={'[5, 6]'}>5x6</MenuItem>
-							<MenuItem value={'[5, 7]'}>5x7</MenuItem>
-						</Select>
-					</FormControl>
+					<FiltersSelectorDropDown onChange={filters => setFilterState(filters)} />
+					<GridSizeDropDown gridSizeState={gridSizeState} setGridSizeState={setGridSizeState} />
 				</div>
 				{filterState.length === 0 ? null : getGrid()}
 			</div>

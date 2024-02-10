@@ -8,7 +8,7 @@ import { VariableSizeList, ListChildComponentProps } from 'react-window';
 // import { fetchAllPlayers } from '../api';
 import { MenuItem } from '@mui/material';
 import { fetch_all_players, fetch_players_by_name } from '../../utils/api';
-import { Player } from '../../utils/interfaces';
+import { playerSchema } from '../../utils/api.interfaces';
 
 const LISTBOX_PADDING = 8; // px
 
@@ -124,7 +124,7 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
 	});
 	const searchRef = useRef<HTMLInputElement>();
 	const [isLoading, setIsLoading] = useState(false);
-	const [players, setPlayers] = useState<Player[]>([]);
+	const [players, setPlayers] = useState<playerSchema[]>([]);
 	// A state that will hold the seach value
 
 	useEffect(() => {

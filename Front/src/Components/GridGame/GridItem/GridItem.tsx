@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { fetch_players_with_filters } from '../../../utils/api';
-import { Filter, Player } from '../../../utils/interfaces';
+import { playerSchema } from '../../../utils/api.interfaces';
+import { Filter } from '../../../utils/interfaces';
 import css from './GridItem.module.css';
 import { Tooltip } from '@mui/material';
 import classNames from 'classnames';
@@ -15,15 +16,16 @@ interface GridItemProps {
 	onClick?: () => void;
 }
 const GridItem = ({ filter1, filter2, id, currentFocused, searchedPlayer, onClick }: GridItemProps) => {
-	const [resultsState, setResultsState] = useState<Player[]>([]);
-	const [confirmedPlayers, setConfirmedPlayers] = useState<Player[]>([]);
+	const [resultsState, setResultsState] = useState<playerSchema[]>([]);
+	const [confirmedPlayers, setConfirmedPlayers] = useState<playerSchema[]>([]);
 	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		(async () => {
 			if (!filter1 || !filter2) return;
 			const players = await fetch_players_with_filters(filter1, filter2);
-
+			console.log(players);
+			
 			await setResultsState(players);
 			setLoading(false);
 		})();

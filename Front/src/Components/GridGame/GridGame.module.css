@@ -32,12 +32,3 @@
 	justify-content: space-between;
 	align-items: center;
 }
-
-.gridSizeSelector {
-	display: flex;
-	align-items: center;
-}
-
-.select {
-	width: 10rem;
-}
