@@ -23,7 +23,7 @@ export const fetch_players_with_filters = async (filter1: Filter, filter2: Filte
 };
 
 export const fetch_teams = async (): Promise<Filter[]> => {
-	const response = await fetch(`${API_BASE}/teams/league/liga_leumit_ISR2`);
+	const response = await fetch(`${API_BASE}/teams`);
 
 	return (await response.json()).map((team: teamSchema) => {
 		return { type: 'team', code: team.team_id, name: team.name, image: team.img_ref.replace('tiny', 'big') };

@@ -4,6 +4,7 @@ import { Filter, Player } from '../../../utils/interfaces';
 import css from './GridItem.module.css';
 import { Tooltip } from '@mui/material';
 import classNames from 'classnames';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface GridItemProps {
 	filter1: Filter;
@@ -16,13 +17,15 @@ interface GridItemProps {
 const GridItem = ({ filter1, filter2, id, currentFocused, searchedPlayer, onClick }: GridItemProps) => {
 	const [resultsState, setResultsState] = useState<Player[]>([]);
 	const [confirmedPlayers, setConfirmedPlayers] = useState<Player[]>([]);
+	const [loading, setLoading] = useState(true);
 
 	useEffect(() => {
 		(async () => {
 			if (!filter1 || !filter2) return;
 			const players = await fetch_players_with_filters(filter1, filter2);
 
-			setResultsState(players);
+			await setResultsState(players);
+			setLoading(false);
 		})();
 	}, [filter1, filter2]);
 
@@ -35,9 +38,21 @@ const GridItem = ({ filter1, filter2, id, currentFocused, searchedPlayer, onClic
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [searchedPlayer]);
+	if (loading) return <div className={css.gridItem}>Loading...</div>;
 	return (
-		<div className={classNames(css.gridItem, { [css.selected]: currentFocused === id })} onClick={onClick}>
-			{confirmedPlayers.length === 0 ? null : (
+		<div
+			className={classNames(
+				css.gridItem,
+				{ [css.selected]: currentFocused === id },
+				{ [css.complete]: resultsState.length === confirmedPlayers.length && resultsState.length !== 0 },
+			)}
+			onClick={onClick}
+		>
+			{resultsState.length === 0 ? (
+				<Tooltip title='No players exist'>
+					<CloseIcon className={css.noPlayers} />
+				</Tooltip>
+			) : confirmedPlayers.length === 0 ? null : (
 				<Tooltip title={confirmedPlayers[confirmedPlayers.length - 1].name}>
 					<img src={confirmedPlayers[confirmedPlayers.length - 1].img_ref} className={css.image} />
 				</Tooltip>

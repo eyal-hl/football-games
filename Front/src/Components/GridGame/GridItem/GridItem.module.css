@@ -30,3 +30,13 @@
     background-color: rgba(0, 0, 0, 0.5);
     
 }
+
+.noPlayers{
+	color: red;
+	scale: 10;
+}
+
+.complete{
+	background-color: green;
+	
+}
