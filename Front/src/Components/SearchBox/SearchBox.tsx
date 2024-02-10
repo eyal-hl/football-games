@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -8,7 +7,7 @@ import { useTheme, styled } from '@mui/material/styles';
 import { VariableSizeList, ListChildComponentProps } from 'react-window';
 // import { fetchAllPlayers } from '../api';
 import { MenuItem } from '@mui/material';
-import { fetch_all_players } from '../../utils/api';
+import { fetch_all_players, fetch_players_by_name } from '../../utils/api';
 import { Player } from '../../utils/interfaces';
 
 const LISTBOX_PADDING = 8; // px
@@ -35,10 +34,10 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
 		// 	top: style.top + LISTBOX_PADDING,
 		// };
 
+			// 
 		return (
-			<MenuItem onClick={() => onSelect(dataSet.player_id)} 
-			sx={{height: '10vh', position: 'relative', top: style.top + LISTBOX_PADDING}}
-			>
+			// <ListSubheader key={dataSet.player_id} onClick={() => onSelect(dataSet.player_id)} style={style} component='div'>
+			<MenuItem key={dataSet.player_id} onClick={() => onSelect(dataSet.player_id)} sx={{height: '10vh', position: 'relative', top: style.top as number + LISTBOX_PADDING}} >
 				{dataSet.name} &nbsp; &nbsp; &nbsp; <span style={{position: 'absolute', right: '50%'}}><img src={dataSet.img_ref} style={{width: '3vw'}}/></span>  <span style={{position: 'absolute', right: '1vw'}}>{dataSet.birth_date}</span>
 			</MenuItem>
 		);
@@ -114,10 +113,6 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
 		);
 	});
 
-	ListboxComponent.propTypes = {
-		children: PropTypes.node,
-	};
-
 	const StyledPopper = styled(Popper)({
 		[`& .${autocompleteClasses.listbox}`]: {
 			boxSizing: 'border-box',
@@ -127,26 +122,33 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
 			},
 		},
 	});
-	const searchRef = useRef<VariableSizeList>();
+	const searchRef = useRef<HTMLInputElement>();
+	const [isLoading, setIsLoading] = useState(false);
 	const [players, setPlayers] = useState<Player[]>([]);
+	// A state that will hold the seach value
+
 	useEffect(() => {
-		fetch_players();
+		// setIsLoading(true)
+		// fetch_players();
 	}, []);
 	const fetch_players = async () => {
 		setPlayers(await fetch_all_players());
+		setIsLoading(false)
 	};
 
-	// const [options, setOptions] = useState([]);
 
-	// useEffect(() => {
-	// 	const loadOptions = async () => {
-	// 		const playerOptions = await fetchAllPlayers();
-	// 		console.log(playerOptions);
-	// 		setOptions(playerOptions);
-	// 		console.log(playerOptions.map(value => value.long_name));
-	// 	};
-	// 	loadOptions();
-	// }, []);
+	const fetch_options_by_search = async (value: string) => {
+		const options = await fetch_players_by_name(value);
+		setPlayers(options)
+		
+		setIsLoading(() => false)
+	}
+
+	const updateSearch = async () => {
+		if (searchRef.current == undefined) return;
+		setIsLoading(() => true)
+		await fetch_options_by_search(searchRef.current.value);
+	}
 
 	return (
 		<div style={{ width: '20vw' }}>
@@ -156,8 +158,12 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
 				disableListWrap
 				PopperComponent={StyledPopper}
 				ListboxComponent={ListboxComponent}
+				// options={players.filter((player) => player.player_id < 10000)}
+				loading={isLoading}
+				noOptionsText={"Learn how to fucking spell ronaldo"}
 				options={players}
-				renderInput={params => <TextField inputRef={searchRef} {...params} label='Player search' />}
+				// renderInput={params => <TextField inputRef={searchRef} {...params} label='Player search' />}
+				renderInput={params => <TextField inputRef={searchRef} onChange={() => updateSearch()} {...params} label='Player search' />}
 				renderOption={(props, option, state) => option as React.ReactNode}
 				getOptionLabel={option => option.name}
 			/>
