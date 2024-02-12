@@ -10,7 +10,7 @@ import { MenuItem } from '@mui/material';
 import { fetch_all_players, fetch_players_by_name } from '../../utils/api';
 import { playerSchema } from '../../utils/api.interfaces';
 
-const LISTBOX_PADDING = 8; // px
+const LISTBOX_PADDING = 2; // px
 
 /*
  played_id: number,
@@ -37,8 +37,8 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
 			// 
 		return (
 			// <ListSubheader key={dataSet.player_id} onClick={() => onSelect(dataSet.player_id)} style={style} component='div'>
-			<MenuItem key={dataSet.player_id} onClick={() => onSelect(dataSet.player_id)} sx={{height: '10vh', position: 'relative', top: style.top as number + LISTBOX_PADDING}} >
-				{dataSet.name} &nbsp; &nbsp; &nbsp; <span style={{position: 'absolute', right: '50%'}}><img src={dataSet.img_ref} style={{width: '3vw'}}/></span>  <span style={{position: 'absolute', right: '1vw'}}>{dataSet.birth_date}</span>
+			<MenuItem key={dataSet.player_id} onClick={() => onSelect(dataSet.player_id)} sx={{ ...style, top: style.top as number + LISTBOX_PADDING}} >
+				{dataSet.name} &nbsp; &nbsp; &nbsp; <span style={{position: 'absolute', right: '50%'}}><img src={dataSet.img_ref} style={{width: '1.5vw'}}/></span>  <span style={{position: 'absolute', right: '1vw'}}>{dataSet.birth_date}</span>
 			</MenuItem>
 		);
 		
@@ -127,14 +127,6 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
 	const [players, setPlayers] = useState<playerSchema[]>([]);
 	// A state that will hold the seach value
 
-	useEffect(() => {
-		// setIsLoading(true)
-		// fetch_players();
-	}, []);
-	const fetch_players = async () => {
-		setPlayers(await fetch_all_players());
-		setIsLoading(false)
-	};
 
 
 	const fetch_options_by_search = async (value: string) => {
