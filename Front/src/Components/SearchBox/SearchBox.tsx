@@ -157,7 +157,7 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
 				// renderInput={params => <TextField inputRef={searchRef} {...params} label='Player search' />}
 				renderInput={params => <TextField inputRef={searchRef} onChange={() => updateSearch()} {...params} label='Player search' />}
 				renderOption={(props, option, state) => option as React.ReactNode}
-				getOptionLabel={option => option.name}
+				getOptionLabel={option => option.name_unaccented}
 			/>
 		</div>
 	);
