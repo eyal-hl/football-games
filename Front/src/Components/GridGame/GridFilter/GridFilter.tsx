@@ -6,6 +6,7 @@ interface GridFilterProps extends Filter {}
 const GridFilter = ({ image, name }: GridFilterProps) => {
 	return (
 		<div className={css.gridFilter}>
+			{/* increase font size in tooltip */}
 			<Tooltip title={name}>
 				<img className={css.image} src={image} />
 			</Tooltip>
