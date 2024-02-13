@@ -1,470 +1,486 @@
 {
-	"default": [
-		{
-			"name": "Manchester City",
-			"league_id": "premier_league_GB1",
-			"ref": "/manchester-city/startseite/verein/281/saison_id/2023",
-			"team_id": "manchester_city",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/281.png?lm=1467356331"
-		},
-		{
-			"name": "Arsenal FC",
-			"league_id": "premier_league_GB1",
-			"ref": "/fc-arsenal/startseite/verein/11/saison_id/2023",
-			"team_id": "fc_arsenal",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/11.png?lm=1489787850"
-		},
-		{
-			"name": "Chelsea FC",
-			"league_id": "premier_league_GB1",
-			"ref": "/fc-chelsea/startseite/verein/631/saison_id/2023",
-			"team_id": "fc_chelsea",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/631.png?lm=1682435911"
-		},
-		{
-			"name": "Liverpool FC",
-			"league_id": "premier_league_GB1",
-			"ref": "/fc-liverpool/startseite/verein/31/saison_id/2023",
-			"team_id": "fc_liverpool",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/31.png?lm=1456567819"
-		},
-		{
-			"name": "Manchester United",
-			"league_id": "premier_league_GB1",
-			"ref": "/manchester-united/startseite/verein/985/saison_id/2023",
-			"team_id": "manchester_united",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/985.png?lm=1457975903"
-		},
-		{
-			"name": "Tottenham Hotspur",
-			"league_id": "premier_league_GB1",
-			"ref": "/tottenham-hotspur/startseite/verein/148/saison_id/2023",
-			"team_id": "tottenham_hotspur",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/148.png?lm=1544345801"
-		},
-		{
-			"special_id": "premier_league_GB1_winner",
-			"name": "Premier League winner",
-			"ref": "/premier_league/erfolge/wettbewerb/GB1",
-			"img_ref": "https://tmssl.akamaized.net/images/erfolge/verybigquad/12.png?lm=1520606997",
-			"type": "league_winner"
-		},
-		{
-			"special_id": "serie_a_IT1_winner",
-			"name": "Serie A winner",
-			"ref": "/serie_a/erfolge/wettbewerb/IT1",
-			"img_ref": "https://tmssl.akamaized.net/images/erfolge/verybigquad/13.png?lm=1520606997",
-			"type": "league_winner"
-		},
-		{
-			"special_id": "primera_division_ES1_winner",
-			"name": "La Liga winner",
-			"ref": "/primera_division/erfolge/wettbewerb/ES1",
-			"img_ref": "https://tmssl.akamaized.net/images/erfolge/verybigquad/11.png?lm=1520606997",
-			"type": "league_winner"
-		},
-		{
-			"special_id": "bundesliga_L1_winner",
-			"name": "Bundesliga winner",
-			"ref": "/bundesliga/erfolge/wettbewerb/L1",
-			"img_ref": "https://tmssl.akamaized.net/images/erfolge/verybigquad/10.png?lm=1520606996",
-			"type": "league_winner"
-		},
-		{
-			"special_id": "ligue_1_FR1_winner",
-			"name": "Ligue 1 winner",
-			"ref": "/ligue_1/erfolge/wettbewerb/FR1",
-			"img_ref": "https://tmssl.akamaized.net/images/erfolge/verybigquad/14.png?lm=1520606997",
-			"type": "league_winner"
-		},
-		{
-			"special_id": "eredivisie_NL1_winner",
-			"name": "Eredivisie winner",
-			"ref": "/eredivisie/erfolge/wettbewerb/NL1",
-			"img_ref": "https://tmssl.akamaized.net/images/erfolge/verybigquad/16.png?lm=1520606999",
-			"type": "league_winner"
-		},
-		{
-			"special_id": "uefa_champions_league_winner",
-			"name": "UEFA Champions League winner",
-			"ref": "/uefa-champions-league/erfolge/pokalwettbewerb/CL",
-			"img_ref": "https://tmssl.akamaized.net/images/logo/header/cl.png?lm=1520611563",
-			"type": "cup_winner"
-		},
-		{
-			"special_id": "europa_league_winner",
-			"name": "Europa league winner",
-			"ref": "/europa-league/erfolge/pokalwettbewerb/EL",
-			"img_ref": "https://tmssl.akamaized.net/images/logo/header/el.png?lm=1626811059",
-			"type": "cup_winner"
-		},
-		{
-			"special_id": "uefa_europa_conference_league_winner",
-			"name": "UEFA Europa Conference league winner",
-			"ref": "/uefa-europa-conference-league/erfolge/pokalwettbewerb/UCOL",
-			"img_ref": "https://tmssl.akamaized.net/images/logo/header/ucol.png?lm=1610377631",
-			"type": "cup_winner"
-		},
-		{
-			"special_id": "zinedine_zidane",
-			"name": "Zinedine Zidane",
-			"ref": "/zinedine-zidane/profil/trainer/21284",
-			"img_ref": "https://img.a.transfermarkt.technology/portrait/header/21284-1701294693.jpg?lm=1",
-			"type": "manager"
-		},
-		{
-			"special_id": "erik_ten_hag",
-			"name": "Erik Ten Hag",
-			"ref": "/erik-ten-hag/profil/trainer/3816",
-			"img_ref": "https://img.a.transfermarkt.technology/portrait/header/3816-1535533360.jpg?lm=1",
-			"type": "manager"
-		},
-		{
-			"special_id": "jose_mourinho",
-			"name": "Jose Mourinho",
-			"ref": "/jose-mourinho/profil/trainer/781",
-			"img_ref": "https://img.a.transfermarkt.technology/portrait/header/781-1663951943.jpg?lm=1",
-			"type": "manager"
-		},
-		{
-			"special_id": "sir_alex_ferguson",
-			"name": "Sir Alex Ferguson",
-			"ref": "/sir-alex-ferguson/profil/trainer/4",
-			"img_ref": "https://img.a.transfermarkt.technology/portrait/header/_1344344740.jpg?lm=1",
-			"type": "manager"
-		},
-		{
-			"special_id": "jurgen_klopp",
-			"name": "Jurgen Klopp",
-			"ref": "/jurgen-klopp/profil/trainer/118",
-			"img_ref": "https://img.a.transfermarkt.technology/portrait/header/118-1682605652.jpg?lm=1",
-			"type": "manager"
-		},
-		{
-			"special_id": "carlo_ancelotti",
-			"name": "Carlo Ancelotti",
-			"ref": "/carlo-ancelotti/profil/trainer/523",
-			"img_ref": "https://img.a.transfermarkt.technology/portrait/header/523-1502276656.jpg?lm=1",
-			"type": "manager"
-		},
-		{
-			"special_id": "refael_benitez",
-			"name": "Refael Benitez",
-			"ref": "/rafael-benitez/profil/trainer/1522",
-			"img_ref": "https://img.a.transfermarkt.technology/portrait/header/1522-1547732190.jpg?lm=1",
-			"type": "manager"
-		},
-		{
-			"special_id": "pep_guardiola",
-			"name": "Pep Guardiola",
-			"ref": "/pep-guardiola/profil/trainer/5672",
-			"img_ref": "https://img.a.transfermarkt.technology/portrait/header/5672-1701335303.jpg?lm=1",
-			"type": "manager"
-		},
-		{
-			"special_id": "arsene_wenger",
-			"name": "Arsene Wenger",
-			"ref": "/arsene-wenger/profil/trainer/280",
-			"img_ref": "https://img.a.transfermarkt.technology/portrait/header/280-1496151321.jpg?lm=1",
-			"type": "manager"
-		},
-		{
-			"special_id": "louis_van_gaal",
-			"name": "Louis Van Gaal",
-			"ref": "/louis-van-gaal/profil/trainer/2029",
-			"img_ref": "https://img.a.transfermarkt.technology/portrait/header/2029-1584368258.jpg?lm=1",
-			"type": "manager"
-		},
-		{
-			"league_id": "premier_league_GB1",
-			"name": "Premier League",
-			"img_ref": "https://tmssl.akamaized.net/images/logo/header/gb1.png?lm=1521104656"
-		},
-		{ "league_id": "ligat_haal_ISR1", "name": "Ligat haal", "img_ref": "https://tmssl.akamaized.net/images/logo/header/isr1.png?lm=1658846140" },
-		{ "league_id": "serie_a_IT1", "name": "Serie A", "img_ref": "https://tmssl.akamaized.net/images/logo/header/it1.png?lm=1656073460" },
-		{
-			"league_id": "primera_division_ES1",
-			"name": "La Liga",
-			"img_ref": "https://logowik.com/content/uploads/images/laliga-santander1677.logowik.com.webp"
-		},
-		{ "league_id": "bundesliga_L1", "name": "Bundesliga", "img_ref": "https://tmssl.akamaized.net/images/logo/header/l1.png?lm=1525905518" },
-		{ "league_id": "ligue_1_FR1", "name": "Ligue 1", "img_ref": "https://tmssl.akamaized.net/images/logo/header/fr1.png?lm=1702413832" },
-		{
-			"player_id": 8198,
-			"name": "Cristiano Ronaldo",
-			"name_unaccented": "Cristiano Ronaldo",
-			"birth_date": "1985-02-05",
-			"img_ref": "https://img.a.transfermarkt.technology/portrait/medium/8198-1694609670.jpg?lm=1"
-		},
-		{
-			"player_id": 28003,
-			"name": "Lionel Messi",
-			"name_unaccented": "Lionel Messi",
-			"birth_date": "1987-06-24",
-			"img_ref": "https://img.a.transfermarkt.technology/portrait/medium/28003-1694590254.jpg?lm=1"
-		},
-		{
-			"player_id": 4360,
-			"name": "Arjen Robben",
-			"name_unaccented": "Arjen Robben",
-			"birth_date": "1984-01-23",
-			"img_ref": "https://img.a.transfermarkt.technology/portrait/medium/4360-1540568808.jpg?lm=1"
-		},
-		{
-			"player_id": 3455,
-			"name": "Zlatan Ibrahimović",
-			"name_unaccented": "Zlatan Ibrahimovic",
-			"birth_date": "1981-10-03",
-			"img_ref": "https://img.a.transfermarkt.technology/portrait/medium/3455-1579506060.jpg?lm=1"
-		}
-	],
-	"Ligat haal": [
-		{
-			"special_id": "ligat_haal_ISR1_winner",
-			"name": "Ligat haal winner",
-			"ref": "/ligat_haal/erfolge/wettbewerb/ISR1",
-			"img_ref": "https://tmssl.akamaized.net/images/erfolge/verybigquad/217.png?lm=1667220052",
-			"type": "league_winner"
-		},
-		{
-			"name": "Maccabi Haifa",
-			"league_id": "ligat_haal_ISR1",
-			"ref": "/maccabi-haifa/startseite/verein/1064/saison_id/2023",
-			"team_id": "maccabi_haifa",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/1064.png?lm=1684233681"
-		},
-		{
-			"name": "Maccabi Tel Aviv",
-			"league_id": "ligat_haal_ISR1",
-			"ref": "/maccabi-tel-aviv/startseite/verein/119/saison_id/2023",
-			"team_id": "maccabi_tel_aviv",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/119.png?lm=1626682937"
-		},
-		{
-			"name": "Hapoel Beer Sheva",
-			"league_id": "ligat_haal_ISR1",
-			"ref": "/hapoel-beer-sheva/startseite/verein/2976/saison_id/2023",
-			"team_id": "hapoel_beer_sheva",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/2976.png?lm=1613028225"
-		},
-		{
-			"name": "Maccabi Netanya",
-			"league_id": "ligat_haal_ISR1",
-			"ref": "/maccabi-netanya/startseite/verein/5223/saison_id/2023",
-			"team_id": "maccabi_netanya",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/5223.png?lm=1626703266"
-		},
-		{
-			"name": "FC Ashdod",
-			"league_id": "ligat_haal_ISR1",
-			"ref": "/fc-ashdod/startseite/verein/6105/saison_id/2023",
-			"team_id": "fc_ashdod",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/6105.png?lm=1423260293"
-		},
-		{
-			"name": "Hapoel Tel Aviv",
-			"league_id": "ligat_haal_ISR1",
-			"ref": "/hapoel-tel-aviv/startseite/verein/1017/saison_id/2023",
-			"team_id": "hapoel_tel_aviv",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/1017.png?lm=1658410006"
-		},
-		{
-			"name": "Beitar Jerusalem",
-			"league_id": "ligat_haal_ISR1",
-			"ref": "/beitar-jerusalem/startseite/verein/3793/saison_id/2023",
-			"team_id": "beitar_jerusalem",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/3793.png?lm=1578415471"
-		},
-		{
-			"name": "Maccabi Petah Tikva",
-			"league_id": "ligat_haal_ISR1",
-			"ref": "/maccabi-petah-tikva/startseite/verein/3785/saison_id/2023",
-			"team_id": "maccabi_petah_tikva",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/3785.png?lm=1423260379"
-		},
-		{
-			"name": "Hapoel Haifa",
-			"league_id": "ligat_haal_ISR1",
-			"ref": "/hapoel-haifa/startseite/verein/810/saison_id/2023",
-			"team_id": "hapoel_haifa",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/810.png?lm=1408745643"
-		},
-		{
-			"name": "Hapoel Jerusalem",
-			"league_id": "ligat_haal_ISR1",
-			"ref": "/hapoel-jerusalem/startseite/verein/43119/saison_id/2023",
-			"team_id": "hapoel_jerusalem",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/43119.png?lm=1629212675"
-		},
-		{
-			"name": "Ihud Bnei Sakhnin",
-			"league_id": "ligat_haal_ISR1",
-			"ref": "/ihud-bnei-sachnin/startseite/verein/4769/saison_id/2023",
-			"team_id": "ihud_bnei_sachnin",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/4769.png?lm=1423260464"
-		},
-		{
-			"name": "Hapoel Hadera",
-			"league_id": "ligat_haal_ISR1",
-			"ref": "/hapoel-hadera/startseite/verein/51931/saison_id/2023",
-			"team_id": "hapoel_hadera",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/51931.png?lm=1455345876"
-		},
-		{
-			"name": "Maccabi Bnei Reineh",
-			"league_id": "ligat_haal_ISR1",
-			"ref": "/maccabi-bnei-reineh/startseite/verein/70178/saison_id/2023",
-			"team_id": "maccabi_bnei_reineh",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/70178.png?lm=1624973616"
-		},
-		{
-			"name": "Hapoel Petah Tikva",
-			"league_id": "ligat_haal_ISR1",
-			"ref": "/hapoel-petah-tikva/startseite/verein/262/saison_id/2023",
-			"team_id": "hapoel_petah_tikva",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/262.png?lm=1645709182"
-		}
-	],
-	"Premier League": [
-		{
-			"name": "Manchester City",
-			"league_id": "premier_league_GB1",
-			"ref": "/manchester-city/startseite/verein/281/saison_id/2023",
-			"team_id": "manchester_city",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/281.png?lm=1467356331"
-		},
-		{
-			"name": "Arsenal FC",
-			"league_id": "premier_league_GB1",
-			"ref": "/fc-arsenal/startseite/verein/11/saison_id/2023",
-			"team_id": "fc_arsenal",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/11.png?lm=1489787850"
-		},
-		{
-			"name": "Chelsea FC",
-			"league_id": "premier_league_GB1",
-			"ref": "/fc-chelsea/startseite/verein/631/saison_id/2023",
-			"team_id": "fc_chelsea",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/631.png?lm=1682435911"
-		},
-		{
-			"name": "Liverpool FC",
-			"league_id": "premier_league_GB1",
-			"ref": "/fc-liverpool/startseite/verein/31/saison_id/2023",
-			"team_id": "fc_liverpool",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/31.png?lm=1456567819"
-		},
-		{
-			"name": "Manchester United",
-			"league_id": "premier_league_GB1",
-			"ref": "/manchester-united/startseite/verein/985/saison_id/2023",
-			"team_id": "manchester_united",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/985.png?lm=1457975903"
-		},
-		{
-			"name": "Tottenham Hotspur",
-			"league_id": "premier_league_GB1",
-			"ref": "/tottenham-hotspur/startseite/verein/148/saison_id/2023",
-			"team_id": "tottenham_hotspur",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/148.png?lm=1544345801"
-		},
-		{
-			"name": "Newcastle United",
-			"league_id": "premier_league_GB1",
-			"ref": "/newcastle-united/startseite/verein/762/saison_id/2023",
-			"team_id": "newcastle_united",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/762.png?lm=1472921161"
-		},
-		{
-			"name": "Aston Villa",
-			"league_id": "premier_league_GB1",
-			"ref": "/aston-villa/startseite/verein/405/saison_id/2023",
-			"team_id": "aston_villa",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/405.png?lm=1469443765"
-		},
-		{
-			"name": "Brighton & Hove Albion",
-			"league_id": "premier_league_GB1",
-			"ref": "/brighton-amp-hove-albion/startseite/verein/1237/saison_id/2023",
-			"team_id": "brighton_amp_hove_albion",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/1237.png?lm=1492718902"
-		},
-		{
-			"name": "West Ham United",
-			"league_id": "premier_league_GB1",
-			"ref": "/west-ham-united/startseite/verein/379/saison_id/2023",
-			"team_id": "west_ham_united",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/379.png?lm=1464675260"
-		},
-		{
-			"name": "Brentford FC",
-			"league_id": "premier_league_GB1",
-			"ref": "/fc-brentford/startseite/verein/1148/saison_id/2023",
-			"team_id": "fc_brentford",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/1148.png?lm=1625150543"
-		},
-		{
-			"name": "Nottingham Forest",
-			"league_id": "premier_league_GB1",
-			"ref": "/nottingham-forest/startseite/verein/703/saison_id/2023",
-			"team_id": "nottingham_forest",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/703.png?lm=1598890289"
-		},
-		{
-			"name": "Crystal Palace",
-			"league_id": "premier_league_GB1",
-			"ref": "/crystal-palace/startseite/verein/873/saison_id/2023",
-			"team_id": "crystal_palace",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/873.png?lm=1457723287"
-		},
-		{
-			"name": "Everton FC",
-			"league_id": "premier_league_GB1",
-			"ref": "/fc-everton/startseite/verein/29/saison_id/2023",
-			"team_id": "fc_everton",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/29.png?lm=1445949846"
-		},
-		{
-			"name": "AFC Bournemouth",
-			"league_id": "premier_league_GB1",
-			"ref": "/afc-bournemouth/startseite/verein/989/saison_id/2023",
-			"team_id": "afc_bournemouth",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/989.png?lm=1457991811"
-		},
-		{
-			"name": "Wolverhampton Wanderers",
-			"league_id": "premier_league_GB1",
-			"ref": "/wolverhampton-wanderers/startseite/verein/543/saison_id/2023",
-			"team_id": "wolverhampton_wanderers",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/543.png?lm=1467496784"
-		},
-		{
-			"name": "Fulham FC",
-			"league_id": "premier_league_GB1",
-			"ref": "/fc-fulham/startseite/verein/931/saison_id/2023",
-			"team_id": "fc_fulham",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/931.png?lm=1556831687"
-		},
-		{
-			"name": "Burnley FC",
-			"league_id": "premier_league_GB1",
-			"ref": "/fc-burnley/startseite/verein/1132/saison_id/2023",
-			"team_id": "fc_burnley",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/1132.png?lm=1686818840"
-		},
-		{
-			"name": "Sheffield United",
-			"league_id": "premier_league_GB1",
-			"ref": "/sheffield-united/startseite/verein/350/saison_id/2023",
-			"team_id": "sheffield_united",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/350.png?lm=1409254138"
-		},
-		{
-			"name": "Luton Town",
-			"league_id": "premier_league_GB1",
-			"ref": "/luton-town/startseite/verein/1031/saison_id/2023",
-			"team_id": "luton_town",
-			"img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/1031.png?lm=1457723228"
-		}
-	]
+  "default": [
+    {
+      "name": "Manchester City",
+      "league_id": "premier_league_GB1",
+      "ref": "/manchester-city/startseite/verein/281/saison_id/2023",
+      "team_id": "manchester_city",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/281.png?lm=1467356331"
+    },
+    {
+      "name": "Arsenal FC",
+      "league_id": "premier_league_GB1",
+      "ref": "/fc-arsenal/startseite/verein/11/saison_id/2023",
+      "team_id": "fc_arsenal",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/11.png?lm=1489787850"
+    },
+    {
+      "name": "Chelsea FC",
+      "league_id": "premier_league_GB1",
+      "ref": "/fc-chelsea/startseite/verein/631/saison_id/2023",
+      "team_id": "fc_chelsea",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/631.png?lm=1682435911"
+    },
+    {
+      "name": "Liverpool FC",
+      "league_id": "premier_league_GB1",
+      "ref": "/fc-liverpool/startseite/verein/31/saison_id/2023",
+      "team_id": "fc_liverpool",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/31.png?lm=1456567819"
+    },
+    {
+      "name": "Manchester United",
+      "league_id": "premier_league_GB1",
+      "ref": "/manchester-united/startseite/verein/985/saison_id/2023",
+      "team_id": "manchester_united",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/985.png?lm=1457975903"
+    },
+    {
+      "name": "Tottenham Hotspur",
+      "league_id": "premier_league_GB1",
+      "ref": "/tottenham-hotspur/startseite/verein/148/saison_id/2023",
+      "team_id": "tottenham_hotspur",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/148.png?lm=1544345801"
+    },
+    {
+      "special_id": "premier_league_GB1_winner",
+      "name": "Premier League winner",
+      "ref": "/premier_league/erfolge/wettbewerb/GB1",
+      "img_ref": "https://tmssl.akamaized.net/images/erfolge/verybigquad/12.png?lm=1520606997",
+      "type": "league_winner"
+    },
+    {
+      "special_id": "serie_a_IT1_winner",
+      "name": "Serie A winner",
+      "ref": "/serie_a/erfolge/wettbewerb/IT1",
+      "img_ref": "https://tmssl.akamaized.net/images/erfolge/verybigquad/13.png?lm=1520606997",
+      "type": "league_winner"
+    },
+    {
+      "special_id": "primera_division_ES1_winner",
+      "name": "La Liga winner",
+      "ref": "/primera_division/erfolge/wettbewerb/ES1",
+      "img_ref": "https://tmssl.akamaized.net/images/erfolge/verybigquad/11.png?lm=1520606997",
+      "type": "league_winner"
+    },
+    {
+      "special_id": "bundesliga_L1_winner",
+      "name": "Bundesliga winner",
+      "ref": "/bundesliga/erfolge/wettbewerb/L1",
+      "img_ref": "https://tmssl.akamaized.net/images/erfolge/verybigquad/10.png?lm=1520606996",
+      "type": "league_winner"
+    },
+    {
+      "special_id": "ligue_1_FR1_winner",
+      "name": "Ligue 1 winner",
+      "ref": "/ligue_1/erfolge/wettbewerb/FR1",
+      "img_ref": "https://tmssl.akamaized.net/images/erfolge/verybigquad/14.png?lm=1520606997",
+      "type": "league_winner"
+    },
+    {
+      "special_id": "eredivisie_NL1_winner",
+      "name": "Eredivisie winner",
+      "ref": "/eredivisie/erfolge/wettbewerb/NL1",
+      "img_ref": "https://tmssl.akamaized.net/images/erfolge/verybigquad/16.png?lm=1520606999",
+      "type": "league_winner"
+    },
+    {
+      "special_id": "uefa_champions_league_winner",
+      "name": "UEFA Champions League winner",
+      "ref": "/uefa-champions-league/erfolge/pokalwettbewerb/CL",
+      "img_ref": "https://tmssl.akamaized.net/images/logo/header/cl.png?lm=1520611563",
+      "type": "cup_winner"
+    },
+    {
+      "special_id": "europa_league_winner",
+      "name": "Europa league winner",
+      "ref": "/europa-league/erfolge/pokalwettbewerb/EL",
+      "img_ref": "https://tmssl.akamaized.net/images/logo/header/el.png?lm=1626811059",
+      "type": "cup_winner"
+    },
+    {
+      "special_id": "uefa_europa_conference_league_winner",
+      "name": "UEFA Europa Conference league winner",
+      "ref": "/uefa-europa-conference-league/erfolge/pokalwettbewerb/UCOL",
+      "img_ref": "https://tmssl.akamaized.net/images/logo/header/ucol.png?lm=1610377631",
+      "type": "cup_winner"
+    },
+    {
+      "special_id": "zinedine_zidane",
+      "name": "Zinedine Zidane",
+      "ref": "/zinedine-zidane/profil/trainer/21284",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/header/21284-1701294693.jpg?lm=1",
+      "type": "manager"
+    },
+    {
+      "special_id": "erik_ten_hag",
+      "name": "Erik Ten Hag",
+      "ref": "/erik-ten-hag/profil/trainer/3816",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/header/3816-1535533360.jpg?lm=1",
+      "type": "manager"
+    },
+    {
+      "special_id": "jose_mourinho",
+      "name": "Jose Mourinho",
+      "ref": "/jose-mourinho/profil/trainer/781",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/header/781-1663951943.jpg?lm=1",
+      "type": "manager"
+    },
+    {
+      "special_id": "sir_alex_ferguson",
+      "name": "Sir Alex Ferguson",
+      "ref": "/sir-alex-ferguson/profil/trainer/4",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/header/_1344344740.jpg?lm=1",
+      "type": "manager"
+    },
+    {
+      "special_id": "jurgen_klopp",
+      "name": "Jurgen Klopp",
+      "ref": "/jurgen-klopp/profil/trainer/118",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/header/118-1682605652.jpg?lm=1",
+      "type": "manager"
+    },
+    {
+      "special_id": "carlo_ancelotti",
+      "name": "Carlo Ancelotti",
+      "ref": "/carlo-ancelotti/profil/trainer/523",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/header/523-1502276656.jpg?lm=1",
+      "type": "manager"
+    },
+    {
+      "special_id": "refael_benitez",
+      "name": "Refael Benitez",
+      "ref": "/rafael-benitez/profil/trainer/1522",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/header/1522-1547732190.jpg?lm=1",
+      "type": "manager"
+    },
+    {
+      "special_id": "pep_guardiola",
+      "name": "Pep Guardiola",
+      "ref": "/pep-guardiola/profil/trainer/5672",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/header/5672-1701335303.jpg?lm=1",
+      "type": "manager"
+    },
+    {
+      "special_id": "arsene_wenger",
+      "name": "Arsene Wenger",
+      "ref": "/arsene-wenger/profil/trainer/280",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/header/280-1496151321.jpg?lm=1",
+      "type": "manager"
+    },
+    {
+      "special_id": "louis_van_gaal",
+      "name": "Louis Van Gaal",
+      "ref": "/louis-van-gaal/profil/trainer/2029",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/header/2029-1584368258.jpg?lm=1",
+      "type": "manager"
+    },
+    {
+      "league_id": "premier_league_GB1",
+      "name": "Premier League",
+      "img_ref": "https://tmssl.akamaized.net/images/logo/header/gb1.png?lm=1521104656"
+    },
+    {
+      "league_id": "ligat_haal_ISR1",
+      "name": "Ligat haal",
+      "img_ref": "https://tmssl.akamaized.net/images/logo/header/isr1.png?lm=1658846140"
+    },
+    {
+      "league_id": "serie_a_IT1",
+      "name": "Serie A",
+      "img_ref": "https://tmssl.akamaized.net/images/logo/header/it1.png?lm=1656073460"
+    },
+    {
+      "league_id": "primera_division_ES1",
+      "name": "La Liga",
+      "img_ref": "https://logowik.com/content/uploads/images/laliga-santander1677.logowik.com.webp"
+    },
+    {
+      "league_id": "bundesliga_L1",
+      "name": "Bundesliga",
+      "img_ref": "https://tmssl.akamaized.net/images/logo/header/l1.png?lm=1525905518"
+    },
+    {
+      "league_id": "ligue_1_FR1",
+      "name": "Ligue 1",
+      "img_ref": "https://tmssl.akamaized.net/images/logo/header/fr1.png?lm=1702413832"
+    },
+    {
+      "player_id": 8198,
+      "name": "Cristiano Ronaldo",
+      "name_unaccented": "Cristiano Ronaldo",
+      "birth_date": "1985-02-05",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/8198-1694609670.jpg?lm=1"
+    },
+    {
+      "player_id": 28003,
+      "name": "Lionel Messi",
+      "name_unaccented": "Lionel Messi",
+      "birth_date": "1987-06-24",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/28003-1694590254.jpg?lm=1"
+    },
+    {
+      "player_id": 4360,
+      "name": "Arjen Robben",
+      "name_unaccented": "Arjen Robben",
+      "birth_date": "1984-01-23",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/4360-1540568808.jpg?lm=1"
+    },
+    {
+      "player_id": 3455,
+      "name": "Zlatan Ibrahimović",
+      "name_unaccented": "Zlatan Ibrahimovic",
+      "birth_date": "1981-10-03",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/3455-1579506060.jpg?lm=1"
+    }
+  ],
+  "Ligat haal": [
+    {
+      "special_id": "ligat_haal_ISR1_winner",
+      "name": "Ligat haal winner",
+      "ref": "/ligat_haal/erfolge/wettbewerb/ISR1",
+      "img_ref": "https://tmssl.akamaized.net/images/erfolge/verybigquad/217.png?lm=1667220052",
+      "type": "league_winner"
+    },
+    {
+      "name": "Maccabi Haifa",
+      "league_id": "ligat_haal_ISR1",
+      "ref": "/maccabi-haifa/startseite/verein/1064/saison_id/2023",
+      "team_id": "maccabi_haifa",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/1064.png?lm=1684233681"
+    },
+    {
+      "name": "Maccabi Tel Aviv",
+      "league_id": "ligat_haal_ISR1",
+      "ref": "/maccabi-tel-aviv/startseite/verein/119/saison_id/2023",
+      "team_id": "maccabi_tel_aviv",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/119.png?lm=1626682937"
+    },
+    {
+      "name": "Hapoel Beer Sheva",
+      "league_id": "ligat_haal_ISR1",
+      "ref": "/hapoel-beer-sheva/startseite/verein/2976/saison_id/2023",
+      "team_id": "hapoel_beer_sheva",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/2976.png?lm=1613028225"
+    },
+    {
+      "name": "Maccabi Netanya",
+      "league_id": "ligat_haal_ISR1",
+      "ref": "/maccabi-netanya/startseite/verein/5223/saison_id/2023",
+      "team_id": "maccabi_netanya",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/5223.png?lm=1626703266"
+    },
+    {
+      "name": "FC Ashdod",
+      "league_id": "ligat_haal_ISR1",
+      "ref": "/fc-ashdod/startseite/verein/6105/saison_id/2023",
+      "team_id": "fc_ashdod",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/6105.png?lm=1423260293"
+    },
+    {
+      "name": "Hapoel Tel Aviv",
+      "league_id": "ligat_haal_ISR1",
+      "ref": "/hapoel-tel-aviv/startseite/verein/1017/saison_id/2023",
+      "team_id": "hapoel_tel_aviv",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/1017.png?lm=1658410006"
+    },
+    {
+      "name": "Beitar Jerusalem",
+      "league_id": "ligat_haal_ISR1",
+      "ref": "/beitar-jerusalem/startseite/verein/3793/saison_id/2023",
+      "team_id": "beitar_jerusalem",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/3793.png?lm=1578415471"
+    },
+    {
+      "name": "Maccabi Petah Tikva",
+      "league_id": "ligat_haal_ISR1",
+      "ref": "/maccabi-petah-tikva/startseite/verein/3785/saison_id/2023",
+      "team_id": "maccabi_petah_tikva",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/3785.png?lm=1423260379"
+    },
+    {
+      "name": "Hapoel Haifa",
+      "league_id": "ligat_haal_ISR1",
+      "ref": "/hapoel-haifa/startseite/verein/810/saison_id/2023",
+      "team_id": "hapoel_haifa",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/810.png?lm=1408745643"
+    },
+    {
+      "name": "Hapoel Jerusalem",
+      "league_id": "ligat_haal_ISR1",
+      "ref": "/hapoel-jerusalem/startseite/verein/43119/saison_id/2023",
+      "team_id": "hapoel_jerusalem",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/43119.png?lm=1629212675"
+    },
+    {
+      "name": "Ihud Bnei Sakhnin",
+      "league_id": "ligat_haal_ISR1",
+      "ref": "/ihud-bnei-sachnin/startseite/verein/4769/saison_id/2023",
+      "team_id": "ihud_bnei_sachnin",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/4769.png?lm=1423260464"
+    },
+    {
+      "name": "Hapoel Hadera",
+      "league_id": "ligat_haal_ISR1",
+      "ref": "/hapoel-hadera/startseite/verein/51931/saison_id/2023",
+      "team_id": "hapoel_hadera",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/51931.png?lm=1455345876"
+    },
+    {
+      "name": "Maccabi Bnei Reineh",
+      "league_id": "ligat_haal_ISR1",
+      "ref": "/maccabi-bnei-reineh/startseite/verein/70178/saison_id/2023",
+      "team_id": "maccabi_bnei_reineh",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/70178.png?lm=1624973616"
+    },
+    {
+      "name": "Hapoel Petah Tikva",
+      "league_id": "ligat_haal_ISR1",
+      "ref": "/hapoel-petah-tikva/startseite/verein/262/saison_id/2023",
+      "team_id": "hapoel_petah_tikva",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/262.png?lm=1645709182"
+    }
+  ],
+  "Premier League": [
+    {
+      "name": "Manchester City",
+      "league_id": "premier_league_GB1",
+      "ref": "/manchester-city/startseite/verein/281/saison_id/2023",
+      "team_id": "manchester_city",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/281.png?lm=1467356331"
+    },
+    {
+      "name": "Arsenal FC",
+      "league_id": "premier_league_GB1",
+      "ref": "/fc-arsenal/startseite/verein/11/saison_id/2023",
+      "team_id": "fc_arsenal",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/11.png?lm=1489787850"
+    },
+    {
+      "name": "Chelsea FC",
+      "league_id": "premier_league_GB1",
+      "ref": "/fc-chelsea/startseite/verein/631/saison_id/2023",
+      "team_id": "fc_chelsea",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/631.png?lm=1682435911"
+    },
+    {
+      "name": "Liverpool FC",
+      "league_id": "premier_league_GB1",
+      "ref": "/fc-liverpool/startseite/verein/31/saison_id/2023",
+      "team_id": "fc_liverpool",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/31.png?lm=1456567819"
+    },
+    {
+      "name": "Manchester United",
+      "league_id": "premier_league_GB1",
+      "ref": "/manchester-united/startseite/verein/985/saison_id/2023",
+      "team_id": "manchester_united",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/985.png?lm=1457975903"
+    },
+    {
+      "name": "Tottenham Hotspur",
+      "league_id": "premier_league_GB1",
+      "ref": "/tottenham-hotspur/startseite/verein/148/saison_id/2023",
+      "team_id": "tottenham_hotspur",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/148.png?lm=1544345801"
+    },
+    {
+      "name": "Newcastle United",
+      "league_id": "premier_league_GB1",
+      "ref": "/newcastle-united/startseite/verein/762/saison_id/2023",
+      "team_id": "newcastle_united",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/762.png?lm=1472921161"
+    },
+    {
+      "name": "Aston Villa",
+      "league_id": "premier_league_GB1",
+      "ref": "/aston-villa/startseite/verein/405/saison_id/2023",
+      "team_id": "aston_villa",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/405.png?lm=1469443765"
+    },
+    {
+      "name": "Brighton & Hove Albion",
+      "league_id": "premier_league_GB1",
+      "ref": "/brighton-amp-hove-albion/startseite/verein/1237/saison_id/2023",
+      "team_id": "brighton_amp_hove_albion",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/1237.png?lm=1492718902"
+    },
+    {
+      "name": "West Ham United",
+      "league_id": "premier_league_GB1",
+      "ref": "/west-ham-united/startseite/verein/379/saison_id/2023",
+      "team_id": "west_ham_united",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/379.png?lm=1464675260"
+    },
+    {
+      "name": "Brentford FC",
+      "league_id": "premier_league_GB1",
+      "ref": "/fc-brentford/startseite/verein/1148/saison_id/2023",
+      "team_id": "fc_brentford",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/1148.png?lm=1625150543"
+    },
+    {
+      "name": "Nottingham Forest",
+      "league_id": "premier_league_GB1",
+      "ref": "/nottingham-forest/startseite/verein/703/saison_id/2023",
+      "team_id": "nottingham_forest",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/703.png?lm=1598890289"
+    },
+    {
+      "name": "Crystal Palace",
+      "league_id": "premier_league_GB1",
+      "ref": "/crystal-palace/startseite/verein/873/saison_id/2023",
+      "team_id": "crystal_palace",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/873.png?lm=1457723287"
+    },
+    {
+      "name": "Everton FC",
+      "league_id": "premier_league_GB1",
+      "ref": "/fc-everton/startseite/verein/29/saison_id/2023",
+      "team_id": "fc_everton",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/29.png?lm=1445949846"
+    },
+    {
+      "name": "AFC Bournemouth",
+      "league_id": "premier_league_GB1",
+      "ref": "/afc-bournemouth/startseite/verein/989/saison_id/2023",
+      "team_id": "afc_bournemouth",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/989.png?lm=1457991811"
+    },
+    {
+      "name": "Wolverhampton Wanderers",
+      "league_id": "premier_league_GB1",
+      "ref": "/wolverhampton-wanderers/startseite/verein/543/saison_id/2023",
+      "team_id": "wolverhampton_wanderers",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/543.png?lm=1467496784"
+    },
+    {
+      "name": "Fulham FC",
+      "league_id": "premier_league_GB1",
+      "ref": "/fc-fulham/startseite/verein/931/saison_id/2023",
+      "team_id": "fc_fulham",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/931.png?lm=1556831687"
+    },
+    {
+      "name": "Burnley FC",
+      "league_id": "premier_league_GB1",
+      "ref": "/fc-burnley/startseite/verein/1132/saison_id/2023",
+      "team_id": "fc_burnley",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/1132.png?lm=1686818840"
+    },
+    {
+      "name": "Sheffield United",
+      "league_id": "premier_league_GB1",
+      "ref": "/sheffield-united/startseite/verein/350/saison_id/2023",
+      "team_id": "sheffield_united",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/350.png?lm=1409254138"
+    },
+    {
+      "name": "Luton Town",
+      "league_id": "premier_league_GB1",
+      "ref": "/luton-town/startseite/verein/1031/saison_id/2023",
+      "team_id": "luton_town",
+      "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/1031.png?lm=1457723228"
+    }
+  ]
 }

@@ -1,16 +1,16 @@
-.gridFilter{
-    border: 1px solid transparent;
-    height: var(--grid-item-size);
-    width: var(--grid-item-size);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #ff5aff;
+.gridFilter {
+  border: 1px solid transparent;
+  height: var(--grid-item-size);
+  width: var(--grid-item-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ff5aff;
 }
 
-.image{
-    height: 80%;
-    width: 80%;
-    object-fit: contain;
-    border-radius: 1rem;
+.image {
+  height: 80%;
+  width: 80%;
+  object-fit: contain;
+  border-radius: 1rem;
 }

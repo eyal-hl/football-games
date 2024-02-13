@@ -1,8 +1,8 @@
 .gridSizeSelector {
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .select {
-	width: 6rem;
+  width: 6rem;
 }

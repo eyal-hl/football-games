@@ -1,10 +1,10 @@
-html{
-    background-color: #f5f5f5;
-    font-family: 'Suii' !important;
+html {
+  background-color: #f5f5f5;
+  font-family: 'Suii' !important;
 }
 
 /* import font */
 @font-face {
-    font-family: 'Suii';
-    src: url('./assets/ProtestStrike-Regular.ttf');
+  font-family: 'Suii';
+  src: url('./assets/ProtestStrike-Regular.ttf');
 }

@@ -1,16 +1,14 @@
 body {
-	margin: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	min-width: 320px;
-	min-height: 100vh;
-	
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 320px;
+  min-height: 100vh;
 }
 
 @media screen and (max-width: 2000px) {
-	html {
-		font-size: 12px;
-	}
-	
+  html {
+    font-size: 12px;
+  }
 }
