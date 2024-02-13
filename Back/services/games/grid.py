@@ -76,7 +76,7 @@ class GridDataManager(BaseDataManager):
                         .join(pt2, onclause=and_(pt1.team_id == pt2.team_id, pt1.year == pt2.year))
                         .where(and_(pl.nationality == value1, pt2.player_id == value2)))
             case ('team' | 'league' | 'title' | 'manager', 'player'):
-                stmt = (select(pl).join(pt1, onclause=pt1.player_id == pl.player_id)
+                stmt = (select(pl).where(pl.player_id != value2).join(pt1, onclause=pt1.player_id == pl.player_id)
                         .join(pt2, onclause=pt1.player_id == pt2.player_id)
                         .join(pt3,
                               onclause=and_(pt2.team_id == pt3.team_id, pt2.year == pt3.year,
@@ -86,7 +86,8 @@ class GridDataManager(BaseDataManager):
                         .where(get_where_clause(type1, value1, pt1, tm1, st1))
                         )
             case ('player', 'player'):
-                stmt = (select(pl).join(pt1, onclause=pt1.player_id == pl.player_id)
+                stmt = (select(pl).where(and_(pl.player_id != value1, pl.player_id != value2)).join(pt1,
+                                                                                                    onclause=pt1.player_id == pl.player_id)
                         .join(pt2,
                               onclause=pt1.player_id == pt2.player_id)
                         .join(pt3,
