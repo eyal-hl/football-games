@@ -4,3 +4,4 @@ sqlalchemy
 pydantic_settings
 unidecode
 aiosqlite
+jinja2
