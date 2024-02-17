@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete, { autocompleteClasses } from '@mui/material/Autocomplete';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -7,7 +7,7 @@ import { useTheme, styled } from '@mui/material/styles';
 import { VariableSizeList, ListChildComponentProps } from 'react-window';
 // import { fetchAllPlayers } from '../api';
 import { MenuItem } from '@mui/material';
-import { fetch_all_players, fetch_players_by_name } from '../../utils/api';
+import { fetch_players_by_name } from '../../utils/api';
 import { playerSchema } from '../../utils/api.interfaces';
 
 const LISTBOX_PADDING = 2; // px
@@ -58,7 +58,7 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
     return <div ref={ref} {...props} {...outerProps} />;
   });
 
-  function useResetCache(data: any) {
+  function useResetCache(data: unknown) {
     const ref = React.useRef<VariableSizeList>(null);
     React.useEffect(() => {
       if (ref.current != null) {
@@ -165,7 +165,7 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
         renderInput={(params) => (
           <TextField inputRef={searchRef} onChange={() => updateSearch()} {...params} label="Player search" />
         )}
-        renderOption={(props, option, state) => option as React.ReactNode}
+        renderOption={(_props, option) => option as unknown as React.ReactNode}
         getOptionLabel={(option) => option.name_unaccented}
       />
     </div>
