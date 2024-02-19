@@ -5,7 +5,7 @@ from typing import (
     List,
 )
 
-DB_PATH = "db.db" 
+DB_PATH = "../db.db" 
 
 # # Open API parameters
 OPEN_API_TITLE: Final = "what"
