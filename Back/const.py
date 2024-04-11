@@ -4,8 +4,9 @@ from typing import (
     Final,
     List,
 )
+CURRENT_FOLDER = os.path.basename(os.getcwd())
 
-DB_PATH = "../db.db" 
+DB_PATH = "../db.db" if CURRENT_FOLDER=="Back" else "db.db"
 
 # # Open API parameters
 OPEN_API_TITLE: Final = "what"
