@@ -1,10 +1,11 @@
-from typing import List,Optional
+from typing import List, Optional
 
 from sqlalchemy import select
 from unidecode import unidecode
 
-
+from models.player_team import PlayerTeamModel
 from models.players import PlayerModel
+from models.teams import TeamModel
 from schemas.players import PlayerSchema, PlayersSlimSchema
 from services.base import (
     BaseDataManager,
@@ -30,6 +31,12 @@ class PlayerService(BaseService):
     async def get_nationalities(self) -> List[str]:
         return await PlayerDataManager(self.session).get_nationalities()
 
+    async def get_players_by_league(self, league_id: str, year: int) -> List[PlayersSlimSchema]:
+        return await PlayerDataManager(self.session).get_players_by_league(league_id, year)
+
+    async def get_players_by_team(self, team_id: str, year: int) -> List[PlayersSlimSchema]:
+        return await PlayerDataManager(self.session).get_players_by_team(team_id, year)
+
 
 class PlayerDataManager(BaseDataManager):
     async def get_player(self, player_id: int) -> PlayersSlimSchema:
@@ -50,13 +57,34 @@ class PlayerDataManager(BaseDataManager):
 
     async def search_players(self, name: str, search_from_middle: bool) -> List[PlayersSlimSchema]:
         schemas: List[PlayersSlimSchema] = list()
-        stmt = select(PlayerModel).where(PlayerModel.name_unaccented.like(('%' if search_from_middle else '') + unidecode(name) + '%')).limit(1000)
+        stmt = select(PlayerModel).where(
+            PlayerModel.name_unaccented.like(('%' if search_from_middle else '') + unidecode(name) + '%')).limit(1000)
         for model in await self.get_all(stmt):
             schemas += [PlayersSlimSchema(**model.to_dict())]
         return schemas
 
     async def get_nationalities(self) -> list[str]:
-        stmt = select(PlayerModel.nationality).group_by(PlayerModel.nationality)
+        stmt = select(PlayerModel.nationality).group_by(
+            PlayerModel.nationality)
         result = await self.get_all(stmt)
         result.remove(None)
         return result
+
+    async def get_players_by_league(self, league_id: str, year: int) -> List[PlayersSlimSchema]:
+        schemas: List[PlayersSlimSchema] = list()
+        stmt = (select(PlayerModel)
+                .join(PlayerTeamModel, onclause=PlayerModel.player_id == PlayerTeamModel.player_id)
+                .join(TeamModel, onclause=PlayerTeamModel.team_id == TeamModel.team_id)
+                .where(TeamModel.league_id == league_id, PlayerTeamModel.year == year)).distinct()
+        for model in await self.get_all(stmt):
+            schemas += [PlayersSlimSchema(**model.to_dict())]
+        return schemas
+
+    async def get_players_by_team(self, team_id: str, year: int) -> List[PlayersSlimSchema]:
+        schemas: List[PlayersSlimSchema] = list()
+        stmt = (select(PlayerModel)
+                .join(PlayerTeamModel, onclause=PlayerModel.player_id == PlayerTeamModel.player_id)
+                .where(PlayerTeamModel.team_id == team_id, PlayerTeamModel.year == year)).distinct()
+        for model in await self.get_all(stmt):
+            schemas += [PlayersSlimSchema(**model.to_dict())]
+        return schemas

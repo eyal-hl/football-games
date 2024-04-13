@@ -36,3 +36,16 @@ async def get_players(
         session: Session = Depends(create_session)
 ) -> List[PlayersSlimSchema]:
     return await PlayerService(session).get_players()
+
+@router.get("/league/{league_id}/{year}", response_model=List[PlayersSlimSchema])
+async def get_players_by_league(
+        league_id: str, year: int, session: Session = Depends(create_session)
+) -> List[PlayersSlimSchema]:
+    return await PlayerService(session).get_players_by_league(league_id, year)
+
+
+@router.get("/team/{team_id}/{year}", response_model=List[PlayersSlimSchema])
+async def get_players_by_team(
+        team_id: str, year: int, session: Session = Depends(create_session)
+) -> List[PlayersSlimSchema]:
+    return await PlayerService(session).get_players_by_team(team_id, year)
