@@ -41,3 +41,13 @@ export interface titleSchema extends specialSchema {
 }
 
 export type filterSchema = teamSchema | leagueSchema | nationalitySchema | playerSchema | managerSchema | titleSchema;
+
+export interface connection_details {
+  team_name: string;
+  years: string;
+}
+
+export interface mass_connection_details {
+  player_id: string;
+  connections: connection_details[];
+}
