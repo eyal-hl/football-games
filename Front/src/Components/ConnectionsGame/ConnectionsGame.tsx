@@ -18,6 +18,7 @@ const ConnectionsGame = () => {
   const [nodesSize, setNodesSize] = useState<Map<string, number>>(new Map());
   const [isGraphDataUpdated, setIsGraphDataUpdated] = useState(true);
   const [render, setRender] = useState(false);
+  const [freezeLayout, setFreezeLayout] = useState(false);
 
   useEffect(() => {
     setIsGraphDataUpdated(true);
@@ -89,7 +90,7 @@ const ConnectionsGame = () => {
     for (let i = 0; i < a.length; i++) {
       if (nodes.find((node) => node.id === a[i].player_id.toString())) continue;
       await addPlayer(a[i]);
-      await delay(100 + 10 * i); // Delay increases with each iteration
+      await delay(50 + 5 * i); // Delay increases with each iteration
       console.log(i);
     }
   };
@@ -133,11 +134,19 @@ const ConnectionsGame = () => {
           />
           <button onClick={addPlayers}>Add players</button>
           <button onClick={exportData}>Export data</button>
-          <button onClick={() => setRender((prev) => !prev)}>Toggle render</button>
+          <button onClick={() => setRender((prev) => !prev)}>{render ? 'Hide graph' : 'Show graph'}</button>
+          <button onClick={() => setFreezeLayout((prev) => !prev)}>
+            {freezeLayout ? 'Unlock nodes' : 'Lock nodes'}
+          </button>
         </div>
       </div>
       <div className={css.connectionsGameBoard}>
-        <ConnectionsGraph graphData={{ nodes, links }} nodesSize={nodesSize} render={render} />
+        <ConnectionsGraph
+          graphData={{ nodes, links }}
+          nodesSize={nodesSize}
+          render={render}
+          freezeLayout={freezeLayout}
+        />
       </div>
     </div>
   );

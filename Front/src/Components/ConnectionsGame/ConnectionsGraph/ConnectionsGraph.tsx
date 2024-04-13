@@ -8,9 +8,10 @@ interface ConnectionsGraphProps {
   graphData: graphData;
   nodesSize: Map<string, number>;
   render: boolean;
+  freezeLayout: boolean;
 }
 
-const ConnectionsGraph = ({ graphData, nodesSize, render }: ConnectionsGraphProps) => {
+const ConnectionsGraph = ({ graphData, nodesSize, render, freezeLayout }: ConnectionsGraphProps) => {
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   return render ? (
     <ForceGraph2D
@@ -46,6 +47,7 @@ const ConnectionsGraph = ({ graphData, nodesSize, render }: ConnectionsGraphProp
       linkVisibility={(link) => {
         return !selectedNode || link.source.id === selectedNode || link.target.id === selectedNode;
       }}
+      cooldownTicks={freezeLayout ? 0 : Infinity}
     />
   ) : (
     <div style={{ width: '1000px', height: '700px' }}></div>
