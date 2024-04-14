@@ -3,11 +3,9 @@ from typing import List
 from sqlalchemy import select, desc, func, and_, not_
 from sqlalchemy.orm import aliased
 
-from models.leagues import LeagueModel
 from models.player_team import PlayerTeamModel
-from schemas.player_team import PlayerTeamSchema
 from schemas.players import PlayersSlimSchema
-from schemas.teams import ConnectionSchema
+from schemas.teams import ConnectionSchema, MassConnectionSchema
 from models.teams import TeamModel
 from services.players import PlayerDataManager
 from services.base import (
@@ -17,16 +15,19 @@ from services.base import (
 from utils import format_team_years
 import asyncio
 
+
 class connectedPlayersService(BaseService):
     async def get_connection_details(self, player1: int, player2: int) -> List[ConnectionSchema]:
         return await connectedPlayersManager(self.session).getConnection(player1, player2)
 
-
     async def get_path(self, player1: int, player2: int, players_to_ignore: list[int], teams_to_ignore: list[str]) -> List[
-        PlayersSlimSchema]:
+            PlayersSlimSchema]:
         return await connectedPlayersManager(self.session).getPath(player1=player1, player2=player2,
                                                                    players_to_ignore=players_to_ignore,
                                                                    teams_to_ignore=teams_to_ignore)
+
+    async def get_mass_connection_details(self, player_id: int, players: List[int]) -> List[MassConnectionSchema]:
+        return await connectedPlayersManager(self.session).getMassConnection(player_id=player_id, players=players)
 
 
 class connectedPlayersManager(BaseDataManager):
@@ -42,13 +43,20 @@ class connectedPlayersManager(BaseDataManager):
         results = []
         models = await asyncio.create_task(self.session.execute(stmt))
         for model in models.fetchall():
-            results.append({'team_id': model[2], 'team_name': model[1], 'year': model[0].to_dict()['year']})
+            results.append(
+                {'team_id': model[2], 'team_name': model[1], 'year': model[0].to_dict()['year']})
         formatted = format_team_years(results)
         return [ConnectionSchema(**a) for a in formatted]
 
+    async def getMassConnection(self, player_id: int, players: List[int]) -> List[MassConnectionSchema]:
+        result = []
+        for player in players:
+            result.append(MassConnectionSchema(player_id=player, connections=await self.getConnection(player_id, player)))
+        return result
+
     async def getPath(self, player1: int, player2: int, players_to_ignore: list[int], teams_to_ignore: list[str]) -> \
-    List[
-        PlayersSlimSchema]:
+        List[
+            PlayersSlimSchema]:
         path = await self._bi_directional_search(player1, player2, players_to_ignore, teams_to_ignore)
         result = []
         for id in path:
@@ -101,7 +109,8 @@ class connectedPlayersManager(BaseDataManager):
                 else:
                     # Otherwise extend the paths, remove the previous one and update the inactive vertices.
                     for neighbour_vertex in current_neighbours - inactive_vertices - set(active_vertices):
-                        active_vertices_path_dict[neighbour_vertex] = current_path + [neighbour_vertex]
+                        active_vertices_path_dict[neighbour_vertex] = current_path + [
+                            neighbour_vertex]
                         active_vertices.append(neighbour_vertex)
                     active_vertices_path_dict.pop(vertex, None)
                     inactive_vertices.add(vertex)

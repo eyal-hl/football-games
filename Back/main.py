@@ -3,6 +3,8 @@ from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+import pathlib
+import uvicorn
 templates = Jinja2Templates(directory="templates")
 
 
@@ -26,7 +28,7 @@ app = FastAPI(
     swagger_ui_parameters={"defaultModelsExpandDepth": -1}
 )
 
-app.mount("/assets", StaticFiles(directory="static"), name="static")
+app.mount("/assets", StaticFiles(directory=pathlib.Path(__file__).parent / 'static'), name="static")
 
 app.add_middleware(
     CORSMiddleware,
@@ -53,3 +55,6 @@ app.include_router(games.router)
 async def catch_all(request: Request, full_path: str):
     print("full_path: "+full_path)
     return templates.TemplateResponse("index.html", {"request": request})
+
+if __name__=="__main__":
+    uvicorn.run("main:app",host='0.0.0.0', port=80, reload=True, workers=1)

@@ -54,14 +54,12 @@ class GridDataManager(BaseDataManager):
 
         match (type1, type2):
             case ('nationality', 'team' | 'league' | 'title' | 'manager'):
-                stmt = (select(pl).join(pt1,
-                                        onclause=pt1.player_id == pl.player_id)
-                .join(tm1, onclause=pt1.team_id == tm1.team_id)
-                .outerjoin(st1, onclause=and_(pt1.team_id == st1.team_id,
-                                              pt1.year == st1.year))
-                .where(
-                    and_(pl.nationality == value1,
-                         get_where_clause(type2, value2, pt1, tm1, st1))))
+                stmt = (select(pl)
+                        .join(pt1, onclause=pt1.player_id == pl.player_id)
+                        .join(tm1, onclause=pt1.team_id == tm1.team_id)
+                        .outerjoin(st1, onclause=and_(pt1.team_id == st1.team_id, pt1.year == st1.year))
+                        .where(
+                        and_(pl.nationality == value1, get_where_clause(type2, value2, pt1, tm1, st1))))
             case ('team' | 'league' | 'title' | 'manager', 'team' | 'league' | 'title' | 'manager'):
                 stmt = (select(pl).join(pt1, onclause=pt1.player_id == pl.player_id)
                         .join(pt2, onclause=pt1.player_id == pt2.player_id)

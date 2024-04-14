@@ -1,10 +1,10 @@
-import { teamSchema } from './api.interfaces';
+import { connection_details, mass_connection_details, teamSchema } from './api.interfaces';
 import { API_BASE } from './consts';
 import { playerSchema } from './api.interfaces';
 import { Filter } from './interfaces';
 
 export const fetch_all_players = async (): Promise<playerSchema[]> => {
-  const response = await fetch(`${API_BASE}/players`);
+  const response = await fetch(`${API_BASE}/players/`);
 
   return response.json();
 };
@@ -29,4 +29,35 @@ export const fetch_teams = async (): Promise<Filter[]> => {
   return (await response.json()).map((team: teamSchema) => {
     return { type: 'team', code: team.team_id, name: team.name, image: team.img_ref.replace('tiny', 'big') };
   });
+};
+
+export const fetch_connections = async (player_id1: string, player_id2: string): Promise<connection_details[]> => {
+  const response = await fetch(
+    `${API_BASE}/games/connect_players/connection_details?player1=${player_id1}&player2=${player_id2}`
+  );
+
+  return response.json();
+};
+
+export const mass_fetch_connections = async (
+  player_id: string,
+  players: string[]
+): Promise<mass_connection_details[]> => {
+  const response = await fetch(
+    `${API_BASE}/games/connect_players/mass_connection_details?player_id=${player_id}&players=${players.join(',')}`
+  );
+
+  return response.json();
+};
+
+export const fetch_all_players_from_league_year = async (league_id: string, year: string): Promise<playerSchema[]> => {
+  const response = await fetch(`${API_BASE}/players/league/${league_id}/${year}`);
+
+  return response.json();
+};
+
+export const fetch_all_players_from_team = async (team_id: string, year: string): Promise<playerSchema[]> => {
+  const response = await fetch(`${API_BASE}/players/team/${team_id}/${year}`);
+
+  return response.json();
 };

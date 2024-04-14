@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from typing import List
 
 
 class TeamSchema(BaseModel):
@@ -12,3 +13,8 @@ class TeamSchema(BaseModel):
 class ConnectionSchema(BaseModel):
     team_name: str
     years: str
+
+
+class MassConnectionSchema(BaseModel):
+    player_id: int
+    connections: List[ConnectionSchema]

@@ -21,10 +21,11 @@ const LISTBOX_PADDING = 2; // px
 */
 
 type SearchBoxProps = {
-  onSelect: (player_id: number) => void;
+  onSelect?: (player_id: number) => void;
+  onSelectFullPlayer?: (player: playerSchema) => void;
 };
 
-export default function SearchBox({ onSelect }: SearchBoxProps) {
+export default function SearchBox({ onSelect, onSelectFullPlayer }: SearchBoxProps) {
   function renderRow(props: ListChildComponentProps) {
     const { data, index, style } = props;
     // console.log(data)
@@ -39,7 +40,10 @@ export default function SearchBox({ onSelect }: SearchBoxProps) {
       // <ListSubheader key={dataSet.player_id} onClick={() => onSelect(dataSet.player_id)} style={style} component='div'>
       <MenuItem
         key={dataSet.player_id}
-        onClick={() => onSelect(dataSet.player_id)}
+        onClick={() => {
+          onSelect?.(dataSet.player_id);
+          onSelectFullPlayer?.(dataSet);
+        }}
         sx={{ ...style, top: (style.top as number) + LISTBOX_PADDING }}
       >
         {dataSet.name} &nbsp; &nbsp; &nbsp;{' '}

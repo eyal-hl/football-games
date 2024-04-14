@@ -4,6 +4,7 @@ import Home from './Components/Home/Home';
 import About from './Components/About/About';
 import GridGame from './Components/GridGame/GridGame';
 import { ThemeProvider, createTheme } from '@mui/material';
+import ConnectionsGame from './Components/ConnectionsGame/ConnectionsGame';
 
 function App() {
   const theme = createTheme({
@@ -29,6 +30,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/grid" element={<GridGame />} />
+            <Route path="/connections" element={<ConnectionsGame />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
