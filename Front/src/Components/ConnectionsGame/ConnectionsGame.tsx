@@ -17,7 +17,7 @@ const ConnectionsGame = () => {
   const [links, setLinks] = useState<graphData['links']>([]);
   const [nodesSize, setNodesSize] = useState<Map<string, number>>(new Map());
   const [isGraphDataUpdated, setIsGraphDataUpdated] = useState(true);
-  const [render, setRender] = useState(false);
+  const [render, setRender] = useState(true);
   const [freezeLayout, setFreezeLayout] = useState(false);
 
   useEffect(() => {
@@ -90,7 +90,7 @@ const ConnectionsGame = () => {
     for (let i = 0; i < a.length; i++) {
       if (nodes.find((node) => node.id === a[i].player_id.toString())) continue;
       await addPlayer(a[i]);
-      await delay(50 + 5 * i); // Delay increases with each iteration
+      await delay(50 + 10 * i); // Delay increases with each iteration
       console.log(i);
     }
   };
