@@ -176,34 +176,9 @@
       "type": "manager"
     },
     {
-      "league_id": "premier_league_GB1",
-      "name": "Premier League",
-      "img_ref": "https://tmssl.akamaized.net/images/logo/header/gb1.png?lm=1521104656"
-    },
-    {
       "league_id": "ligat_haal_ISR1",
       "name": "Ligat haal",
       "img_ref": "https://tmssl.akamaized.net/images/logo/header/isr1.png?lm=1658846140"
-    },
-    {
-      "league_id": "serie_a_IT1",
-      "name": "Serie A",
-      "img_ref": "https://tmssl.akamaized.net/images/logo/header/it1.png?lm=1656073460"
-    },
-    {
-      "league_id": "primera_division_ES1",
-      "name": "La Liga",
-      "img_ref": "https://logowik.com/content/uploads/images/laliga-santander1677.logowik.com.webp"
-    },
-    {
-      "league_id": "bundesliga_L1",
-      "name": "Bundesliga",
-      "img_ref": "https://tmssl.akamaized.net/images/logo/header/l1.png?lm=1525905518"
-    },
-    {
-      "league_id": "ligue_1_FR1",
-      "name": "Ligue 1",
-      "img_ref": "https://tmssl.akamaized.net/images/logo/header/fr1.png?lm=1702413832"
     },
     {
       "player_id": 8198,
@@ -232,6 +207,13 @@
       "name_unaccented": "Zlatan Ibrahimovic",
       "birth_date": "1981-10-03",
       "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/3455-1579506060.jpg?lm=1"
+    },
+    {
+      "player_id": 3111,
+      "name": "Zinédine Zidane",
+      "name_unaccented": "Zinedine Zidane",
+      "birth_date": "1972-06-23",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/3111-1478769687.jpg?lm=1"
     }
   ],
   "Ligat haal": [
@@ -339,6 +321,60 @@
       "ref": "/hapoel-petah-tikva/startseite/verein/262/saison_id/2023",
       "team_id": "hapoel_petah_tikva",
       "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/262.png?lm=1645709182"
+    },
+    {
+      "special_id": "nir_levine",
+      "name": "Nir Levine",
+      "ref": "/nir-levine/profil/trainer/12712",
+      "img_ref": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/Nir_Levine.jpeg/270px-Nir_Levine.jpeg",
+      "type": "manager"
+    },
+    {
+      "special_id": "dror_kashtan",
+      "name": "Dror Kashtan",
+      "ref": "/dror-kashtan/profil/trainer/3780",
+      "img_ref": "https://www.israelhayom.co.il/wp-content/uploads/2023/05/14/1381095732918_b.jpg",
+      "type": "manager"
+    },
+    {
+      "special_id": "avram_grant",
+      "name": "Avram Grant",
+      "ref": "/avram-grant/profil/trainer/5232",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/header/_1353596571.jpg?lm=1",
+      "type": "manager"
+    },
+    {
+      "special_id": "sharon_mimer",
+      "name": "Sharon Mimer",
+      "ref": "/sharon-mimer/profil/trainer/44966",
+      "img_ref": "https://103fm.maariv.co.il/download/highlight/SegmentImgNew_639380_14_29_.jpg",
+      "type": "manager"
+    },
+    {
+      "special_id": "barak_bakhar",
+      "name": "Barak Bakhar",
+      "ref": "/barak-bakhar/profil/trainer/26280",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/header/26280-1694786492.jpg?lm=1",
+      "type": "manager"
+    },
+    {
+      "special_id": "motti_ivanir",
+      "name": "Motti Ivanir",
+      "ref": "/motti-ivanir/profil/trainer/11216",
+      "img_ref": "https://upload.wikimedia.org/wikipedia/commons/4/49/%D7%9E%D7%95%D7%98%D7%99_%D7%90%D7%99%D7%95%D7%95%D7%A0%D7%99%D7%A8.png",
+      "type": "manager"
+    },
+    {
+      "special_id": "ronny_levy",
+      "name": "Ronny Levy",
+      "ref": "/ronny-levy/profil/trainer/1561",
+      "img_ref": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Ronny_Levy.jpg/300px-Ronny_Levy.jpg",
+      "type": "manager"
+    },
+    {
+      "league_id": "jupiler_pro_league_BE1",
+      "name": "Jupiler Pro League(Belgium)",
+      "img_ref": "https://tmssl.akamaized.net/images/logo/header/be1.png?lm=1601478124"
     }
   ],
   "Premier League": [
