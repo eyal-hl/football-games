@@ -1,5 +1,21 @@
 {
   "Manchester United": ["#FF0000", "#FFFFFF", "#FF0000"],
   "Real Madrid": ["#FFFFFF", "#CF00FF", "#FFFFFF"],
-  "Chelsea FC": ["#0000FF", "#FFFFFF"]
+  "Chelsea FC": ["#0000FF", "#FFFFFF"],
+  "FC Barcelona": ["#FF0000", "#0000FF", "#FF0000"],
+  "Inter Milan": ["#000000", "#0000FF"],
+  "Maccabi Haifa": ["#00FF00", "#FFFFFF"],
+  "Maccabi Tel Aviv": ["#FF0", "#00F", "#FF0"],
+  "Hapoel Beer Sheva": ["#FF0000", "#FFFFFF"],
+  "Maccabi Netanya": ["#FF0", "#000"],
+  "FC Ashdod": ["#F00", "#FF0"],
+  "Hapoel Tel Aviv": ["#FF0000", "#FFFFFF", "#FF0000"],
+  "Beitar Jerusalem": ["#FF0", "#000"],
+  "Maccabi Petah Tikva": ["#00F", "#FFF", "#00F"],
+  "Hapoel Haifa": ["#F00", "#000", "#FFF"],
+  "Hapoel Jerusalem": ["#F00", "#000"],
+  "Ihud Bnei Sakhnin": ["#F00", "#00F", "#000"],
+  "Hapoel Hadera": ["#F00", "#00F"],
+  "Maccabi Bnei Reineh": ["#00F", "#00F", "#FF0"],
+  "Hapoel Petah Tikva": ["#00F", "#FFF"]
 }

@@ -3,14 +3,7 @@ import SearchBox from '../SearchBox/SearchBox';
 import css from './ConnectionsGame.module.css';
 import ConnectionsGraph, { graphData } from './ConnectionsGraph/ConnectionsGraph';
 import { playerSchema } from '../../utils/api.interfaces';
-import {
-  fetch_all_players,
-  fetch_all_players_from_league_year,
-  fetch_all_players_from_team,
-  fetch_connections,
-  mass_fetch_connections,
-} from '../../utils/api';
-import { TEMP_DATA } from '../../utils/consts';
+import { fetch_all_players_from_league_year, mass_fetch_connections } from '../../utils/api';
 
 const ConnectionsGame = () => {
   const [nodes, setNodes] = useState<graphData['nodes']>([]);
@@ -19,6 +12,7 @@ const ConnectionsGame = () => {
   const [isGraphDataUpdated, setIsGraphDataUpdated] = useState(true);
   const [render, setRender] = useState(true);
   const [freezeLayout, setFreezeLayout] = useState(false);
+  const [isCustomColors, setIsCustomColors] = useState(false);
 
   useEffect(() => {
     setIsGraphDataUpdated(true);
@@ -138,6 +132,9 @@ const ConnectionsGame = () => {
           <button onClick={() => setFreezeLayout((prev) => !prev)}>
             {freezeLayout ? 'Unlock nodes' : 'Lock nodes'}
           </button>
+          <button onClick={() => setIsCustomColors((prev) => !prev)}>
+            {isCustomColors ? 'Default colors' : 'Custom colors'}
+          </button>
         </div>
       </div>
       <div className={css.connectionsGameBoard}>
@@ -146,6 +143,7 @@ const ConnectionsGame = () => {
           nodesSize={nodesSize}
           render={render}
           freezeLayout={freezeLayout}
+          customColors={isCustomColors}
         />
       </div>
     </div>

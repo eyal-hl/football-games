@@ -12,35 +12,50 @@ interface ConnectionsGraphProps {
   nodesSize: Map<string, number>;
   render: boolean;
   freezeLayout: boolean;
+  customColors: boolean;
 }
 
-const ConnectionsGraph = ({ graphData, nodesSize, render, freezeLayout }: ConnectionsGraphProps) => {
-  const drawLineWithColors = (canvas, startPoint, endPoint, colors) => {
+const ConnectionsGraph = ({ graphData, nodesSize, render, freezeLayout, customColors }: ConnectionsGraphProps) => {
+  // Chat gpt something
+  const drawLineWithColors = (canvas, startPoint, endPoint, colors, curvature) => {
     const ctx = canvas.getContext('2d');
-    const deltaX = endPoint.x - startPoint.x;
-    const deltaY = endPoint.y - startPoint.y;
-    const numSegments = 100; // You can adjust this for smoother or more detailed lines
-
-    const segmentDeltaX = deltaX / numSegments;
-    const segmentDeltaY = deltaY / numSegments;
-
+    const numSegments = 50; // You can adjust this for smoother or more detailed lines
     let currentX = startPoint.x;
     let currentY = startPoint.y;
 
     for (let i = 0; i < numSegments; i++) {
+      const t = i / numSegments;
+      const invT = 1 - t;
+      const midX = invT * startPoint.x + t * endPoint.x;
+      const midY = invT * startPoint.y + t * endPoint.y;
+      let controlX, controlY;
+
+      if (colors.length === 1) {
+        // Calculate control point based on midpoint
+        controlX = midX + curvature * (endPoint.y - startPoint.y);
+        controlY = midY - curvature * (endPoint.x - startPoint.x);
+      } else {
+        // Calculate control point based on Bezier curve formula
+        controlX = midX + curvature * (endPoint.y - startPoint.y);
+        controlY = midY - curvature * (endPoint.x - startPoint.x);
+      }
+
+      const x = invT * invT * startPoint.x + 2 * invT * t * controlX + t * t * endPoint.x;
+      const y = invT * invT * startPoint.y + 2 * invT * t * controlY + t * t * endPoint.y;
       const color = colors[i % colors.length]; // Cycle through colors
+
       ctx.beginPath();
       ctx.moveTo(currentX, currentY);
-      ctx.lineTo(currentX + segmentDeltaX, currentY + segmentDeltaY);
+      ctx.lineTo(x, y);
       ctx.strokeStyle = color;
       ctx.stroke();
 
-      currentX += segmentDeltaX;
-      currentY += segmentDeltaY;
+      currentX = x;
+      currentY = y;
     }
   };
 
-  const [otherTeamsColors, setOtherTeamsColors] = useState<Map<string, string>>(new Map());
+  const [otherTeamsColors, setOtherTeamsColors] = useState<Map<string, string[]>>(new Map());
 
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
 
@@ -54,7 +69,6 @@ const ConnectionsGraph = ({ graphData, nodesSize, render, freezeLayout }: Connec
     });
     return color;
   };
-  console.log(otherTeamsColors);
 
   return render ? (
     <ForceGraph2D
@@ -91,16 +105,21 @@ const ConnectionsGraph = ({ graphData, nodesSize, render, freezeLayout }: Connec
         return !selectedNode || link.source.id === selectedNode || link.target.id === selectedNode;
       }}
       cooldownTicks={freezeLayout ? 0 : Infinity}
-      linkCanvasObject={(link, ctx) => {
-        const colors = teamColors[link.label] ?? getOtherTeamsColor(link.label);
+      linkCanvasObject={
+        customColors
+          ? (link, ctx) => {
+              const colors = teamColors[link.label] ?? getOtherTeamsColor(link.label);
 
-        drawLineWithColors(
-          ctx.canvas,
-          { x: link.source.x, y: link.source.y },
-          { x: link.target.x, y: link.target.y },
-          colors
-        );
-      }}
+              drawLineWithColors(
+                ctx.canvas,
+                { x: link.source.x, y: link.source.y },
+                { x: link.target.x, y: link.target.y },
+                colors,
+                link.timesMet % 2 === 0 ? 0.2 * link.timesMet : -0.2 * (link.timesMet + 1)
+              );
+            }
+          : undefined
+      }
       onLinkClick={(link) => {
         navigator.clipboard.writeText(link.label);
       }}
