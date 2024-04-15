@@ -16,7 +16,7 @@ interface ConnectionsGraphProps {
 }
 
 const ConnectionsGraph = ({ graphData, nodesSize, render, freezeLayout, customColors }: ConnectionsGraphProps) => {
-  // Chat gpt something
+  // Chat gpt magic and its curves wierd for some reason
   const drawLineWithColors = (canvas, startPoint, endPoint, colors, curvature) => {
     const ctx = canvas.getContext('2d');
     const numSegments = 50; // You can adjust this for smoother or more detailed lines
@@ -28,17 +28,9 @@ const ConnectionsGraph = ({ graphData, nodesSize, render, freezeLayout, customCo
       const invT = 1 - t;
       const midX = invT * startPoint.x + t * endPoint.x;
       const midY = invT * startPoint.y + t * endPoint.y;
-      let controlX, controlY;
 
-      if (colors.length === 1) {
-        // Calculate control point based on midpoint
-        controlX = midX + curvature * (endPoint.y - startPoint.y);
-        controlY = midY - curvature * (endPoint.x - startPoint.x);
-      } else {
-        // Calculate control point based on Bezier curve formula
-        controlX = midX + curvature * (endPoint.y - startPoint.y);
-        controlY = midY - curvature * (endPoint.x - startPoint.x);
-      }
+      const controlX = midX + curvature * (endPoint.y - startPoint.y);
+      const controlY = midY - curvature * (endPoint.x - startPoint.x);
 
       const x = invT * invT * startPoint.x + 2 * invT * t * controlX + t * t * endPoint.x;
       const y = invT * invT * startPoint.y + 2 * invT * t * controlY + t * t * endPoint.y;
@@ -58,6 +50,17 @@ const ConnectionsGraph = ({ graphData, nodesSize, render, freezeLayout, customCo
   const [otherTeamsColors, setOtherTeamsColors] = useState<Map<string, string[]>>(new Map());
 
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
+
+  //finds the node with the biggest node size
+  const findBiggestNode = () => {
+    let biggestNode = { id: '', size: 0 };
+    nodesSize.forEach((size, id) => {
+      if (size > biggestNode.size) {
+        biggestNode = { id, size };
+      }
+    });
+    return biggestNode;
+  };
 
   const getOtherTeamsColor = (teamName: string) => {
     if (otherTeamsColors.has(teamName)) return otherTeamsColors.get(teamName);
