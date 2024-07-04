@@ -1,5 +1,6 @@
 import { filterSchema } from './api.interfaces.ts';
 import { Filter } from './interfaces.ts';
+import { changedFlags, defaultFlags } from './flagsStuff.json';
 
 interface gameFilters {
   topFilters: Filter[];
@@ -47,6 +48,26 @@ export const translateFilters = (filterShemas: filterSchema[] | undefined): Filt
       };
     }
 
-    return { type: 'nationality', code: filter.name, name: filter.name, image: '' };
+    return {
+      type: 'nationality',
+      code: filter.name,
+      name: filter.name,
+      image:
+        changedFlags[filter.name as keyof typeof changedFlags] ??
+        defaultFlags[filter.name as keyof typeof defaultFlags],
+    };
   });
 };
+
+// const createFlagsUrls = () => {
+//   let a: any = new Object();
+
+//   //
+//   //`${flagsUrlPrefix}${country.Code}${flagsUrlSuffix}`
+//   countryCodes.forEach((country) => {
+//     a[country.Name] = `${flagsUrlPrefix}${country.Code}${flagsUrlSuffix}`;
+//   });
+//   console.log(a);
+// };
+
+// createFlagsUrls();

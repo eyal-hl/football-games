@@ -1,6 +1,12 @@
 {
   "default": [
     {
+      "name": "England"
+    },
+    {
+      "name": "Israel"
+    },
+    {
       "name": "Manchester City",
       "league_id": "premier_league_GB1",
       "ref": "/manchester-city/startseite/verein/281/saison_id/2023",
@@ -517,6 +523,12 @@
       "ref": "/luton-town/startseite/verein/1031/saison_id/2023",
       "team_id": "luton_town",
       "img_ref": "https://tmssl.akamaized.net/images/wappen/tiny/1031.png?lm=1457723228"
+    },
+    {
+      "name": "Israel"
+    },
+    {
+      "name": "England"
     }
   ]
 }
