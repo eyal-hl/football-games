@@ -73,15 +73,14 @@ const GridGame = () => {
       );
     }
 
-    return <div>{rows}</div>;
+    return <div className={css.gridContainer}>{rows}</div>;
   };
 
   return (
-    <div className={css.page} style={{ '--grid-item-size': '10rem' } as React.CSSProperties}>
+    <div className={css.page}>
       <div className={css.gridGame}>
         <div className={css.topBar}>
           <SearchBox onSelect={(playerid) => setSearchedPlayer({ player_id: playerid })} />
-
           <FiltersSelectorDropDown onChange={(filters) => setFilterState(filters)} />
           <GridSizeDropDown gridSizeState={gridSizeState} setGridSizeState={setGridSizeState} />
         </div>

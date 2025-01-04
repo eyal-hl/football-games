@@ -1,34 +1,68 @@
 .page {
-  height: 100vh;
-  margin-top: 5vh;
+  min-height: 100vh;
+  padding: 2rem;
   display: flex;
   flex-direction: column;
+  align-items: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f2 100%);
 }
 .gridGame {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  user-select: none;
+  gap: 2rem;
+  max-width: 1400px;
+  width: 100%;
   background-color: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
-
 .row {
   display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
 }
-
 .topLeft {
-  width: var(--grid-item-size);
-  height: var(--grid-item-size);
-  border: 1px solid #ff5aff;
-
-  img {
-    height: 100%;
-    width: 100%;
-  }
+  width: 10rem;
+  height: 10rem;
+  outline: 2px solid #e8ecf3;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  background: linear-gradient(145deg, #ffffff, #f5f7fa);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
-
+.topLeft:hover {
+  outline-color: #4299e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+.topLeft img {
+  height: 85%;
+  width: 85%;
+  object-fit: cover;
+  padding: 0.75rem;
+}
 .topBar {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 1.5rem 2rem;
+  margin-bottom: 2rem;
+  background-color: #f8fafc;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e8ecf3;
+}
+.gridContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #f8fafc;
+  padding: 2rem;
+  border-radius: 16px;
+  border: 1px solid #e8ecf3;
 }

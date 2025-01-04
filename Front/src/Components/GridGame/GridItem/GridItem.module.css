@@ -1,50 +1,69 @@
 .gridItem {
   position: relative;
-  border: 1px solid rgb(112, 112, 112);
+  outline: 2px solid #e8ecf3;
   display: flex;
   flex-direction: column;
-  height: var(--grid-item-size);
-  width: var(--grid-item-size);
+  height: 10rem;
+  width: 10rem;
   align-items: center;
   justify-content: center;
-
-  background-color: #f0f0f0;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Slight shadow for each item */
+  background: linear-gradient(145deg, #ffffff, #f5f7fa);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
 }
+
 .gridItem:hover {
-  background-color: #e0e0e0; /* Slightly darker on hover for interactive feel */
-  transition: cubic-bezier(0.215, 0.61, 0.355, 1);
-  transition-duration: 300ms;
+  outline-color: #4299e1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .image {
-  height: 100%;
-  width: 100%;
-  object-fit: contain;
-  border-radius: 5%;
+  height: 85%;
+  width: 85%;
+  object-fit: cover;
+  border-radius: 8px;
+  padding: 0.75rem;
+  transition: transform 0.3s ease;
 }
+
 .selected {
-  box-shadow:
-    inset rgba(60, 70, 85, 0.5) 0px 0px 40px 0px,
-    inset rgba(60, 70, 85, 0.5) 0px 0px 40px 0px,
-    inset rgba(0, 0, 0, 1) 0px 0px 36px -24px;
+  outline-color: #4299e1;
+  background: linear-gradient(145deg, #ffffff, #ebf8ff);
+  box-shadow: 0 4px 12px rgba(66, 153, 225, 0.2);
+  transform: translateY(-2px);
 }
 
 .confirmedAmount {
   position: absolute;
   bottom: 0;
   text-align: center;
-  font-size: 2rem;
+  font-size: 1.25rem;
+  font-weight: 600;
   width: 100%;
-  color: #f5f5f5;
-  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  background: linear-gradient(to right, #4299e1, #667eea);
+  padding: 0.35rem 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 
 .noPlayers {
-  color: red;
-  scale: 10;
+  color: #e53e3e;
+  transform: scale(6);
+  opacity: 0.8;
 }
 
 .complete {
-  background-color: green;
+  outline-color: #48bb78;
+  background: linear-gradient(145deg, #ffffff, #f0fff4);
+  box-shadow: 0 4px 12px rgba(72, 187, 120, 0.2);
+  transform: translateY(-2px);
+}
+
+.loading {
+  color: #718096;
+  font-size: 1.1rem;
+  font-weight: 500;
 }
