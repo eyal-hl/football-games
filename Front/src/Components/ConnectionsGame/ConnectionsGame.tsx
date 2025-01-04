@@ -52,14 +52,14 @@ const ConnectionsGame = () => {
       });
 
       setLinks((prev) => [...prev, ...newLinks]);
-      await new Promise((resolve) => {
+      await new Promise<void>((resolve) => {
         const intervalId = setInterval(() => {
           if (isGraphDataUpdated) {
             setIsGraphDataUpdated(false);
             clearInterval(intervalId);
             resolve();
           }
-        }, 10); // Check every 10 milliseconds
+        }, 10);
       });
     };
     a();
@@ -69,13 +69,13 @@ const ConnectionsGame = () => {
     setIsGraphDataUpdated(false);
     setNodes((prev) => [...prev, { id: player.player_id.toString(), img_ref: player.img_ref, name: player.name }]);
 
-    await new Promise((resolve) => {
+    await new Promise<void>((resolve) => {
       const intervalId = setInterval(() => {
         if (isGraphDataUpdated) {
           clearInterval(intervalId);
           resolve();
         }
-      }, 10); // Check every 10 milliseconds
+      }, 10);
     });
   };
 
@@ -103,7 +103,7 @@ const ConnectionsGame = () => {
     downloadTxtFile(JSON.stringify(links), 'links.json');
     downloadTxtFile(JSON.stringify(nodes), 'nodes.json');
     downloadTxtFile(
-      JSON.stringify(nodesSize, (key, value) => {
+      JSON.stringify(nodesSize, (_, value) => {
         if (value instanceof Map) {
           return {
             dataType: 'Map',

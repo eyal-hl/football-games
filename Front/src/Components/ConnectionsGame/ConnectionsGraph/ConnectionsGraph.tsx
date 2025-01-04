@@ -25,8 +25,15 @@ const ConnectionsGraph = ({
   nodeRightClick,
 }: ConnectionsGraphProps) => {
   // Chat gpt magic and its curves wierd for some reason
-  const drawLineWithColors = (canvas, startPoint, endPoint, colors, curvature) => {
+  const drawLineWithColors = (
+    canvas: HTMLCanvasElement,
+    startPoint: { x: number; y: number },
+    endPoint: { x: number; y: number },
+    colors: string[],
+    curvature: number
+  ) => {
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
     const numSegments = 50; // You can adjust this for smoother or more detailed lines
     let currentX = startPoint.x;
     let currentY = startPoint.y;
@@ -116,18 +123,22 @@ const ConnectionsGraph = ({
         nodeRightClick(node.id);
       }}
       linkVisibility={(link) => {
-        return !selectedNode || link.source.id === selectedNode || link.target.id === selectedNode;
+        const sourceNode = link.source as { id: string };
+        const targetNode = link.target as { id: string };
+        return !selectedNode || sourceNode.id === selectedNode || targetNode.id === selectedNode;
       }}
       cooldownTicks={freezeLayout ? 0 : Infinity}
       linkCanvasObject={
         customColors
           ? (link, ctx) => {
               const colors = teamColors[link.label] ?? getOtherTeamsColor(link.label);
+              const sourceNode = link.source as { x?: number; y?: number };
+              const targetNode = link.target as { x?: number; y?: number };
 
               drawLineWithColors(
                 ctx.canvas,
-                { x: link.source.x, y: link.source.y },
-                { x: link.target.x, y: link.target.y },
+                { x: sourceNode.x || 0, y: sourceNode.y || 0 },
+                { x: targetNode.x || 0, y: targetNode.y || 0 },
                 colors,
                 link.timesMet % 2 === 0 ? 0.2 * link.timesMet : -0.2 * (link.timesMet + 1)
               );
