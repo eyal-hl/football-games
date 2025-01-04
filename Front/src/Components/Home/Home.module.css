@@ -1,0 +1,98 @@
+.home {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero {
+  text-align: center;
+  margin-bottom: 4rem;
+  padding: 4rem;
+  background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+  border-radius: 12px;
+  color: white;
+  width: 100%;
+}
+
+.heroTitle {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.heroSubtitle {
+  font-size: 1.5rem;
+  opacity: 0.9;
+}
+
+.games {
+  display: flex;
+  gap: 3rem;
+  justify-content: center;
+  width: 100%;
+}
+
+.gameCard {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 300px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.gameCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+}
+
+.iconWrapper {
+  background: linear-gradient(135deg, #1a2a6c, #b21f1f);
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.icon {
+  font-size: 2.5rem !important;
+  color: white;
+}
+
+.gameTitle {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #1a2a6c;
+  font-weight: bold;
+}
+
+.gameDescription {
+  color: #666;
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .games {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .hero {
+    padding: 2rem;
+  }
+
+  .heroTitle {
+    font-size: 3rem;
+  }
+}
