@@ -1,4 +1,4 @@
-import { connection_details, mass_connection_details, teamSchema } from './api.interfaces';
+import { connection_details, mass_connection_details, playerTeamHistory, teamSchema } from './api.interfaces';
 import { API_BASE } from './consts';
 import { playerSchema } from './api.interfaces';
 import { Filter } from './interfaces';
@@ -59,5 +59,10 @@ export const fetch_all_players_from_league_year = async (league_id: string, year
 export const fetch_all_players_from_team = async (team_id: string, year: string): Promise<playerSchema[]> => {
   const response = await fetch(`${API_BASE}/players/team/${team_id}/${year}`);
 
+  return response.json();
+};
+
+export const fetch_player_history = async (player_id: string): Promise<playerTeamHistory[]> => {
+  const response = await fetch(`${API_BASE}/player_teams/team_history/${player_id}`);
   return response.json();
 };

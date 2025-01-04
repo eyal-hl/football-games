@@ -51,3 +51,14 @@ export interface mass_connection_details {
   player_id: string;
   connections: connection_details[];
 }
+
+export interface playerTeamHistory {
+  player_id: string;
+  team_id: string;
+  team: string;
+  team_img: string;
+  years: string;
+  league_id: string;
+  league: string;
+  league_img: string;
+}

@@ -13,9 +13,17 @@ interface ConnectionsGraphProps {
   render: boolean;
   freezeLayout: boolean;
   customColors: boolean;
+  nodeRightClick: (node: string) => void;
 }
 
-const ConnectionsGraph = ({ graphData, nodesSize, render, freezeLayout, customColors }: ConnectionsGraphProps) => {
+const ConnectionsGraph = ({
+  graphData,
+  nodesSize,
+  render,
+  freezeLayout,
+  customColors,
+  nodeRightClick,
+}: ConnectionsGraphProps) => {
   // Chat gpt magic and its curves wierd for some reason
   const drawLineWithColors = (canvas, startPoint, endPoint, colors, curvature) => {
     const ctx = canvas.getContext('2d');
@@ -103,6 +111,9 @@ const ConnectionsGraph = ({ graphData, nodesSize, render, freezeLayout, customCo
           return;
         }
         setSelectedNode(node.id);
+      }}
+      onNodeRightClick={(node) => {
+        nodeRightClick(node.id);
       }}
       linkVisibility={(link) => {
         return !selectedNode || link.source.id === selectedNode || link.target.id === selectedNode;

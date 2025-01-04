@@ -1,0 +1,41 @@
+.Modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  z-index: 1000;
+  border-radius: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+  width: 20vw;
+  min-height: 40vh;
+  max-height: 70vh;
+
+  overflow-y: overlay;
+  scrollbar-width: thin;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+}
+
+.Header {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid black;
+  width: 100%;
+  text-align: center;
+}
+.TeamRow {
+  td {
+    text-align: center;
+    padding: 0.5rem;
+    width: 6rem;
+    img {
+      width: 6rem;
+    }
+  }
+}

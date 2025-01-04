@@ -4,6 +4,7 @@ import css from './ConnectionsGame.module.css';
 import ConnectionsGraph, { graphData } from './ConnectionsGraph/ConnectionsGraph';
 import { playerSchema } from '../../utils/api.interfaces';
 import { fetch_all_players_from_league_year, mass_fetch_connections } from '../../utils/api';
+import PlayerHistory from '../Common/PlayerHistory/PlayerHistory';
 
 const ConnectionsGame = () => {
   const [nodes, setNodes] = useState<graphData['nodes']>([]);
@@ -13,6 +14,7 @@ const ConnectionsGame = () => {
   const [render, setRender] = useState(true);
   const [freezeLayout, setFreezeLayout] = useState(false);
   const [isCustomColors, setIsCustomColors] = useState(false);
+  const [playerHistoryPlayerId, setPlayerHistoryPlayerId] = useState('');
 
   useEffect(() => {
     setIsGraphDataUpdated(true);
@@ -144,8 +146,16 @@ const ConnectionsGame = () => {
           render={render}
           freezeLayout={freezeLayout}
           customColors={isCustomColors}
+          nodeRightClick={(player_id) => setPlayerHistoryPlayerId(player_id)}
         />
       </div>
+      {playerHistoryPlayerId !== '' && (
+        <PlayerHistory
+          player_id={playerHistoryPlayerId}
+          open={playerHistoryPlayerId !== ''}
+          onClose={() => setPlayerHistoryPlayerId('')}
+        />
+      )}
     </div>
   );
 };
