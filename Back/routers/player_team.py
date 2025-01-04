@@ -1,9 +1,8 @@
 from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-
 from backend.session import create_session
-from schemas.player_team import PlayerTeamSchema, CombinedPlayerTeamSchema
+from schemas.player_team import PlayerTeamHistorySchema, PlayerTeamSchema, CombinedPlayerTeamSchema
 from services.player_team import PlayerTeamService
 
 router = APIRouter(prefix="/player_teams")
@@ -28,3 +27,9 @@ async def get_player(
         player_id: int, session: Session = Depends(create_session)
 ) -> List[PlayerTeamSchema]:
     return await PlayerTeamService(session).get_playerTeam(player_id)
+
+@router.get("/team_history/{player_id}", response_model=List[PlayerTeamHistorySchema])
+async def get_team_history(
+        player_id: int, session: Session = Depends(create_session)
+) -> List[PlayerTeamSchema]:
+    return await PlayerTeamService(session).get_team_history(player_id)

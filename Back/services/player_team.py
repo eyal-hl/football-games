@@ -4,7 +4,7 @@ from sqlalchemy import select, and_, desc, asc
 
 from unidecode import unidecode
 from models.player_team import PlayerTeamModel
-from schemas.player_team import PlayerTeamSchema, CombinedPlayerTeamSchema
+from schemas.player_team import PlayerTeamHistorySchema, PlayerTeamSchema, CombinedPlayerTeamSchema
 from models.players import PlayerModel
 from models.teams import TeamModel
 from models.leagues import LeagueModel
@@ -24,30 +24,35 @@ class PlayerTeamService(BaseService):
         return await PlayerTeamDataManager(self.session).get_playerTeam(player_id)
 
     async def search_playerTeams(self, player_id: str, name: str, nationality: str, year: str, player_number: str,
-                           age_at_club: str,
-                           position: str,
-                           team: str, team_id: str, league: str, league_id: str) -> List[CombinedPlayerTeamSchema]:
+                                 age_at_club: str,
+                                 position: str,
+                                 team: str, team_id: str, league: str, league_id: str) -> List[CombinedPlayerTeamSchema]:
         """Search playerTeams by name"""
         return await PlayerTeamDataManager(self.session).search_playerTeams(player_id=player_id, name=name,
-                                                                      nationality=nationality, year=year,
-                                                                      player_number=player_number,
-                                                                      age_at_club=age_at_club, position=position,
-                                                                      team=team, team_id=team_id, league=league,
-                                                                      league_id=league_id)
+                                                                            nationality=nationality, year=year,
+                                                                            player_number=player_number,
+                                                                            age_at_club=age_at_club, position=position,
+                                                                            team=team, team_id=team_id, league=league,
+                                                                            league_id=league_id)
+
+    async def get_team_history(self, player_id: int) -> List[PlayerTeamHistorySchema]:
+        """Get team history by player_id"""
+        return await PlayerTeamDataManager(self.session).get_team_history(player_id)
 
 
 class PlayerTeamDataManager(BaseDataManager):
     async def get_playerTeam(self, player_id: int) -> List[PlayerTeamSchema]:
-        stmt = select(PlayerTeamModel).where(PlayerTeamModel.player_id == player_id)
+        stmt = select(PlayerTeamModel).where(
+            PlayerTeamModel.player_id == player_id)
         schemas = []
         for model in await self.get_all(stmt):
             schemas += [PlayerTeamSchema(**model.to_dict())]
         return schemas
 
     async def search_playerTeams(self, player_id: str, name: str, nationality: str, year: str, player_number: str,
-                           age_at_club: str,
-                           position: str, team: str, team_id: str, league: str, league_id: str) -> List[
-        CombinedPlayerTeamSchema]:
+                                 age_at_club: str,
+                                 position: str, team: str, team_id: str, league: str, league_id: str) -> List[
+            CombinedPlayerTeamSchema]:
         schemas: List[CombinedPlayerTeamSchema] = []
         combined_list = []
         conditions = []
@@ -56,16 +61,19 @@ class PlayerTeamDataManager(BaseDataManager):
         if player_id:
             conditions.append(PlayerTeamModel.player_id == player_id)
         if name:
-            conditions.append(PlayerModel.name_unaccented.ilike('%' + unidecode(name) + '%'))
+            conditions.append(PlayerModel.name_unaccented.ilike(
+                '%' + unidecode(name) + '%'))
 
         if nationality:
-            conditions.append(PlayerModel.nationality.ilike('%' + nationality + '%'))
+            conditions.append(PlayerModel.nationality.ilike(
+                '%' + nationality + '%'))
 
         if year:
             conditions.append(PlayerTeamModel.year.like(year))
 
         if player_number:
-            conditions.append(PlayerTeamModel.player_number.like(player_number))
+            conditions.append(
+                PlayerTeamModel.player_number.like(player_number))
 
         if age_at_club:
             conditions.append(PlayerTeamModel.age_at_club.like(age_at_club))
@@ -77,7 +85,8 @@ class PlayerTeamDataManager(BaseDataManager):
             conditions.append(TeamModel.name.ilike('%' + team + "%"))
 
         if team_id:
-            conditions.append(PlayerTeamModel.team_id.ilike('%' + team_id + "%"))
+            conditions.append(
+                PlayerTeamModel.team_id.ilike('%' + team_id + "%"))
 
         if league:
             conditions.append(LeagueModel.name.ilike('%' + league + "%"))
@@ -127,4 +136,29 @@ class PlayerTeamDataManager(BaseDataManager):
         for combined in formatted:
             schemas += [
                 CombinedPlayerTeamSchema(**combined)]
+        return schemas
+
+    async def get_team_history(self, player_id: int) -> List[PlayerTeamHistorySchema]:
+        stmt = (
+            select(PlayerTeamModel, TeamModel, LeagueModel)
+            .join(TeamModel, onclause=PlayerTeamModel.team_id == TeamModel.team_id)
+            .join(LeagueModel, onclause=TeamModel.league_id == LeagueModel.league_id)
+            .where(PlayerTeamModel.player_id == player_id)
+        )
+        combined_list = []
+        schemas = []
+        result = await asyncio.create_task(self.session.execute(stmt))
+        for row in result.fetchall():
+            playerTeam: dict = row[0].to_dict()
+            team: dict = row[1].to_dict()
+            league: dict = row[2].to_dict()
+            combined = {'player_id': player_id, 'team_id': playerTeam['team_id'],
+                        'team': team['name'], 'team_img': team['img_ref'],
+                        'year': playerTeam['year'], 'league_id': team['league_id'],
+                        'league': league['name'], 'league_img': league['img_ref']}
+            combined_list.append(combined)
+        formatted = format_team_years(combined_list)
+        for combined in formatted:
+            schemas += [
+                PlayerTeamHistorySchema(**combined)]
         return schemas

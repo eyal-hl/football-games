@@ -36,3 +36,13 @@ class CombinedPlayerTeamSchema(BaseModel):
     player_id: int
     team_id: str
     league_id: str
+
+class PlayerTeamHistorySchema(BaseModel):
+    player_id: int
+    team_id: str
+    team: str
+    team_img: str
+    years: str
+    league_id: str
+    league: str
+    league_img: str

@@ -1,0 +1,164 @@
+{
+  "playersBank": [
+    {
+      "id": "28003",
+      "name": "Lionel Messi",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/28003-1694590254.jpg?lm=1"
+    },
+    {
+      "id": "68290",
+      "name": "Neymar",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/68290-1697056482.png?lm=1"
+    },
+    {
+      "id": "44352",
+      "name": "Luis Suárez",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/44352-1668156555.jpg?lm=1"
+    },
+    {
+      "id": "8198",
+      "name": "Cristiano Ronaldo",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/8198-1694609670.jpg?lm=1"
+    },
+    {
+      "id": "39381",
+      "name": "Gareth Bale",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/39381-1658665343.jpg?lm=1"
+    },
+    {
+      "id": "18922",
+      "name": "Karim Benzema",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/18922-1703282674.png?lm=1"
+    },
+    {
+      "id": "25557",
+      "name": "Sergio Ramos",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/25557-1694502812.jpg?lm=1"
+    },
+    {
+      "id": "3140",
+      "name": "Ronaldo",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/3140-1489417571.jpg?lm=1"
+    },
+    {
+      "id": "3373",
+      "name": "Ronaldinho",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/3373-1515762355.jpg?lm=1"
+    },
+    {
+      "id": "610442",
+      "name": "Rasmus Højlund",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/610442-1699471458.jpg?lm=1"
+    },
+    {
+      "id": "258923",
+      "name": "Marcus Rashford",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/258923-1674473054.jpg?lm=1"
+    },
+    {
+      "id": "240306",
+      "name": "Bruno Fernandes",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/240306-1683882766.jpg?lm=1"
+    },
+    {
+      "id": "342229",
+      "name": "Kylian Mbappé",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/342229-1682683695.jpg?lm=1"
+    },
+    {
+      "id": "7858",
+      "name": "Yossi Benayoun",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/s_7858_631_2013_04_25_1.jpg?lm=1"
+    },
+    {
+      "id": "85093",
+      "name": "Eran Zahavi",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/85093-1563266049.jpg?lm=1"
+    },
+    {
+      "id": "3455",
+      "name": "Zlatan Ibrahimović",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/3455-1579506060.jpg?lm=1"
+    },
+    {
+      "id": "4380",
+      "name": "Robin van Persie",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/4380-1516382956.jpg?lm=1"
+    },
+    {
+      "id": "3332",
+      "name": "Wayne Rooney",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/3332-1551295290.jpg?lm=1"
+    },
+    {
+      "id": "45320",
+      "name": "Ángel Di María",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/45320-1700648952.jpg?lm=1"
+    },
+    {
+      "id": "206050",
+      "name": "Paulo Dybala",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/206050-1641810495.jpg?lm=1"
+    },
+    {
+      "id": "96341",
+      "name": "Romelu Lukaku",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/96341-1661780981.jpg?lm=1"
+    },
+    {
+      "id": "50202",
+      "name": "Eden Hazard",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/50202-1665067742.jpg?lm=1"
+    },
+    {
+      "id": "29241",
+      "name": "Thiago Silva",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/29241-1661856081.jpg?lm=1"
+    },
+    {
+      "id": "18944",
+      "name": "Gerard Piqué",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/18944-1667548226.jpg?lm=1"
+    },
+    {
+      "id": "7476",
+      "name": "Xabi Alonso",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/7476-1471439383.JPG?lm=1"
+    },
+    {
+      "id": "3109",
+      "name": "Steven Gerrard",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/s_3109_31_2013_01_16_1.jpg?lm=1"
+    },
+    {
+      "id": "3160",
+      "name": "John Terry",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/3160-1462887884.jpg?lm=1"
+    },
+    {
+      "id": "3163",
+      "name": "Frank Lampard",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/3163-1674475335.jpg?lm=1"
+    },
+    {
+      "id": "3406",
+      "name": "Ryan Giggs",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/3406-1589198838.jpg?lm=1"
+    },
+    {
+      "id": "3397",
+      "name": "Paul Scholes",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/3397-1595498527.jpg?lm=1"
+    },
+    {
+      "id": "132098",
+      "name": "Harry Kane",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/132098-1700211169.jpg?lm=1"
+    },
+    {
+      "id": "59377",
+      "name": "David de Gea",
+      "img_ref": "https://img.a.transfermarkt.technology/portrait/medium/59377-1667548362.jpg?lm=1"
+    }
+  ]
+}
