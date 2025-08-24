@@ -24,3 +24,51 @@ JOIN players p ON pt.player_id = p.player_id
 WHERE pt.team_id IN ('team1', 'team2', 'team3')  
 GROUP BY pt.player_id  
 HAVING COUNT(DISTINCT pt.team_id) = 3;
+
+
+Connected score of all pairs
+WITH player_teams AS (
+  -- collapse multiple seasons per player-team, but only from the cutoff year
+  SELECT DISTINCT player_id, team_id
+  FROM playerTeam
+  WHERE year >= 2000
+)
+SELECT
+  a.team_id AS team_a,
+  b.team_id AS team_b,
+  COUNT(DISTINCT a.player_id) AS shared_players
+FROM player_teams a
+JOIN player_teams b
+  ON a.player_id = b.player_id
+ -- enforce an ordering to avoid (A,B) and (B,A) duplicates
+ AND a.team_id < b.team_id
+GROUP BY a.team_id, b.team_id
+ORDER BY shared_players DESC;
+
+
+
+Connected score to team x
+WITH x_players AS (
+  SELECT DISTINCT player_id
+  FROM playerTeam
+  WHERE team_id = 'manchester_united'
+    AND year >= 2000
+)
+SELECT
+  pt.team_id AS other_team_id,
+  COUNT(DISTINCT pt.player_id) AS connected_score
+FROM x_players xp
+JOIN playerTeam pt
+  ON pt.player_id = xp.player_id
+WHERE pt.team_id <> 'manchester_united'
+  AND pt.year >= 2000
+GROUP BY pt.team_id
+ORDER BY connected_score DESC;
+
+
+select players.name, pt1.team_id, pt1.year , pt2.team_id, pt2.year
+from playerTeam as pt1
+join playerTeam as pt2 on pt1.player_id = pt2.player_id
+join players on pt1.player_id = players.player_id
+where pt1.team_id = 'maccabi_tel_aviv' and pt2.team_id = 'hapoel_tel_aviv' and pt1.year >= 2012 and pt2.year >= 2000
+group by pt1.player_id

@@ -3,7 +3,7 @@ import SearchBox from '../SearchBox/SearchBox';
 import css from './ConnectionsGame.module.css';
 import ConnectionsGraph, { graphData } from './ConnectionsGraph/ConnectionsGraph';
 import { playerSchema } from '../../utils/api.interfaces';
-import { fetch_all_players_from_league_year, mass_fetch_connections } from '../../utils/api';
+import { fetch_all_players_from_league_year, fetch_all_players_from_team, mass_fetch_connections } from '../../utils/api';
 import PlayerHistory from '../Common/PlayerHistory/PlayerHistory';
 
 const ConnectionsGame = () => {
@@ -80,8 +80,8 @@ const ConnectionsGame = () => {
   };
 
   const addPlayers = async () => {
-    // const a = await fetch_all_players_from_team('manchester_united', '2023');
-    const a = await fetch_all_players_from_league_year('ligat_haal_ISR1', '2023');
+    const a = await fetch_all_players_from_team('real_madrid', '2000');
+    // const a = await fetch_all_players_from_league_year('ligat_haal_ISR1', '2000');
     const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
     for (let i = 0; i < a.length; i++) {
       if (nodes.find((node) => node.id === a[i].player_id.toString())) continue;

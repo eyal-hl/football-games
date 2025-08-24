@@ -129,9 +129,9 @@ def path_to_text(path: list[int]):
 
 
 start_time = datetime.now()
-src_player_id = 945021
-dst_player_id = 937958
-players_to_ignore = []
+src_player_id = 103092
+dst_player_id = 58335
+players_to_ignore = [116742]
 teams_to_ignore = []
 teams_to_ignore = ','.join([f"'{team}'" for team in teams_to_ignore])
 

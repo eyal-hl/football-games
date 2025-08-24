@@ -6,3 +6,5 @@ DB_PATH = '..\\db.db'
 
 TEAMS_LINKS_INFIX = '/startseite/wettbewerb/'
 CHAMPION_LINK_INFIX = '/erfolge/wettbewerb/'
+
+SLEEP_TIME = 1

@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
-from const import HEADERS, BASE_URL, DB_PATH, TEAMS_LINKS_INFIX, CHAMPION_LINK_INFIX
+from const import HEADERS, BASE_URL, DB_PATH, TEAMS_LINKS_INFIX, CHAMPION_LINK_INFIX, SLEEP_TIME
 import time
 import sqlite3
 from datetime import datetime
@@ -71,6 +71,25 @@ sql_commands = {
             """,
 }
 
+def get_response(url, retries=10):
+    """Get response from the URL with retries."""
+    for attempt in range(retries):
+        time.sleep(SLEEP_TIME)
+
+        try:
+            response = requests.get(url, headers=HEADERS)
+            if response.status_code == 200:
+                return response
+            else:
+                if response.status_code == 503:
+                    print(f"Attempt {attempt + 1}: Received 503 Service Unavailable for {url}. Retrying...")
+                    time.sleep(60)
+                else:
+                    print(f"Attempt {attempt + 1}: Failed to fetch {url}, status code: {response.status_code}")
+        except requests.RequestException as e:
+            print(f"Attempt {attempt + 1}: Error fetching {url}: {e}")
+    print(f"WTF Gave up fetching {url} after {retries} attempts.")
+    return None
 
 # Custom adapter for datetime objects
 def adapt_datetime(dt):
@@ -221,10 +240,10 @@ def get_players_from_squad(team_url: str, year: int, team_id: str):
     url = BASE_URL + team_url + str(year)
 
     # Send a GET request to the URL
-    response = requests.get(url, headers=HEADERS)
+    response = get_response(url)
 
     # Check if the request was successful (status code 200)
-    if response.status_code == 200:
+    if response and response.status_code == 200:
         # Parse the HTML content of the page
         soup = BeautifulSoup(response.text, "html.parser")
 
@@ -278,8 +297,8 @@ def get_players_from_squad(team_url: str, year: int, team_id: str):
                         else None
                     )
                     birth_date = (
-                        datetime.strptime(birth_date, "%b %d, %Y")
-                        if (birth_date != "-" and birth_date != "N/A")
+                        datetime.strptime(birth_date, "%d.%m.%Y")
+                        if (birth_date != "-" and birth_date != "N/A" and birth_date != "")
                         else None
                     )
 
@@ -323,10 +342,10 @@ def get_teams_from_league(league_code):
             + league_code.split("_")[-1]
     )
     # Send a GET request to the URL
-    response = requests.get(url, headers=HEADERS)
+    response = get_response(url)
 
     # Check if the request was successful (status code 200)
-    if response.status_code == 200:
+    if response and response.status_code == 200:
         # Parse the HTML content of the page
         soup = BeautifulSoup(response.text, "html.parser")
 
@@ -407,10 +426,10 @@ def update_squads():
 
 
 def get_league_title_image(url):
-    response = requests.get(url, headers=HEADERS)
+    response = get_response(url)
 
     # Check if the request was successful (status code 200)
-    if response.status_code == 200:
+    if response and response.status_code == 200:
         # Parse the HTML content of the page
         soup = BeautifulSoup(response.text, "html.parser")
 
@@ -433,10 +452,10 @@ def get_specials():
 
 
 def get_special_teams_for_trophy_winner(url, special_id, link_place=0):
-    response = requests.get(url, headers=HEADERS)
+    response = get_response(url)
 
     # Check if the request was successful (status code 200)
-    if response.status_code == 200:
+    if response and response.status_code == 200:
         # Parse the HTML content of the page
         soup = BeautifulSoup(response.text, "html.parser")
 
@@ -460,10 +479,10 @@ def get_special_teams_for_trophy_winner(url, special_id, link_place=0):
         return special_teams
 
 def get_special_teams_for_manager(url, special_id):
-    response = requests.get(url, headers=HEADERS)
+    response = get_response(url)
 
     # Check if the request was successful (status code 200)
-    if response.status_code == 200:
+    if response and response.status_code == 200:
         # Parse the HTML content of the page
         soup = BeautifulSoup(response.text, "html.parser")
 
@@ -482,7 +501,7 @@ def get_special_teams_for_manager(url, special_id):
                         if check_if_team_exists(team_id):
                             tds = row.findAll('td')
                             start = full_year(tds[2].text.split("/")[0])
-                            if 'expected' in tds[3].text:
+                            if 'expected' in tds[3].text or tds[3].text.split("/")[0] == '-':
                                 end = get_max_year()
                             else:
                                 end = full_year(tds[3].text.split("/")[0])
